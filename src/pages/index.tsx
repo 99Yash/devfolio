@@ -1,4 +1,7 @@
+import AboutSection from '@/components/AboutSection';
+import TechStack from '@/components/TechStack';
 import TopUserProfile from '@/components/TopUserProfile';
+import Experiences from '@/components/Experiences';
 import { SignIn, useUser } from '@clerk/nextjs';
 import Head from 'next/head';
 
@@ -12,12 +15,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main
-        className={`flex min-h-screen flex-col justify-between items-center py-20 `}
+        className={`flex min-h-screen bg-black flex-col gap-8 justify-start items-center py-16 `}
       >
         {!user.isSignedIn && <SignIn />}
-        <TopUserProfile />
+        <div className="min-w-70vw flex flex-col gap-12 items-stretch ">
+          <TopUserProfile />
+          <AboutSection />
+          <Experiences />
+          <TechStack />
+        </div>
       </main>
     </>
   );

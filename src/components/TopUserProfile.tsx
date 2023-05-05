@@ -17,7 +17,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  VStack,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
@@ -28,6 +27,7 @@ const TopUserProfile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useUser();
   const [selectedLink, setSelectedLink] = useState<string>();
+  const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
 
   const linkOptions = [
     {
@@ -53,19 +53,73 @@ const TopUserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex mb-8 justify-between items-start ">
+    <div className="flex flex-col ">
+      <div className="flex mb-8 gap-12 justify-between items-center ">
         <Avatar variant="circular" size="xl" />
-        <Button className="self-end">Edit Profile</Button>
+        <h1 className=" text-lg font-semibold">{user.user?.fullName}</h1>
+        <Button
+          onClick={() => setOpenEditProfileModal(true)}
+          variant={'outline'}
+        >
+          Edit Profile
+        </Button>
+        {openEditProfileModal && (
+          <Modal
+            isCentered
+            motionPreset="scale"
+            isOpen={openEditProfileModal}
+            onClose={() => setOpenEditProfileModal(false)}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Edit Profile</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Formik
+                  initialValues={{
+                    name: user.user?.fullName,
+                    oneLiner: '',
+                  }}
+                  onSubmit={(
+                    values,
+                    { setSubmitting }: { setSubmitting: any }
+                  ) => {
+                    console.log(values);
+                    setSubmitting(false);
+                  }}
+                >
+                  {({ isSubmitting }) => (
+                    <Form className="flex flex-col gap-2 ">
+                      {/* //todo */}
+                      <Input type="file" placeholder="Upload Pic" />
+                      <Input
+                        type="text"
+                        value={user.user?.fullName ? user.user?.fullName : ''}
+                        autoComplete="off"
+                        name="name"
+                        placeholder="Enter Name"
+                      />
+                      <Input
+                        autoComplete="off"
+                        type="text"
+                        name="oneLiner"
+                        placeholder="Enter One-Liner"
+                      />
+                    </Form>
+                  )}
+                </Formik>
+              </ModalBody>
+              <ModalFooter>
+                <Button className="w-full">Save Changes</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )}
       </div>
+      <p className="mb-4">User Bio</p>
       <div>
-        <div className="flex flex-col ">
-          <h3 className="font-semibold">
-            {user.user?.firstName} {user.user?.lastName}
-          </h3>
-        </div>
         <Button onClick={onOpen} className="self-start" variant="outline">
-          Add Links
+          + Add Links
         </Button>
 
         <Modal
@@ -104,7 +158,7 @@ const TopUserProfile = () => {
                         </option>
                       ))}
                     </Select>
-                    <Input type="text" placeholder="Enter URL"></Input>
+                    <Input type="text" placeholder="Enter URL" />
                   </Form>
                 )}
               </Formik>
