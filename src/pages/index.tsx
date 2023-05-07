@@ -2,11 +2,16 @@ import AboutSection from '@/components/AboutSection';
 import TechStack from '@/components/TechStack';
 import TopUserProfile from '@/components/TopUserProfile';
 import Experiences from '@/components/Experiences';
-import { SignIn, useUser } from '@clerk/nextjs';
+import { SignIn, UserButton, useUser } from '@clerk/nextjs';
 import Head from 'next/head';
+import Projects from '@/components/Projects';
+import ProfileSection from '@/components/ui/ProfileSection';
+import { MdModeEdit } from 'react-icons/md';
+import Link from 'next/link';
 
 export default function Home() {
   const user = useUser();
+
   return (
     <>
       <Head>
@@ -16,15 +21,27 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className={`flex min-h-screen bg-black flex-col gap-8 justify-start items-center py-16 `}
+        className={`flex min-h-screen bg-black flex-col gap-8 justify-start items-center py-16`}
       >
+        {user.isSignedIn && <UserButton />}
         {!user.isSignedIn && <SignIn />}
-        <div className="min-w-70vw flex flex-col gap-12 items-stretch ">
-          <TopUserProfile />
-          <AboutSection />
-          <Experiences />
-          <TechStack />
-        </div>
+
+        {user.isSignedIn && (
+          <div className=" flex flex-col gap-12">
+            <TopUserProfile />
+            {/* <ProfileSection
+            sectionName={'About'}
+            changeIcon={<MdModeEdit />}
+            headline="Add About"
+            subText={'Share more about who you are'}
+            buttonText="Add About"
+          /> */}
+            <AboutSection />
+            <Experiences />
+            <TechStack />
+            <Projects />
+          </div>
+        )}
       </main>
     </>
   );

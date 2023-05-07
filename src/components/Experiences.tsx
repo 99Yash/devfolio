@@ -34,7 +34,12 @@ const Experiences = () => {
           icon={<IoMdAdd />}
         />
       </HStack>
-      <VStack display={'flex'} justifyContent={'center'} alignItems={'center'}>
+      <VStack
+        display={'flex'}
+        gap={2}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
         <Heading size={'sm'}>Share a timeline of your Positions</Heading>
         <p className="text-md text-gray-500">
           Add a professional history so that others know you have put your

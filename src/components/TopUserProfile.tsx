@@ -8,6 +8,9 @@ import {
   Avatar,
   Box,
   Button,
+  Flex,
+  HStack,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -17,6 +20,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  VStack,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
@@ -53,10 +57,17 @@ const TopUserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col ">
-      <div className="flex mb-8 gap-12 justify-between items-center ">
+    <Flex flexDir={'column'}>
+      <Flex
+        mb={8}
+        gap={12}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+      >
         <Avatar variant="circular" size="xl" />
-        <h1 className=" text-lg font-semibold">{user.user?.fullName}</h1>
+        <Heading size={'md'} fontWeight={'semibold'}>
+          {user.user?.fullName}
+        </Heading>
         <Button
           onClick={() => setOpenEditProfileModal(true)}
           variant={'outline'}
@@ -80,17 +91,13 @@ const TopUserProfile = () => {
                     name: user.user?.fullName,
                     oneLiner: '',
                   }}
-                  onSubmit={(
-                    values,
-                    { setSubmitting }: { setSubmitting: any }
-                  ) => {
+                  onSubmit={(values) => {
                     console.log(values);
-                    setSubmitting(false);
                   }}
                 >
                   {({ isSubmitting }) => (
                     <Form className="flex flex-col gap-2 ">
-                      {/* //todo */}
+                      {/* //todo pic upload */}
                       <Input type="file" placeholder="Upload Pic" />
                       <Input
                         type="text"
@@ -115,7 +122,7 @@ const TopUserProfile = () => {
             </ModalContent>
           </Modal>
         )}
-      </div>
+      </Flex>
       <p className="mb-4">User Bio</p>
       <div>
         <Button onClick={onOpen} className="self-start" variant="outline">
@@ -145,31 +152,36 @@ const TopUserProfile = () => {
                 }
               >
                 {({ isSubmitting }) => (
-                  <Form className="flex justify-center gap-2 ">
-                    <Select
-                      colorScheme="blackAlpha"
-                      className="max-w-fit"
-                      value={selectedLink}
-                      onChange={selectLinkHandler}
-                    >
-                      {linkOptions.map((link) => (
-                        <option key={link.id} value={link.type}>
-                          {link.type}
-                        </option>
-                      ))}
-                    </Select>
-                    <Input type="text" placeholder="Enter URL" />
+                  <Form>
+                    <VStack display={'flex'} gap={2}>
+                      <HStack display={'flex'} gap={2}>
+                        <Select
+                          colorScheme="blackAlpha"
+                          className="max-w-fit"
+                          value={selectedLink}
+                          onChange={selectLinkHandler}
+                        >
+                          {linkOptions.map((link) => (
+                            <option key={link.id} value={link.type}>
+                              {link.type}
+                            </option>
+                          ))}
+                        </Select>
+                        <Input type="text" placeholder="Enter URL" />
+                      </HStack>
+                      <Button w={'full'} colorScheme="teal">
+                        Add Link
+                      </Button>
+                    </VStack>
                   </Form>
                 )}
               </Formik>
             </ModalBody>
-            <ModalFooter>
-              <Button className="w-full">Add Link</Button>
-            </ModalFooter>
+            <ModalFooter></ModalFooter>
           </ModalContent>
         </Modal>
       </div>
-    </div>
+    </Flex>
   );
 };
 

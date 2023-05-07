@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Textarea,
@@ -32,7 +31,7 @@ const AboutSection = () => {
         />
       </HStack>
       <Flex flexDirection="column" gap={8} alignItems={'center'} py={4}>
-        <Flex flexDirection={'column'} gap={4} textAlign={'center'}>
+        <Flex flexDirection={'column'} gap={2} textAlign={'center'}>
           {/* about should be here */}
           <Heading size={'sm'}>About</Heading>
           <p className="text-md text-gray-500 ">Share more about who you are</p>
