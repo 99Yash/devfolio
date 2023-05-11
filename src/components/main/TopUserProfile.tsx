@@ -1,12 +1,5 @@
-import React from 'react';
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Avatar,
-  Box,
   Button,
   Flex,
   HStack,
@@ -23,9 +16,9 @@ import {
   VStack,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
 import { useUser } from '@clerk/nextjs';
-import { useState } from 'react';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
 
 const TopUserProfile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -64,7 +57,12 @@ const TopUserProfile = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Avatar variant="circular" size="xl" />
+        <Avatar
+          variant="circular"
+          size="xl"
+          bg={'gray.300'}
+          name={user.user!.fullName!}
+        />
         <Heading size={'md'} fontWeight={'semibold'}>
           {user.user?.fullName}
         </Heading>
@@ -156,7 +154,6 @@ const TopUserProfile = () => {
                     <VStack display={'flex'} gap={2}>
                       <HStack display={'flex'} gap={2}>
                         <Select
-                          colorScheme="blackAlpha"
                           className="max-w-fit"
                           value={selectedLink}
                           onChange={selectLinkHandler}

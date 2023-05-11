@@ -1,16 +1,30 @@
-import AboutSection from '@/components/AboutSection';
-import TechStack from '@/components/TechStack';
-import TopUserProfile from '@/components/TopUserProfile';
-import Experiences from '@/components/Experiences';
+import DefaultMainSection from '@/components/main/DefaultMainSection';
+import TopUserProfile from '@/components/main/TopUserProfile';
 import { SignIn, UserButton, useUser } from '@clerk/nextjs';
+import axios from 'axios';
 import Head from 'next/head';
-import Projects from '@/components/Projects';
-import ProfileSection from '@/components/ui/ProfileSection';
-import { MdModeEdit } from 'react-icons/md';
-import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function Home() {
   const user = useUser();
+
+  useEffect(() => {
+    if (user.isSignedIn) {
+      const sendUser = async () => {
+        const { data } = await axios.post<{ userId: string; fullName: string }>(
+          'http://localhost:5000/api/auth',
+          { userId: user.user?.id, fullName: user.user?.fullName },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        //todo add data to a state
+      };
+      sendUser();
+    }
+  }, [user]);
 
   return (
     <>
@@ -27,19 +41,12 @@ export default function Home() {
         {!user.isSignedIn && <SignIn />}
 
         {user.isSignedIn && (
-          <div className=" flex flex-col gap-12">
+          <div className="flex flex-col gap-12">
             <TopUserProfile />
-            {/* <ProfileSection
-            sectionName={'About'}
-            changeIcon={<MdModeEdit />}
-            headline="Add About"
-            subText={'Share more about who you are'}
-            buttonText="Add About"
-          /> */}
-            <AboutSection />
-            <Experiences />
-            <TechStack />
-            <Projects />
+            <DefaultMainSection sectionTitle={'About'} />
+            <DefaultMainSection sectionTitle={'Experiences'} />
+            <DefaultMainSection sectionTitle={'Tech Stack'} />
+            <DefaultMainSection sectionTitle={'Projects'} />
           </div>
         )}
       </main>
