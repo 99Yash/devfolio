@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -11,10 +13,11 @@ export default function App({ Component, pageProps }: AppProps) {
         appearance={{
           baseTheme: dark,
         }}
-        publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
         {...pageProps}
       >
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </ClerkProvider>
     </ChakraProvider>
   );

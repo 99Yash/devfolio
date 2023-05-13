@@ -1,4 +1,4 @@
-import { sectionsData } from '@/data/sectionsData';
+import { sectionsData } from '@/data/defaultSectionsData';
 import {
   Button,
   Flex,
@@ -16,10 +16,12 @@ import AboutModal from '../modals/AboutModal';
 import TechStackModal from '../modals/TechStackModal';
 import ProjectModal from '../modals/ProjectModal';
 
-interface ProfileSectionProps {
+interface DefaultMainSectionProps {
   sectionTitle: string;
   isOpen?: boolean;
   onClose?: () => void;
+
+  //todo add a data prop
 }
 
 const getDataBySectionTitle = (sectionTitle: string) => {
@@ -27,7 +29,7 @@ const getDataBySectionTitle = (sectionTitle: string) => {
 };
 
 //todo add onClicks to buttons for respective modals
-const DefaultMainSection: FC<ProfileSectionProps> = (props) => {
+const DefaultMainSection: FC<DefaultMainSectionProps> = (props) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const MainSectionModal: FC = () => {
     if (props.sectionTitle === 'Experiences')
@@ -53,7 +55,7 @@ const DefaultMainSection: FC<ProfileSectionProps> = (props) => {
       >
         <Heading size={'md'}>{props.sectionTitle}</Heading>
         <Button onClick={onOpen}>
-          {props.sectionTitle === 'Experiences' ? <IoMdAdd /> : <MdModeEdit />}
+          {props.sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
         </Button>
       </HStack>
       <VStack

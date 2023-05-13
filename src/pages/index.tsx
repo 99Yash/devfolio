@@ -1,30 +1,14 @@
 import DefaultMainSection from '@/components/main/DefaultMainSection';
 import TopUserProfile from '@/components/main/TopUserProfile';
+import { useFetchUserQuery } from '@/store';
 import { SignIn, UserButton, useUser } from '@clerk/nextjs';
-import axios from 'axios';
 import Head from 'next/head';
-import { useEffect } from 'react';
 
 export default function Home() {
   const user = useUser();
 
-  useEffect(() => {
-    if (user.isSignedIn) {
-      const sendUser = async () => {
-        const { data } = await axios.post<{ userId: string; fullName: string }>(
-          'http://localhost:5000/api/auth',
-          { userId: user.user?.id, fullName: user.user?.fullName },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        //todo add data to a state
-      };
-      sendUser();
-    }
-  }, [user]);
+  const { data, isFetching, isLoading, error } = useFetchUserQuery(user);
+  console.log(data);
 
   return (
     <>
