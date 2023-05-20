@@ -1,4 +1,5 @@
-import { sectionsData } from '@/data/defaultSectionsData';
+import { sectionsData } from '@/data/defaultSectionData';
+import { UserDoc } from '@/models/user.model';
 import {
   Button,
   Flex,
@@ -11,17 +12,21 @@ import {
 import { FC } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { MdModeEdit } from 'react-icons/md';
-import ExpModal from '../modals/ExpModal';
 import AboutModal from '../modals/AboutModal';
-import TechStackModal from '../modals/TechStackModal';
+import ExpModal from '../modals/ExpModal';
 import ProjectModal from '../modals/ProjectModal';
+import TechStackModal from '../modals/TechStackModal';
+import About from './About';
+import Experiences from './Experiences';
+import Projects from './Projects';
+import TechStack from './TechStack';
 
 interface DefaultMainSectionProps {
   sectionTitle: string;
-  isOpen?: boolean;
-  onClose?: () => void;
-
-  //todo add a data prop
+  userProfileData: Pick<
+    UserDoc,
+    'about' | 'techStack' | 'projects' | 'experiences'
+  >;
 }
 
 const getDataBySectionTitle = (sectionTitle: string) => {
@@ -29,19 +34,73 @@ const getDataBySectionTitle = (sectionTitle: string) => {
 };
 
 //todo add onClicks to buttons for respective modals
-const DefaultMainSection: FC<DefaultMainSectionProps> = (props) => {
+const DefaultMainSection: FC<DefaultMainSectionProps> = ({
+  sectionTitle,
+  userProfileData,
+}) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const MainSectionModal: FC = () => {
-    if (props.sectionTitle === 'Experiences')
+
+  const MainSectionModal = () => {
+    if (sectionTitle === 'Experiences')
       return <ExpModal isOpen={isOpen} onClose={onClose} />;
-    if (props.sectionTitle === 'About')
+    if (sectionTitle === 'About')
       return <AboutModal isOpen={isOpen} onClose={onClose} />;
-    if (props.sectionTitle === 'Tech Stack')
+    if (sectionTitle === 'Tech Stack')
       return <TechStackModal isOpen={isOpen} onClose={onClose} />;
-    if (props.sectionTitle === 'Projects') {
+    if (sectionTitle === 'Projects') {
       return <ProjectModal isOpen={isOpen} onClose={onClose} />;
     } else {
       return <></>;
+    }
+  };
+
+  const SectionContent = () => {
+    if (
+      sectionTitle === 'About' &&
+      userProfileData.about?.length &&
+      userProfileData.about?.length > 0
+    ) {
+      return <About about={userProfileData.about} />;
+    } else if (
+      sectionTitle === 'Tech Stack' &&
+      userProfileData.techStack &&
+      userProfileData.techStack?.length > 0
+    ) {
+      return <TechStack techStack={userProfileData.techStack} />;
+    } else if (
+      sectionTitle === 'Projects' &&
+      userProfileData.projects &&
+      userProfileData.projects.length > 0
+    ) {
+      return <Projects projects={userProfileData.projects} />;
+    } else if (
+      sectionTitle === 'Experiences' &&
+      userProfileData.experiences &&
+      userProfileData.experiences?.length > 0
+    ) {
+      return <Experiences experiences={userProfileData.experiences} />;
+    } else {
+      return (
+        <>
+          <VStack
+            display={'flex'}
+            gap={2}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <Heading size={'sm'}>
+              {getDataBySectionTitle(sectionTitle)?.sectionDescription.title}
+            </Heading>
+            <Text size={'sm'} color={'gray.500'}>
+              {getDataBySectionTitle(sectionTitle)?.sectionDescription.body}
+            </Text>
+            <Button onClick={onOpen} variant={'outline'} color={'teal'}>
+              {getDataBySectionTitle(sectionTitle)?.buttonText}
+            </Button>
+          </VStack>
+          {isOpen && <MainSectionModal />}
+        </>
+      );
     }
   };
 
@@ -53,27 +112,12 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = (props) => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading size={'md'}>{props.sectionTitle}</Heading>
+        <Heading size={'md'}>{sectionTitle}</Heading>
         <Button onClick={onOpen}>
-          {props.sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
+          {sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
         </Button>
       </HStack>
-      <VStack
-        display={'flex'}
-        gap={2}
-        justifyContent={'center'}
-        alignItems={'center'}
-      >
-        <Heading size={'sm'}>
-          {getDataBySectionTitle(props.sectionTitle)?.sectionDescription.title}
-        </Heading>
-        <Text size={'sm'} color={'gray.500'}>
-          {getDataBySectionTitle(props.sectionTitle)?.sectionDescription.body}
-        </Text>
-        <Button onClick={onOpen} variant={'outline'} color={'teal'}>
-          {getDataBySectionTitle(props.sectionTitle)?.buttonText}
-        </Button>
-      </VStack>
+      <SectionContent />
       {isOpen && <MainSectionModal />}
     </Flex>
   );

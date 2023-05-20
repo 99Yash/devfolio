@@ -14,7 +14,7 @@ import { ModalsProps } from './AboutModal';
 
 const TechStackModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
   return (
-    <Modal isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal size={'xl'} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Tech Stack</ModalHeader>

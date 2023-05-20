@@ -1,33 +1,31 @@
-import { Flex, Heading } from '@chakra-ui/react';
-import React from 'react';
+import { Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { FC } from 'react';
 
 const Experiences: FC<{
   experiences: {
+    id: string;
     position: string;
     companyName: string;
-    startDate: {
-      month: string;
-      year: string;
-    };
-    endDate: {
-      month: string;
-      year: string;
-    };
     description: string;
+    startYear: number;
+    startMonth: number;
+    endMonth?: number;
+    endYear?: number;
+    present?: boolean;
   }[];
 }> = ({ experiences }) => {
   return (
     <>
-      {experiences.map((exp) => (
-        <Flex flexDir={'column'} key={exp.description}>
-          <Heading size={'sm'}>{exp.position}</Heading>
-          <Heading size={'sm'}>{exp.companyName}</Heading>
-          <Heading size={'sm'}>
-            {exp.startDate.month} {exp.startDate.year} to {exp.endDate.month}{' '}
-            {exp.endDate.year}
-          </Heading>
-          <Heading size={'sm'}>{exp.description}</Heading>
+      {experiences.map((experience) => (
+        <Flex key={experience.id}>
+          <Heading size={'sm'}>{experience.companyName}</Heading>
+          <VStack>
+            <Heading size={'sm'}>{experience.position}</Heading>
+            <Heading size={'sm'}>
+              {experience.startMonth},{experience.startYear} to{' '}
+            </Heading>
+            <Text size={'sm'}>{experience.description}</Text>
+          </VStack>
         </Flex>
       ))}
     </>

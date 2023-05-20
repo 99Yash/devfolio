@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-
-import { userApi } from './user.api';
+import { userApi } from './userApi';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 export const store = configureStore({
   reducer: {
@@ -11,9 +10,10 @@ export const store = configureStore({
     getDefaultMiddleware().concat(userApi.middleware),
 });
 
-setupListeners(store.dispatch);
+setupListeners(
+  store.dispatch as (action: any) => any // this is a hack
+);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-export { useFetchUserQuery } from './user.api';
+export { useFetchUserQuery } from './userApi';

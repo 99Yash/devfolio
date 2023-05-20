@@ -16,7 +16,7 @@ import { ModalsProps } from './AboutModal';
 
 const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal size={'2xl'} isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add Project</ModalHeader>

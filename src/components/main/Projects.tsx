@@ -1,9 +1,9 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
-import React from 'react';
 import { FC } from 'react';
 
 const Projects: FC<{
   projects: {
+    id: string;
     name: string;
     description: string;
     techStack: string[];
@@ -14,7 +14,7 @@ const Projects: FC<{
   return (
     <>
       {projects.map((project) => (
-        <Flex flexDir={'column'} key={project.name}>
+        <Flex flexDir={'column'} key={project.id}>
           <Heading size={'md'}>{project.name}</Heading>
           <Text>{project.description}</Text>
           <Text>{project.techStack}</Text>

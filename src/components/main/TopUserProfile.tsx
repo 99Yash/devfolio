@@ -13,18 +13,25 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Text,
   VStack,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useUser } from '@clerk/nextjs';
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
+import * as yup from 'yup';
+import { UserDoc } from '../../models/user.model';
 
-const TopUserProfile = () => {
+const TopUserProfile: FC<{
+  clerkUserId: string;
+  userProfileData: Pick<UserDoc, 'oneLiner' | 'socials' | 'fullName'>;
+}> = ({ clerkUserId, userProfileData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const user = useUser();
   const [selectedLink, setSelectedLink] = useState<string>();
   const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
+
+  const user = useUser();
 
   const linkOptions = [
     {
@@ -45,6 +52,30 @@ const TopUserProfile = () => {
     },
   ];
 
+  const linkValidaitonSchema = yup.object().shape({
+    github: yup
+      .string()
+      .url()
+      .matches(
+        /^https?:\/\/(www\.)?github\.com\/[\w-]+(\/.*)?$/i,
+        'Invalid Github Link'
+      ),
+    twitter: yup
+      .string()
+      .url()
+      .matches(
+        /^https?:\/\/(www\.)?twitter\.com\/[\w-]+(\/.*)?$/i,
+        'Invalid Twitter Link'
+      ),
+    linkedIn: yup
+      .string()
+      .url()
+      .matches(
+        /^https?:\/\/(www\.)?linkedin\.com\/in\/[\w-]+(\/.*)?$/i,
+        'Invalid LinkedIn Link'
+      ),
+  });
+
   const selectLinkHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLink(e.target.value);
   };
@@ -61,7 +92,7 @@ const TopUserProfile = () => {
           variant="circular"
           size="xl"
           bg={'gray.300'}
-          name={user.user!.fullName!}
+          name={userProfileData!.fullName}
         />
         <Heading size={'md'} fontWeight={'semibold'}>
           {user.user?.fullName}
@@ -85,12 +116,17 @@ const TopUserProfile = () => {
               <ModalCloseButton />
               <ModalBody>
                 <Formik
+                  validationSchema={yup.object().shape({
+                    name: yup.string().required('Name is required'),
+                    oneLiner: yup.string(),
+                  })}
                   initialValues={{
                     name: user.user?.fullName,
                     oneLiner: '',
                   }}
                   onSubmit={(values) => {
                     console.log(values);
+                    onClose();
                   }}
                 >
                   {({ isSubmitting }) => (
@@ -99,10 +135,13 @@ const TopUserProfile = () => {
                       <Input type="file" placeholder="Upload Pic" />
                       <Input
                         type="text"
-                        value={user.user?.fullName ? user.user?.fullName : ''}
                         autoComplete="off"
                         name="name"
-                        placeholder="Enter Name"
+                        placeholder={
+                          user.user?.fullName
+                            ? user.user?.fullName
+                            : 'Enter Name'
+                        }
                       />
                       <Input
                         autoComplete="off"
@@ -115,18 +154,43 @@ const TopUserProfile = () => {
                 </Formik>
               </ModalBody>
               <ModalFooter>
-                <Button className="w-full">Save Changes</Button>
+                <Button type="submit" className="w-full">
+                  Save Changes
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
         )}
       </Flex>
-      <p className="mb-4">User Bio</p>
+      {userProfileData.oneLiner ? (
+        <Text className="mb-4">{userProfileData.oneLiner}</Text>
+      ) : null}
+      {userProfileData?.socials?.length ? (
+        <VStack
+          display={'flex'}
+          alignItems={'flex-start'}
+          justifyContent={'flex-start'}
+          gap={2}
+        >
+          {userProfileData?.socials?.map((social) => (
+            <HStack
+              key={social.name}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'flex-start'}
+              gap={2}
+            >
+              <Text>{social.url}</Text>
+            </HStack>
+          ))}
+        </VStack>
+      ) : null}
       <div>
-        <Button onClick={onOpen} className="self-start" variant="outline">
-          + Add Links
-        </Button>
-
+        {userProfileData.socials?.length === 0 ? (
+          <Button onClick={onOpen} className="self-start" variant="outline">
+            + Add Links
+          </Button>
+        ) : null}
         <Modal
           isCentered
           motionPreset="scale"
@@ -139,14 +203,30 @@ const TopUserProfile = () => {
             <ModalCloseButton />
             <ModalBody>
               <Formik
+                validationSchema={linkValidaitonSchema}
                 initialValues={{
-                  link: {
-                    type: '',
+                  social: {
+                    name: '',
                     url: '',
                   },
                 }}
                 onSubmit={
-                  (values) => console.log(values) // TODO: Add submit handler
+                  async (values) => {
+                    console.log(values);
+                    const {
+                      social: { name, url },
+                    } = values;
+                    //try{
+                    // await addLink({
+                    //   variables: {
+                    //     userId: userId,
+                    //     name: name,
+                    //     url: url,
+                    //   },
+                    // });
+                    // }
+                    onClose();
+                  } // TODO: Add submit handler
                 }
               >
                 {({ isSubmitting }) => (
@@ -166,7 +246,11 @@ const TopUserProfile = () => {
                         </Select>
                         <Input type="text" placeholder="Enter URL" />
                       </HStack>
-                      <Button w={'full'} colorScheme="teal">
+                      <Button
+                        w={'full'}
+                        colorScheme="teal"
+                        disabled={isSubmitting}
+                      >
                         Add Link
                       </Button>
                     </VStack>
@@ -174,7 +258,6 @@ const TopUserProfile = () => {
                 )}
               </Formik>
             </ModalBody>
-            <ModalFooter></ModalFooter>
           </ModalContent>
         </Modal>
       </div>

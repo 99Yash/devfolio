@@ -23,7 +23,12 @@ import { ModalsProps } from './AboutModal';
 
 const ExpModal: FC<ModalsProps> = (props) => {
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose} size={'xl'} isCentered>
+    <Modal
+      size={'3xl'}
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Update Positions</ModalHeader>

@@ -1,5 +1,5 @@
 import { Flex, Heading } from '@chakra-ui/react';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 const TechStack: FC<{ techStack: string[] }> = ({ techStack }) => {
   return (

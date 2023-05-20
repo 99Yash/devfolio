@@ -16,7 +16,7 @@ export type ModalsProps = Omit<ModalProps, 'children'>;
 
 const AboutModal: FC<ModalsProps> = (props) => {
   return (
-    <Modal isCentered isOpen={props.isOpen} onClose={props.onClose}>
+    <Modal size={'xl'} isCentered isOpen={props.isOpen} onClose={props.onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>About</ModalHeader>
