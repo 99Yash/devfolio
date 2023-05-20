@@ -4,9 +4,9 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalProps,
   ModalHeader,
   ModalOverlay,
+  ModalProps,
   Textarea,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
