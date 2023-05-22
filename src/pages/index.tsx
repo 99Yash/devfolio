@@ -1,14 +1,16 @@
 import DefaultMainSection from '@/components/main/DefaultMainSection';
 import TopUserProfile from '@/components/main/TopUserProfile';
 import { useFetchUserQuery } from '@/store';
+import { Flex } from '@chakra-ui/react';
 import { SignIn, UserButton, useUser } from '@clerk/nextjs';
 import Head from 'next/head';
 
 export default function Home() {
   //call server to give all data for specific user. for every section, render default page if empty or render respective Section.
   const { isSignedIn, isLoaded, user } = useUser();
-  const { data, isLoading, isFetching, error } = useFetchUserQuery(user?.id!, {
+  const { data, isLoading, isFetching, error } = useFetchUserQuery(null, {
     refetchOnMountOrArgChange: true,
+    skip: !user?.id,
   });
 
   return (
@@ -19,61 +21,67 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main
-        className={`flex min-h-screen bg-black flex-col gap-8 justify-start items-center py-16`}
+      <Flex
+        minH={'full'}
+        bg={'black'}
+        flexDir={'column'}
+        gap={8}
+        justifyContent={'flex-start'}
+        alignItems={'center'}
+        py={16}
       >
         {isSignedIn && <UserButton />}
         {!isSignedIn && <SignIn />}
 
         {isLoaded && isSignedIn && (
-          <div className="flex flex-col gap-12">
+          <Flex flexDir={'column'} gap={12}>
             <TopUserProfile
               userProfileData={{
-                fullName: data?.fullName,
-                oneLiner: data?.oneLiner,
-                socials: data?.socials,
+                fullName: data?.user.fullName,
+                oneLiner: data?.user.oneLiner,
+                socials: data?.user.socials,
               }}
               clerkUserId={user.id}
             />
             <DefaultMainSection
               userProfileData={{
-                about: data?.about,
-                experiences: data?.experiences,
-                projects: data?.projects,
-                techStack: data?.techStack,
+                about: data?.user.about,
+                experiences: data?.user.experiences,
+                projects: data?.user.projects,
+                techStack: data?.user.techStack,
               }}
               sectionTitle={'About'}
             />
             <DefaultMainSection
               userProfileData={{
-                about: data?.about,
-                experiences: data?.experiences,
-                projects: data?.projects,
-                techStack: data?.techStack,
+                about: data?.user.about,
+                experiences: data?.user.experiences,
+                projects: data?.user.projects,
+                techStack: data?.user.techStack,
               }}
               sectionTitle={'Experiences'}
             />
             <DefaultMainSection
               userProfileData={{
-                about: data?.about,
-                experiences: data?.experiences,
-                projects: data?.projects,
-                techStack: data?.techStack,
+                about: data?.user.about,
+                experiences: data?.user.experiences,
+                projects: data?.user.projects,
+                techStack: data?.user.techStack,
               }}
               sectionTitle={'Tech Stack'}
             />
             <DefaultMainSection
               userProfileData={{
-                about: data?.about,
-                experiences: data?.experiences,
-                projects: data?.projects,
-                techStack: data?.techStack,
+                about: data?.user.about,
+                experiences: data?.user.experiences,
+                projects: data?.user.projects,
+                techStack: data?.user.techStack,
               }}
               sectionTitle={'Projects'}
             />
-          </div>
+          </Flex>
         )}
-      </main>
+      </Flex>
     </>
   );
 }

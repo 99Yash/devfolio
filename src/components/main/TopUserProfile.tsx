@@ -80,6 +80,11 @@ const TopUserProfile: FC<{
     setSelectedLink(e.target.value);
   };
 
+  const displayName =
+    userProfileData.fullName && userProfileData.fullName !== ''
+      ? userProfileData.fullName
+      : user.user?.fullName || '';
+
   return (
     <Flex flexDir={'column'}>
       <Flex
@@ -95,7 +100,7 @@ const TopUserProfile: FC<{
           name={userProfileData!.fullName}
         />
         <Heading size={'md'} fontWeight={'semibold'}>
-          {user.user?.fullName}
+          {displayName}
         </Heading>
         <Button
           onClick={() => setOpenEditProfileModal(true)}
@@ -121,12 +126,15 @@ const TopUserProfile: FC<{
                     oneLiner: yup.string(),
                   })}
                   initialValues={{
-                    name: user.user?.fullName,
-                    oneLiner: '',
+                    name: displayName,
+                    oneLiner: userProfileData.oneLiner
+                      ? userProfileData.oneLiner
+                      : '',
                   }}
                   onSubmit={(values) => {
                     console.log(values);
                     onClose();
+                    return;
                   }}
                 >
                   {({ isSubmitting }) => (
@@ -137,11 +145,7 @@ const TopUserProfile: FC<{
                         type="text"
                         autoComplete="off"
                         name="name"
-                        placeholder={
-                          user.user?.fullName
-                            ? user.user?.fullName
-                            : 'Enter Name'
-                        }
+                        placeholder={displayName}
                       />
                       <Input
                         autoComplete="off"
@@ -154,7 +158,7 @@ const TopUserProfile: FC<{
                 </Formik>
               </ModalBody>
               <ModalFooter>
-                <Button type="submit" className="w-full">
+                <Button type="submit" w={'full'}>
                   Save Changes
                 </Button>
               </ModalFooter>
@@ -186,7 +190,7 @@ const TopUserProfile: FC<{
         </VStack>
       ) : null}
       <div>
-        {userProfileData.socials?.length === 0 ? (
+        {userProfileData.socials?.length === 0 || !userProfileData.socials ? (
           <Button onClick={onOpen} className="self-start" variant="outline">
             + Add Links
           </Button>

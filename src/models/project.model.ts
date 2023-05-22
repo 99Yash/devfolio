@@ -2,7 +2,7 @@ import { Document, Model, Schema, model, models } from 'mongoose';
 import { UserDoc } from './user.model';
 
 export interface ProjectDoc extends Document {
-  name: string;
+  title: string;
   description?: string;
   techStack: string[];
   githubLink: string;
@@ -11,7 +11,7 @@ export interface ProjectDoc extends Document {
 }
 
 export const projectSchema = new Schema<ProjectDoc>({
-  name: {
+  title: {
     type: String,
     required: true,
   },
@@ -20,7 +20,6 @@ export const projectSchema = new Schema<ProjectDoc>({
   },
   techStack: {
     type: [String],
-    required: true,
   },
   githubLink: {
     type: String,

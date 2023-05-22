@@ -24,7 +24,6 @@ const userSchema = new Schema<UserDoc>({
     type: String,
     required: true,
   },
-
   oneLiner: {
     type: String,
     default: '',
@@ -37,12 +36,12 @@ const userSchema = new Schema<UserDoc>({
     type: String,
     default: '',
   },
-  techStack: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'Tech' }],
-    default: [],
-  },
   experiences: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Experience' }],
+    default: [],
+  },
+  techStack: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Tech' }],
     default: [],
   },
   projects: {
