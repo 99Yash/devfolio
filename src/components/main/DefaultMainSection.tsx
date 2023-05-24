@@ -60,25 +60,25 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({
       userProfileData.about?.length &&
       userProfileData.about?.length > 0
     ) {
-      return <About about={userProfileData.about} />;
+      return <About />;
     } else if (
       sectionTitle === 'Tech Stack' &&
       userProfileData.techStack &&
       userProfileData.techStack?.length > 0
     ) {
-      return <TechStack techStack={userProfileData.techStack} />;
+      return <TechStack />;
     } else if (
       sectionTitle === 'Projects' &&
       userProfileData.projects &&
       userProfileData.projects.length > 0
     ) {
-      return <Projects projects={userProfileData.projects} />;
+      return <Projects />;
     } else if (
       sectionTitle === 'Experiences' &&
       userProfileData.experiences &&
       userProfileData.experiences?.length > 0
     ) {
-      return <Experiences experiences={userProfileData.experiences} />;
+      return <Experiences />;
     } else {
       return (
         <>

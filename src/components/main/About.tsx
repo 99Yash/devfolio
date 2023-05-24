@@ -1,10 +1,15 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { useFetchUserAboutQuery } from '@/store/userApi';
+import { Flex, Spinner, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 
-const About: FC<{ about: string }> = ({ about }) => {
+const About: FC = () => {
+  const { data, isFetching, isLoading } = useFetchUserAboutQuery(null, {
+    refetchOnMountOrArgChange: true,
+  });
   return (
     <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
-      <Text>{about}</Text>
+      {isLoading && <Spinner />}
+      <Text>{data?.about}</Text>
     </Flex>
   );
 };

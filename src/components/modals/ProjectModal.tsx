@@ -5,6 +5,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   VStack,
@@ -88,15 +89,23 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                     showLabel={true}
                     placeholder="Share tech used,separated with a comma"
                   />
-                  <Button
-                    mt={4}
-                    colorScheme="teal"
-                    w={'full'}
-                    isLoading={isSubmitting}
-                    type="submit"
-                  >
-                    Add Project
-                  </Button>
+                  <ModalFooter>
+                    <Button
+                      onClick={() => onClose()}
+                      variant={'outline'}
+                      colorScheme="red"
+                      mr={3}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      isLoading={isSubmitting}
+                      type="submit"
+                      colorScheme={'teal'}
+                    >
+                      Save
+                    </Button>
+                  </ModalFooter>
                 </VStack>
               </Form>
             )}

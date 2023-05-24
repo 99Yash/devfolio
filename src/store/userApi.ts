@@ -1,6 +1,7 @@
 import { UserDoc } from '@/models/user.model';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ProjectDoc } from '../models/project.model';
+import { ExperienceDoc } from '@/models/experience.model';
 
 const userApi = createApi({
   reducerPath: 'user',
@@ -38,9 +39,7 @@ const userApi = createApi({
         invalidatesTags: [{ type: 'User', id: `User` }],
       }),
       addProject: builder.mutation<
-        {
-          user: UserDoc;
-        },
+        string,
         {
           project: {
             title: string;
@@ -70,6 +69,69 @@ const userApi = createApi({
           };
         },
       }),
+      deleteProject: builder.mutation<string, string>({
+        query: (projectId: string) => {
+          return {
+            url: `/user/project`,
+            body: {
+              projectId,
+            },
+            method: 'DELETE',
+          };
+        },
+        invalidatesTags: [{ type: 'User', id: `User` }],
+      }),
+      fetchUserExperiences: builder.query<
+        { experiences: ExperienceDoc[] },
+        null
+      >({
+        query: () => ({
+          url: `/user/experience`,
+          method: 'GET',
+        }),
+      }),
+      fetchUserTechStack: builder.query<{ techStack: string[] }, null>({
+        query: () => ({
+          url: `/user/tech`,
+          method: 'GET',
+        }),
+      }),
+      updateTechStack: builder.mutation<string, { techStack: string }>({
+        query: ({ techStack }) => ({
+          url: `/user/tech`,
+          method: 'POST',
+          body: {
+            techStack,
+          },
+        }),
+        invalidatesTags: [{ type: 'User', id: `User` }],
+      }),
+      addExperience: builder.mutation<
+        string,
+        {
+          experience: {
+            position: string;
+            companyName: string;
+            startDate: {
+              month: string;
+              year: string;
+            };
+            endDate: {
+              month: string;
+              year: string;
+            };
+            description: string;
+          };
+        }
+      >({
+        query: ({ experience }) => ({
+          url: `/user/experience`,
+          method: 'POST',
+          body: {
+            experience,
+          },
+        }),
+      }),
     };
   },
 });
@@ -80,5 +142,10 @@ export const {
   useFetchUserAboutQuery,
   useAddProjectMutation,
   useFetchUserProjectsQuery,
+  useDeleteProjectMutation,
+  useFetchUserExperiencesQuery,
+  useFetchUserTechStackQuery,
+  useUpdateTechStackMutation,
+  useAddExperienceMutation,
 } = userApi;
 export { userApi };
