@@ -1,7 +1,4 @@
-import {
-  useFetchUserAboutQuery,
-  useUpdateAboutMutation,
-} from '@/store/userApi';
+import { useUpdateAboutMutation } from '@/store/userApi';
 import {
   Button,
   Modal,
@@ -18,30 +15,25 @@ import InputField from '../utils/InputField';
 
 export type ModalsProps = Omit<ModalProps, 'children'>;
 
-const AboutModal: FC<ModalsProps> = (props) => {
+const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
   const [updateAbout, { isLoading, isError, isSuccess }] =
     useUpdateAboutMutation();
-  const { data, isFetching, error } = useFetchUserAboutQuery(null, {
-    refetchOnMountOrArgChange: true,
-  });
 
   return (
     <Modal size={'xl'} isCentered isOpen={props.isOpen} onClose={props.onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>About</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
+        <ModalBody bg={'blackAlpha.800'}>
           <Formik
-            initialValues={{ about: data?.about }}
+            initialValues={{ about: props.userAbout || `` }}
             onSubmit={async (values) => {
               const { about } = values;
-              if (about === data?.about) {
+              if (about === props.userAbout) {
                 props.onClose();
                 return;
               }
               try {
-                await updateAbout(about as string);
+                await updateAbout(about ? about : '');
               } catch (err: any) {
                 console.log(err);
               }
@@ -52,12 +44,12 @@ const AboutModal: FC<ModalsProps> = (props) => {
               <Form>
                 <InputField
                   variant="unstyled"
-                  istextarea={true}
+                  istextarea={'true'}
                   autoComplete="off"
-                  placeholder={data?.about ? data?.about : 'Add Bio'}
+                  placeholder={props.userAbout ? props.userAbout : 'Add Bio'}
                   name={'about'}
                   label="About"
-                  showLabel={false}
+                  showLabel={'false'}
                 />
                 <Button
                   variant={'ghost'}

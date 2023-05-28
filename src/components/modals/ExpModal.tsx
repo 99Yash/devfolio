@@ -80,7 +80,7 @@ const ExpModal: FC<ModalsProps> = (props) => {
                 <VStack>
                   <InputField
                     label="position"
-                    showLabel={true}
+                    showLabel={'true'}
                     placeholder="Sr. Software Engineer"
                     autoComplete="off"
                     name="position"
@@ -88,7 +88,7 @@ const ExpModal: FC<ModalsProps> = (props) => {
                   />
                   <InputField
                     label="Company"
-                    showLabel={true}
+                    showLabel={'true'}
                     placeholder="Company Name"
                     autoComplete="off"
                     name="companyName"
@@ -212,7 +212,7 @@ const ExpModal: FC<ModalsProps> = (props) => {
                   <Flex flexDir={'column'} w={'full'}>
                     <InputField
                       label="Description"
-                      showLabel={true}
+                      showLabel={'true'}
                       type="text"
                       placeholder="Add some Description"
                       name="description"

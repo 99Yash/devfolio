@@ -132,6 +132,24 @@ const userApi = createApi({
           },
         }),
       }),
+      editProject: builder.mutation({
+        query: ({ project }) => ({
+          url: `/user/project`,
+          method: 'PATCH',
+          body: {
+            project,
+          },
+        }),
+      }),
+      fetchProjectData: builder.query<
+        { project: ProjectDoc },
+        { projectId: string }
+      >({
+        query: ({ projectId }) => ({
+          url: `/project/${projectId}`,
+          method: 'GET',
+        }),
+      }),
     };
   },
 });
@@ -147,5 +165,7 @@ export const {
   useFetchUserTechStackQuery,
   useUpdateTechStackMutation,
   useAddExperienceMutation,
+  useEditProjectMutation,
+  useFetchProjectDataQuery,
 } = userApi;
 export { userApi };

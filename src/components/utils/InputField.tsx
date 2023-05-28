@@ -12,8 +12,8 @@ import { FC, InputHTMLAttributes } from 'react';
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
-  showLabel: boolean;
-  istextarea?: boolean;
+  showLabel: 'true' | 'false';
+  istextarea?: 'true' | 'false';
   autoComplete?: 'on' | 'off';
   variant?: 'outline' | 'filled' | 'flushed' | 'unstyled';
 };
@@ -25,7 +25,7 @@ const InputField: FC<InputFieldProps> = ({
   ...props
 }) => {
   let InputOrTextArea = Input;
-  if (props.istextarea) {
+  if (props.istextarea === 'true') {
     //@ts-ignore
     InputOrTextArea = Textarea;
   }
@@ -41,7 +41,7 @@ const InputField: FC<InputFieldProps> = ({
           id={field.name}
           placeholder={props.placeholder}
           type={!props.istextarea && props.type ? props.type : 'text'}
-          mt={showLabel ? 0 : 2}
+          mt={showLabel === 'true' ? 0 : 2}
           style={{ backgroundColor: 'gray.900' }}
           autoComplete={props.autoComplete ? props.autoComplete : 'on'}
           variant={props.variant ? props.variant : 'outline'}

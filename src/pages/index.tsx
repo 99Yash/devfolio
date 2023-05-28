@@ -1,17 +1,37 @@
+import About from '@/components/main/About';
 import DefaultMainSection from '@/components/main/DefaultMainSection';
+import Experiences from '@/components/main/Experiences';
+import Projects from '@/components/main/Projects';
+import TechStack from '@/components/main/TechStack';
 import TopUserProfile from '@/components/main/TopUserProfile';
-import { useFetchUserQuery } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { UserDoc } from '@/models/user.model';
+import { setCurrentUser } from '@/store/user.slice';
 import { Flex } from '@chakra-ui/react';
 import { SignIn, UserButton, useUser } from '@clerk/nextjs';
+import axios from 'axios';
 import Head from 'next/head';
+import { useEffect } from 'react';
 
 export default function Home() {
-  //call server to give all data for specific user. for every section, render default page if empty or render respective Section.
   const { isSignedIn, isLoaded, user } = useUser();
-  const { data, isLoading, isFetching, error } = useFetchUserQuery(null, {
-    refetchOnMountOrArgChange: true,
-    skip: !user?.id,
-  });
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.currentUser.user);
+  useEffect(() => {
+    if (!isSignedIn) return;
+    const fetchUser = async () => {
+      try {
+        const { data: fetchedUser } = await axios.get<UserDoc>(
+          '/api/user/user'
+        );
+        dispatch(setCurrentUser(fetchedUser));
+      } catch (err: any) {
+        console.log(err);
+      }
+    };
+    fetchUser();
+    console.log(currentUser);
+  }, [dispatch, isSignedIn]);
 
   return (
     <>
@@ -37,48 +57,32 @@ export default function Home() {
           <Flex flexDir={'column'} gap={12}>
             <TopUserProfile
               userProfileData={{
-                fullName: data?.user.fullName,
-                oneLiner: data?.user.oneLiner,
-                socials: data?.user.socials,
+                fullName: currentUser?.fullName,
+                oneLiner: currentUser?.oneLiner,
+                socials: currentUser?.socials,
               }}
               clerkUserId={user.id}
             />
-            <DefaultMainSection
-              userProfileData={{
-                about: data?.user.about,
-                experiences: data?.user.experiences,
-                projects: data?.user.projects,
-                techStack: data?.user.techStack,
-              }}
-              sectionTitle={'About'}
-            />
-            <DefaultMainSection
-              userProfileData={{
-                about: data?.user.about,
-                experiences: data?.user.experiences,
-                projects: data?.user.projects,
-                techStack: data?.user.techStack,
-              }}
-              sectionTitle={'Experiences'}
-            />
-            <DefaultMainSection
-              userProfileData={{
-                about: data?.user.about,
-                experiences: data?.user.experiences,
-                projects: data?.user.projects,
-                techStack: data?.user.techStack,
-              }}
-              sectionTitle={'Tech Stack'}
-            />
-            <DefaultMainSection
-              userProfileData={{
-                about: data?.user.about,
-                experiences: data?.user.experiences,
-                projects: data?.user.projects,
-                techStack: data?.user.techStack,
-              }}
-              sectionTitle={'Projects'}
-            />
+            {currentUser?.about !== undefined ? (
+              <About />
+            ) : (
+              <DefaultMainSection sectionTitle={'About'} />
+            )}
+            {currentUser?.experiences?.length ? (
+              <Experiences />
+            ) : (
+              <DefaultMainSection sectionTitle={'Experiences'} />
+            )}
+            {currentUser?.techStack?.length ? (
+              <TechStack />
+            ) : (
+              <DefaultMainSection sectionTitle={'Tech Stack'} />
+            )}
+            {currentUser?.projects?.length ? (
+              <Projects />
+            ) : (
+              <DefaultMainSection sectionTitle={'Projects'} />
+            )}
           </Flex>
         )}
       </Flex>

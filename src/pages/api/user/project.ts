@@ -32,7 +32,7 @@ export default async function handler(
       }
       userToUpdate.projects?.push(createdProject);
       await userToUpdate.save();
-      return res.status(201).send('Project added');
+      return res.status(201).send({ project: createdProject });
     } catch (err: any) {
       console.error(err);
     }
@@ -53,6 +53,7 @@ export default async function handler(
       console.error(err);
     }
   } else if (req.method === 'DELETE') {
+    //!nw
     try {
       const { userId } = getAuth(req);
       if (!userId) return res.status(401).send('You are unauthorized');
@@ -73,6 +74,33 @@ export default async function handler(
         },
       });
       return res.status(200).send('Project deleted');
+    } catch (err: any) {
+      console.error(err);
+    }
+  } else if (req.method === 'PUT') {
+    const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('You are unauthorized');
+    try {
+      await connectDB();
+      const projectUser: UserDoc | null = await UserModel.findOne({
+        clerkUserId: userId,
+      });
+      if (!projectUser) return res.status(404).send("User doesn't exist");
+      const { project } = req.body;
+      console.log(project);
+      const projId = new mongoose.Types.ObjectId(project._id);
+
+      const projectToUpdate = await ProjectModel.findById(projId);
+      if (!projectToUpdate)
+        return res.status(404).send("Project doesn't exist");
+
+      projectToUpdate.title = project.title;
+      projectToUpdate.description = project.description;
+      projectToUpdate.techStack = project.techStack;
+      projectToUpdate.githubLink = project.githubLink;
+      projectToUpdate.demoLink = project.demoLink;
+      const updatedProj = await projectToUpdate.save();
+      return res.status(200).send(updatedProj);
     } catch (err: any) {
       console.error(err);
     }

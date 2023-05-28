@@ -64,7 +64,7 @@ const TechStackModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                   variant="unstyled"
                   autoComplete="off"
                   label="Tech"
-                  showLabel={false}
+                  showLabel={'false'}
                   type="text"
                   name="techStack"
                   placeholder="Add Tech"

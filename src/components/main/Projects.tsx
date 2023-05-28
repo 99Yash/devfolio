@@ -1,72 +1,52 @@
-import {
-  useDeleteProjectMutation,
-  useFetchUserProjectsQuery,
-} from '@/store/userApi';
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
-import { FC } from 'react';
-import { Spinner } from '@chakra-ui/react';
-import Link from 'next/link';
-import { VscGithubAlt } from 'react-icons/vsc';
-import { TiDelete } from 'react-icons/ti';
-const Projects: FC = () => {
-  const { data, isError, isFetching, isLoading } = useFetchUserProjectsQuery(
-    null,
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
+import { Button, Flex, HStack, Heading, useDisclosure } from '@chakra-ui/react';
+import { FC, useEffect } from 'react';
 
-  const [deleteProject, results] = useDeleteProjectMutation(); //!nw
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { ProjectDoc } from '@/models/project.model';
+import { setCurrentProjects } from '@/store/user.slice';
+import axios from 'axios';
+import { IoMdAdd } from 'react-icons/io';
+import ProjectModal from '../modals/ProjectModal';
+import SingleProject from './SingleProject';
+
+const Projects: FC = () => {
+  const dispatch = useAppDispatch();
+  const projects = useAppSelector((state) => state.currentUser.projects);
+
+  useEffect(() => {
+    const fetchUserProjects = async () => {
+      try {
+        const { data: projects } = await axios.get<{ projects: ProjectDoc[] }>(
+          '/api/user/project'
+        );
+        dispatch(setCurrentProjects(projects.projects));
+      } catch (err: any) {
+        console.error(err);
+      }
+    };
+    fetchUserProjects();
+  }, [dispatch]);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
-      {isLoading && <Spinner />}
-      {data?.projects.map((project) => (
-        <Box my={2} bg={'Background'} key={project._id}>
-          <Flex m={2} flexDir={'column'}>
-            <Flex>
-              <Heading size={'md'}>{project.title}</Heading>
-              <Link
-                target="_blank"
-                rel="noopener noreferer"
-                href={project?.githubLink}
-              >
-                <VscGithubAlt />
-              </Link>
-              <Button
-                onClick={() => {
-                  deleteProject(project._id);
-                }}
-                variant={'ghost'}
-              >
-                <TiDelete />
-              </Button>
-            </Flex>
-            <Text color={'gray.500'} size={'sm'}>
-              {project?.description}
-            </Text>
-            <Text>{project?.demoLink}</Text>
-
-            <Flex
-              maxW={'1/2'}
-              wrap={'wrap'}
-              flexDir={'row-reverse'}
-              justifyContent={'space-between'}
-            >
-              <Flex mt={1}>
-                {project?.techStack
-                  ? project.techStack.map((tech) => (
-                      <Text size={'2xs'} mr={1} color="GrayText" key={tech}>
-                        {tech}
-                      </Text>
-                    ))
-                  : null}
-              </Flex>
-            </Flex>
-          </Flex>
-        </Box>
+    <Flex gap={2} flexDir={'column'}>
+      <HStack
+        display={'flex'}
+        gap={2}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+      >
+        <Heading fontSize={'2xl'}>Projects</Heading>
+        <Button onClick={onOpen}>
+          <IoMdAdd />
+        </Button>
+      </HStack>
+      {projects?.map((project: ProjectDoc) => (
+        <SingleProject key={project._id} project={project} />
       ))}
-    </>
+      {isOpen && <ProjectModal isOpen={isOpen} onClose={onClose} />}
+    </Flex>
   );
 };
 

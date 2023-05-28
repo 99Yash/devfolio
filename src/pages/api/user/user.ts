@@ -7,7 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-): Promise<void> {
+) {
   if (req.method === 'GET') {
     const { userId, user } = getAuth(req);
     if (!userId) return res.status(401).send('You are unauthorized');
@@ -20,10 +20,9 @@ export default async function handler(
         const createdUser: UserDoc | null = await UserModel.create({
           clerkUserId: userId,
         });
-        console.log(createdUser);
-        return res.status(200).send({ user: createdUser });
+        return res.status(200).send(createdUser);
       } else {
-        res.status(200).send({ user: userToCreate });
+        res.status(200).send(userToCreate );
       }
     } catch (err: any) {
       console.error(err);

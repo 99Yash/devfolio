@@ -23,21 +23,13 @@ import TechStack from './TechStack';
 
 interface DefaultMainSectionProps {
   sectionTitle: string;
-  userProfileData: Pick<
-    UserDoc,
-    'about' | 'techStack' | 'projects' | 'experiences'
-  >;
 }
 
 const getDataBySectionTitle = (sectionTitle: string) => {
   return sectionsData.find((section) => section.sectionTitle === sectionTitle);
 };
 
-//todo add onClicks to buttons for respective modals
-const DefaultMainSection: FC<DefaultMainSectionProps> = ({
-  sectionTitle,
-  userProfileData,
-}) => {
+const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const MainSectionModal = () => {
@@ -55,53 +47,53 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({
   };
 
   const SectionContent = () => {
-    if (
-      sectionTitle === 'About' &&
-      userProfileData.about?.length &&
-      userProfileData.about?.length > 0
-    ) {
-      return <About />;
-    } else if (
-      sectionTitle === 'Tech Stack' &&
-      userProfileData.techStack &&
-      userProfileData.techStack?.length > 0
-    ) {
-      return <TechStack />;
-    } else if (
-      sectionTitle === 'Projects' &&
-      userProfileData.projects &&
-      userProfileData.projects.length > 0
-    ) {
-      return <Projects />;
-    } else if (
-      sectionTitle === 'Experiences' &&
-      userProfileData.experiences &&
-      userProfileData.experiences?.length > 0
-    ) {
-      return <Experiences />;
-    } else {
-      return (
-        <>
-          <VStack
-            display={'flex'}
-            gap={2}
-            justifyContent={'center'}
-            alignItems={'center'}
-          >
-            <Heading size={'sm'}>
-              {getDataBySectionTitle(sectionTitle)?.sectionDescription.title}
-            </Heading>
-            <Text size={'sm'} color={'gray.500'}>
-              {getDataBySectionTitle(sectionTitle)?.sectionDescription.body}
-            </Text>
-            <Button onClick={onOpen} variant={'outline'} color={'teal'}>
-              {getDataBySectionTitle(sectionTitle)?.buttonText}
-            </Button>
-          </VStack>
-          {isOpen && <MainSectionModal />}
-        </>
-      );
-    }
+    // if (
+    //   sectionTitle === 'About' &&
+    //   userProfileData.about?.length &&
+    //   userProfileData.about?.length > 0
+    // ) {
+    //   return <About />;
+    // } else if (
+    //   sectionTitle === 'Tech Stack' &&
+    //   userProfileData.techStack &&
+    //   userProfileData.techStack?.length > 0
+    // ) {
+    //   return <TechStack />;
+    // } else if (
+    //   sectionTitle === 'Projects' &&
+    //   userProfileData.projects &&
+    //   userProfileData.projects.length > 0
+    // ) {
+    //   return <Projects />;
+    // } else if (
+    //   sectionTitle === 'Experiences' &&
+    //   userProfileData.experiences &&
+    //   userProfileData.experiences?.length > 0
+    // ) {
+    //   return <Experiences />;
+    // } else {
+    return (
+      <>
+        <VStack
+          display={'flex'}
+          gap={2}
+          justifyContent={'center'}
+          alignItems={'center'}
+        >
+          <Heading fontSize={'lg'}>
+            {getDataBySectionTitle(sectionTitle)?.sectionDescription.title}
+          </Heading>
+          <Text size={'sm'} color={'gray.500'}>
+            {getDataBySectionTitle(sectionTitle)?.sectionDescription.body}
+          </Text>
+          <Button onClick={onOpen} variant={'outline'} color={'teal'}>
+            {getDataBySectionTitle(sectionTitle)?.buttonText}
+          </Button>
+        </VStack>
+        {isOpen && <MainSectionModal />}
+      </>
+    );
+    // }
   };
 
   return (
@@ -112,7 +104,7 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading size={'md'}>{sectionTitle}</Heading>
+        <Heading fontSize={'2xl'}>{sectionTitle}</Heading>
         <Button onClick={onOpen}>
           {sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
         </Button>
@@ -122,4 +114,5 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({
     </Flex>
   );
 };
+
 export default DefaultMainSection;

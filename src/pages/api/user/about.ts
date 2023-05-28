@@ -20,7 +20,7 @@ export default async function handler(
       userToUpdate.about = about;
       const returnedUser = await userToUpdate.save();
       if (!returnedUser) return res.status(500).send('Error saving user.');
-      return res.status(200).send('About updated');
+      return res.status(200).send(returnedUser.about);
     } catch (err: any) {
       console.error(err);
     }

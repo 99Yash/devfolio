@@ -1,4 +1,6 @@
-import { useAddProjectMutation } from '@/store/userApi';
+import { useAppDispatch } from '@/hooks/redux';
+import { ProjectDoc } from '@/models/project.model';
+import { editProject } from '@/store/user.slice';
 import {
   Button,
   Modal,
@@ -10,18 +12,19 @@ import {
   ModalOverlay,
   VStack,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
-import axios from 'axios';
-import { useAppDispatch } from '@/hooks/redux';
-import { addProject } from '@/store/user.slice';
-import { ProjectDoc } from '@/models/project.model';
 
-const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
-  // const [addProject, { isLoading, isError, isSuccess }] =
-  //   useAddProjectMutation();
+const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
+  isOpen,
+  onClose,
+  project,
+}) => {
+  // const [editProject, { isLoading: isSendingMutation, isError, isSuccess }] =
+  //   useEditProjectMutation();
 
   const dispatch = useAppDispatch();
 
@@ -34,11 +37,14 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
         <ModalBody>
           <Formik
             initialValues={{
-              title: '',
-              description: '',
-              githubLink: '',
-              demoLink: '',
-              techStack: '',
+              title: project.title,
+              description: project.description || '',
+              githubLink: project.githubLink,
+              demoLink: project.demoLink || '',
+              techStack:
+                project.techStack && project.techStack?.length > 0
+                  ? project.techStack.join(', ')
+                  : '',
             }}
             onSubmit={async (values, actions) => {
               if (Object.values(values).every((val) => val === '')) {
@@ -46,10 +52,11 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                 return;
               }
               try {
-                const { data } = await axios.post<{ project: ProjectDoc }>(
+                const { data } = await axios.put<ProjectDoc>(
                   '/api/user/project',
                   {
                     project: {
+                      _id: project._id,
                       title: values.title,
                       description: values.description,
                       githubLink: values.githubLink,
@@ -58,8 +65,7 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                     },
                   }
                 );
-                dispatch(addProject(data));
-                console.log(data);
+                dispatch(editProject({ project: data }));
               } catch (err: any) {
                 console.error(err);
               }
@@ -73,32 +79,42 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                     label="Title"
                     name="title"
                     showLabel={'true'}
-                    placeholder="Title"
+                    placeholder={project.title}
                   />
                   <InputField
                     istextarea={'true'}
                     label="Description"
                     name="description"
                     showLabel={'true'}
-                    placeholder="Description"
+                    placeholder={
+                      project.description
+                        ? project.description
+                        : 'Project Description'
+                    }
                   />
                   <InputField
                     label="Share Github link"
                     name="githubLink"
                     showLabel={'true'}
-                    placeholder="Github Link"
+                    placeholder={project.githubLink}
                   />
                   <InputField
                     label="Share domain"
                     name="demoLink"
                     showLabel={'true'}
-                    placeholder="Demo Link"
+                    placeholder={
+                      project.demoLink ? project.demoLink : 'Demo Link'
+                    }
                   />
                   <InputField
                     label="Tech Stack"
                     name="techStack"
                     showLabel={'true'}
-                    placeholder="Share tech used,separated with a comma"
+                    placeholder={
+                      project.techStack && project.techStack?.length > 0
+                        ? project.techStack.join(', ')
+                        : 'Tech Stack'
+                    }
                   />
                   <ModalFooter>
                     <Button
@@ -127,4 +143,4 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default ProjectModal;
+export default EditProjectModal;
