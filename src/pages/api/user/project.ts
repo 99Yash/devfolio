@@ -52,31 +52,6 @@ export default async function handler(
     } catch (err: any) {
       console.error(err);
     }
-  } else if (req.method === 'DELETE') {
-    //!nw
-    try {
-      const { userId } = getAuth(req);
-      if (!userId) return res.status(401).send('You are unauthorized');
-      await connectDB();
-      const projectUser: UserDoc | null = await UserModel.findOne({
-        clerkUserId: userId,
-      });
-      if (!projectUser) return res.status(404).send("User doesn't exist");
-      const { projectId } = req.body;
-      const projId = new mongoose.Types.ObjectId(projectId);
-      const projectToDelete = await ProjectModel.findById(projId);
-      if (!projectToDelete)
-        return res.status(404).send("Project doesn't exist");
-      await ProjectModel.findByIdAndDelete(projId);
-      await UserModel.findByIdAndUpdate(projectUser._id, {
-        $pull: {
-          projects: projId,
-        },
-      });
-      return res.status(200).send('Project deleted');
-    } catch (err: any) {
-      console.error(err);
-    }
   } else if (req.method === 'PUT') {
     const { userId } = getAuth(req);
     if (!userId) return res.status(401).send('You are unauthorized');
@@ -87,7 +62,6 @@ export default async function handler(
       });
       if (!projectUser) return res.status(404).send("User doesn't exist");
       const { project } = req.body;
-      console.log(project);
       const projId = new mongoose.Types.ObjectId(project._id);
 
       const projectToUpdate = await ProjectModel.findById(projId);

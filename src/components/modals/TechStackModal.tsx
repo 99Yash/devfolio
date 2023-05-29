@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
+import { BsFillTrash3Fill } from 'react-icons/bs';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
-import { BsFillTrash3Fill } from 'react-icons/bs';
 
 const TechStackModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
   const [updateTech, results] = useUpdateTechStackMutation();

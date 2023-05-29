@@ -11,7 +11,7 @@ import { FC, InputHTMLAttributes } from 'react';
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
-  label: string;
+  label?: string;
   showLabel: 'true' | 'false';
   istextarea?: 'true' | 'false';
   autoComplete?: 'on' | 'off';

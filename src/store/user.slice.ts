@@ -44,32 +44,33 @@ const UserSlice = createSlice({
       action: PayloadAction<{ project: ProjectDoc }>
     ) {
       state?.projects?.map((project) => {
-        if (action.payload.project.description) {
-          project.description = action.payload.project.description;
-        }
-        if (action.payload.project.demoLink) {
-          project.demoLink = action.payload.project.demoLink;
-        }
-        if (action.payload.project.githubLink) {
-          project.githubLink = action.payload.project.githubLink;
-        }
-        if (action.payload.project.techStack) {
-          project.techStack = action.payload.project.techStack;
-        }
-        if (action.payload.project.title) {
-          project.title = action.payload.project.title;
+        if (project._id === action.payload.project._id) {
+          if (action.payload.project.description) {
+            project.description = action.payload.project.description;
+          }
+          if (action.payload.project.demoLink) {
+            project.demoLink = action.payload.project.demoLink;
+          }
+          if (action.payload.project.githubLink) {
+            project.githubLink = action.payload.project.githubLink;
+          }
+          if (action.payload.project.techStack) {
+            project.techStack = action.payload.project.techStack;
+          }
+          if (action.payload.project.title) {
+            project.title = action.payload.project.title;
+          }
         }
       });
     },
-
     deleteProject(
       state: UserState,
       action: PayloadAction<{ projectId: string }>
     ) {
-      const newProjectList = state.user!.projects!.filter(
+      const updatedProjects = state.projects!.filter(
         (project) => project._id !== action.payload.projectId
       );
-      state.user!.projects = newProjectList ? newProjectList : [];
+      state.projects = updatedProjects ? updatedProjects : [];
     },
   },
 });

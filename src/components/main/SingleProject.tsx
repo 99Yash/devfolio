@@ -40,6 +40,11 @@ const SingleProject: FC<{
           <Flex justifyContent={'space-between'}>
             <Heading size={'md'}>{project.title}</Heading>
             <HStack>
+              {project?.demoLink ? (
+                <Link target="_blank" href={project?.demoLink}>
+                  <BsGlobe />
+                </Link>
+              ) : null}
               <Link
                 target="_blank"
                 rel="noopener noreferer"
@@ -62,11 +67,6 @@ const SingleProject: FC<{
           <Text mt={4} color={'gray.500'} size={'xs'}>
             {project?.description}
           </Text>
-          {project?.demoLink ? (
-            <Link target="_blank" href={project?.demoLink}>
-              <BsGlobe />
-            </Link>
-          ) : null}
 
           <Flex
             maxW={'1/2'}

@@ -3,7 +3,6 @@ import {
   Button,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
@@ -22,8 +21,9 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
   return (
     <Modal size={'xl'} isCentered isOpen={props.isOpen} onClose={props.onClose}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalBody bg={'blackAlpha.800'}>
+      <ModalContent bg={'black'}>
+        <ModalHeader>Edit Bio</ModalHeader>
+        <ModalBody>
           <Formik
             initialValues={{ about: props.userAbout || `` }}
             onSubmit={async (values) => {
@@ -48,7 +48,6 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
                   autoComplete="off"
                   placeholder={props.userAbout ? props.userAbout : 'Add Bio'}
                   name={'about'}
-                  label="About"
                   showLabel={'false'}
                 />
                 <Button

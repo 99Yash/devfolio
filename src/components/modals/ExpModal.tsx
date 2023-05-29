@@ -14,6 +14,7 @@ import {
   Select,
   Text,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
@@ -22,6 +23,7 @@ import { ModalsProps } from './AboutModal';
 
 const ExpModal: FC<ModalsProps> = (props) => {
   const [addExp, results] = useAddExperienceMutation();
+
   return (
     <Modal
       size={'3xl'}

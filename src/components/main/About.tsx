@@ -1,17 +1,15 @@
-import { useFetchUserAboutQuery } from '@/store/userApi';
+import { useAppSelector } from '@/hooks/redux';
 import {
   Button,
   Flex,
   HStack,
   Heading,
-  Spinner,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import AboutModal from '../modals/AboutModal';
-import { useAppSelector } from '@/hooks/redux';
 
 const About: FC = () => {
   const userAbout = useAppSelector(

@@ -30,7 +30,6 @@ export default function Home() {
       }
     };
     fetchUser();
-    console.log(currentUser);
   }, [dispatch, isSignedIn]);
 
   return (

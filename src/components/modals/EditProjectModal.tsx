@@ -11,22 +11,26 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
+import DeleteProjectModal from './deletion/DeleteProjectModal';
 
 const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
   isOpen,
   onClose,
   project,
 }) => {
-  // const [editProject, { isLoading: isSendingMutation, isError, isSuccess }] =
-  //   useEditProjectMutation();
-
   const dispatch = useAppDispatch();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onOpenDeleteModal,
+    onClose: onCloseDeleteModal,
+  } = useDisclosure();
 
   return (
     <Modal size={'2xl'} isOpen={isOpen} onClose={onClose} isCentered>
@@ -118,7 +122,7 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
                   />
                   <ModalFooter>
                     <Button
-                      onClick={() => onClose()}
+                      onClick={onOpenDeleteModal}
                       variant={'outline'}
                       colorScheme="red"
                       mr={3}
@@ -138,6 +142,13 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
             )}
           </Formik>
         </ModalBody>
+        {isDeleteModalOpen && (
+          <DeleteProjectModal
+            isOpen={isDeleteModalOpen}
+            onClose={onCloseDeleteModal}
+            projectId={project._id}
+          />
+        )}
       </ModalContent>
     </Modal>
   );

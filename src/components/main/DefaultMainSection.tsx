@@ -1,5 +1,4 @@
 import { sectionsData } from '@/data/defaultSectionData';
-import { UserDoc } from '@/models/user.model';
 import {
   Button,
   Flex,
@@ -16,10 +15,6 @@ import AboutModal from '../modals/AboutModal';
 import ExpModal from '../modals/ExpModal';
 import ProjectModal from '../modals/ProjectModal';
 import TechStackModal from '../modals/TechStackModal';
-import About from './About';
-import Experiences from './Experiences';
-import Projects from './Projects';
-import TechStack from './TechStack';
 
 interface DefaultMainSectionProps {
   sectionTitle: string;
