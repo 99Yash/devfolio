@@ -14,7 +14,6 @@ import {
   Select,
   Text,
   VStack,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';

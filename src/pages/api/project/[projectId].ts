@@ -23,6 +23,11 @@ export default async function handler(
       const projIdStr = projectId as string;
       const projId = new mongoose.Types.ObjectId(projIdStr);
       await ProjectModel.findByIdAndDelete(projId);
+      await UserModel.findByIdAndUpdate(projectUser._id, {
+        $pull: {
+          projects: projId,
+        },
+      });
       return res.status(200).send('Project deleted');
     } catch (err: any) {
       console.error(err);

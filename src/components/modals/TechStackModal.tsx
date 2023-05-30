@@ -18,12 +18,17 @@ import { FC } from 'react';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
+import axios from 'axios';
+import { useAppDispatch } from '@/hooks/redux';
+import { setTechStack } from '@/store/user.slice';
+import { TechDoc } from '@/models/tech.model';
 
-const TechStackModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
-  const [updateTech, results] = useUpdateTechStackMutation();
-  const { data, isFetching, isLoading } = useFetchUserTechStackQuery(null, {
-    refetchOnMountOrArgChange: true,
-  });
+const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
+  isOpen,
+  onClose,
+  techStack,
+}) => {
+  const dispatch = useAppDispatch();
   return (
     <Modal size={'xl'} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -32,9 +37,9 @@ const TechStackModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <ModalBody>
           <Flex flexDir={'column'} gap={1}>
-            {data?.techStack?.map((tech) => (
+            {techStack?.map((tech) => (
               <Flex key={Math.random()} justifyContent={'space-between'}>
-                <Text>{tech}</Text>
+                <Text>{tech.name}</Text>
                 <Button>
                   <BsFillTrash3Fill />
                 </Button>
@@ -49,9 +54,10 @@ const TechStackModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                 return;
               }
               try {
-                updateTech({
+                const { data } = await axios.post<TechDoc[]>('/api/user/tech', {
                   techStack: values.techStack,
                 });
+                dispatch(setTechStack(data));
               } catch (err: any) {
                 console.error(err);
               }
@@ -63,7 +69,6 @@ const TechStackModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                 <InputField
                   variant="unstyled"
                   autoComplete="off"
-                  label="Tech"
                   showLabel={'false'}
                   type="text"
                   name="techStack"

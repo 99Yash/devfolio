@@ -1,21 +1,34 @@
-import { useFetchUserTechStackQuery } from '@/store/userApi';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { TechDoc } from '@/models/tech.model';
+import { setTechStack } from '@/store/user.slice';
 import {
   Button,
   Code,
   Flex,
   HStack,
   Heading,
-  Spinner,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FC } from 'react';
+import axios from 'axios';
+import { FC, useEffect } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import TechStackModal from '../modals/TechStackModal';
 
 const TechStack: FC = () => {
-  const { data, isLoading } = useFetchUserTechStackQuery(null, {
-    refetchOnMountOrArgChange: true,
-  });
+  const dispatch = useAppDispatch();
+  const techStack = useAppSelector((state) => state.currentUser.techStack);
+
+  useEffect(() => {
+    const fetchUserTechStack = async () => {
+      try {
+        const { data } = await axios.get<TechDoc[]>('/api/user/tech');
+        dispatch(setTechStack(data));
+      } catch (err: any) {
+        console.error(err);
+      }
+    };
+    fetchUserTechStack();
+  }, [dispatch]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -32,22 +45,26 @@ const TechStack: FC = () => {
           <IoMdAdd />
         </Button>
       </HStack>
-      {isLoading && <Spinner />}
       <Flex gap={2}>
-        {data?.techStack?.map((tech: string) => (
+        {techStack?.map((tech: TechDoc) => (
           <Code
             bg={'transparent'}
             color="teal.300"
             key={Math.random().toString()}
             size={'sm'}
           >
-            {tech}
+            {tech.name}
           </Code>
         ))}
-        {isOpen && (
-          <TechStackModal isOpen={isOpen} isCentered onClose={onClose} />
-        )}
       </Flex>
+      {isOpen && (
+        <TechStackModal
+          techStack={techStack}
+          isOpen={isOpen}
+          isCentered
+          onClose={onClose}
+        />
+      )}
     </Flex>
   );
 };

@@ -11,12 +11,14 @@ import {
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import InputField from '../utils/InputField';
+import axios from 'axios';
+import { useAppDispatch } from '@/hooks/redux';
+import { updateAbout } from '@/store/user.slice';
 
 export type ModalsProps = Omit<ModalProps, 'children'>;
 
 const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
-  const [updateAbout, { isLoading, isError, isSuccess }] =
-    useUpdateAboutMutation();
+  const dispatch = useAppDispatch();
 
   return (
     <Modal size={'xl'} isCentered isOpen={props.isOpen} onClose={props.onClose}>
@@ -33,7 +35,10 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
                 return;
               }
               try {
-                await updateAbout(about ? about : '');
+                const { data } = await axios.put('/api/user/about', {
+                  about,
+                });
+                dispatch(updateAbout({ about: data }));
               } catch (err: any) {
                 console.log(err);
               }

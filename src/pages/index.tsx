@@ -16,21 +16,23 @@ import { useEffect } from 'react';
 export default function Home() {
   const { isSignedIn, isLoaded, user } = useUser();
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.currentUser.user);
+  const localUserState = useAppSelector((state) => state.currentUser.user);
+
   useEffect(() => {
-    if (!isSignedIn) return;
+    if (!isSignedIn && isLoaded) return;
     const fetchUser = async () => {
       try {
         const { data: fetchedUser } = await axios.get<UserDoc>(
           '/api/user/user'
         );
+        console.log(fetchedUser);
         dispatch(setCurrentUser(fetchedUser));
       } catch (err: any) {
         console.log(err);
       }
     };
     fetchUser();
-  }, [dispatch, isSignedIn]);
+  }, [dispatch, isSignedIn, isLoaded]);
 
   return (
     <>
@@ -56,28 +58,28 @@ export default function Home() {
           <Flex flexDir={'column'} gap={12}>
             <TopUserProfile
               userProfileData={{
-                fullName: currentUser?.fullName,
-                oneLiner: currentUser?.oneLiner,
-                socials: currentUser?.socials,
+                fullName: localUserState?.fullName,
+                oneLiner: localUserState?.oneLiner,
+                socials: localUserState?.socials,
               }}
               clerkUserId={user.id}
             />
-            {currentUser?.about !== undefined ? (
+            {localUserState?.about !== undefined ? (
               <About />
             ) : (
               <DefaultMainSection sectionTitle={'About'} />
             )}
-            {currentUser?.experiences?.length ? (
+            {localUserState?.experiences?.length ? (
               <Experiences />
             ) : (
               <DefaultMainSection sectionTitle={'Experiences'} />
             )}
-            {currentUser?.techStack?.length ? (
+            {localUserState?.techStack?.length ? (
               <TechStack />
             ) : (
               <DefaultMainSection sectionTitle={'Tech Stack'} />
             )}
-            {currentUser?.projects?.length ? (
+            {localUserState?.projects?.length ? (
               <Projects />
             ) : (
               <DefaultMainSection sectionTitle={'Projects'} />

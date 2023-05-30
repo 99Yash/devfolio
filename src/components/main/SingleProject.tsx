@@ -64,7 +64,7 @@ const SingleProject: FC<{
               </Button>
             </HStack>
           </Flex>
-          <Text mt={4} color={'gray.500'} size={'xs'}>
+          <Text fontStyle={'italic'} my={4} color={'gray.500'} size={'xs'}>
             {project?.description}
           </Text>
 

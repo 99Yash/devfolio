@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === 'PATCH') {
+  if (req.method === 'PUT') {
     try {
       const { userId } = getAuth(req);
       if (!userId) return res.status(401).send('You are unauthorized');

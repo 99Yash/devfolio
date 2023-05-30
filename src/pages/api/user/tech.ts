@@ -1,4 +1,5 @@
 import { connectDB } from '@/lib/utils/connect';
+import TechModel, { TechDoc } from '@/models/tech.model';
 import UserModel, { UserDoc } from '@/models/user.model';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -15,10 +16,11 @@ export default async function handler(
       const user: UserDoc | null = await UserModel.findOne({
         clerkUserId: userId,
       });
-      if (!user) return res.status(404).send("User doesn't exist");
-      return res.status(200).send({
-        techStack: user.techStack,
+      const userTech: TechDoc[] | null = await TechModel.find({
+        clerkUserId: userId,
       });
+      if (!user) return res.status(404).send("User doesn't exist");
+      return res.status(200).send(userTech);
     } catch (err: any) {
       console.error(err);
     }
@@ -31,13 +33,22 @@ export default async function handler(
         clerkUserId: userId,
       });
       if (!user) return res.status(404).send("User doesn't exist");
-      const { techStack } = req.body;
-      const techStackArr = techStack.split(',').map((t: string) => t.trim());
-      user.techStack?.push(...techStackArr);
-      await user.save();
-      return res.status(200).send({
-        techStack: user.techStack,
+      const { techStack: fullTechString } = req.body;
+      fullTechString.split(',').map(async (t: string) => {
+        const tech = await TechModel.create({
+          name: t.trim(),
+          clerkUserId: userId,
+        });
+        if (!user.techStack) {
+          user.techStack = [];
+        }
+        user.techStack?.push(tech._id);
       });
+      const userTech = await TechModel.find<TechDoc>({
+        clerkUserId: userId,
+      });
+      await user.save();
+      return res.status(200).send(userTech);
     } catch (err: any) {
       console.error(err);
     }

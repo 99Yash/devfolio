@@ -2,6 +2,7 @@ import { Document, Schema, model, models } from 'mongoose';
 import { ExperienceDoc } from './experience.model';
 import { ProjectDoc } from './project.model';
 import { SocialDoc } from './social.model';
+import { TechDoc } from './tech.model';
 
 export interface UserDoc extends Document {
   fullName?: string;
@@ -10,7 +11,7 @@ export interface UserDoc extends Document {
   socials?: Array<SocialDoc['_id']>;
   about?: string;
   experiences?: Array<ExperienceDoc['_id']>;
-  techStack?: string[];
+  techStack?: TechDoc['_id'];
   projects?: Array<ProjectDoc['_id']>;
 }
 
@@ -40,7 +41,12 @@ const userSchema = new Schema<UserDoc>({
     default: [],
   },
   techStack: {
-    type: [String],
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Tech',
+      },
+    ],
     default: [],
   },
   projects: {

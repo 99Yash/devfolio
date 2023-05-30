@@ -2,15 +2,18 @@ import { ExperienceDoc } from '@/models/experience.model';
 import { ProjectDoc } from '@/models/project.model';
 import { UserDoc } from '@/models/user.model';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { TechDoc } from '../models/tech.model';
 
 interface UserState {
   user: UserDoc | undefined;
+  techStack: TechDoc[] | undefined;
   projects: ProjectDoc[] | undefined;
   experiences: ExperienceDoc[] | undefined;
 }
 
 const initialState: UserState = {
   user: undefined,
+  techStack: [],
   projects: [],
   experiences: [],
 };
@@ -72,6 +75,9 @@ const UserSlice = createSlice({
       );
       state.projects = updatedProjects ? updatedProjects : [];
     },
+    setTechStack: (state: UserState, action: PayloadAction<TechDoc[]>) => {
+      state.techStack = action.payload;
+    },
   },
 });
 
@@ -79,7 +85,9 @@ export const {
   setCurrentUser,
   addProject,
   deleteProject,
+  updateAbout,
   editProject,
   setCurrentProjects,
+  setTechStack,
 } = UserSlice.actions;
 export default UserSlice.reducer;

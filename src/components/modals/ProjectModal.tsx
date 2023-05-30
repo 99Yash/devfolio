@@ -1,4 +1,6 @@
-import { useAddProjectMutation } from '@/store/userApi';
+import { useAppDispatch } from '@/hooks/redux';
+import { ProjectDoc } from '@/models/project.model';
+import { addProject } from '@/store/user.slice';
 import {
   Button,
   Modal,
@@ -10,19 +12,13 @@ import {
   ModalOverlay,
   VStack,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
-import axios from 'axios';
-import { useAppDispatch } from '@/hooks/redux';
-import { addProject } from '@/store/user.slice';
-import { ProjectDoc } from '@/models/project.model';
 
 const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
-  // const [addProject, { isLoading, isError, isSuccess }] =
-  //   useAddProjectMutation();
-
   const dispatch = useAppDispatch();
 
   return (

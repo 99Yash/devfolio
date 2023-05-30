@@ -9,23 +9,24 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
-    const { userId, user } = getAuth(req);
+    const { userId } = getAuth(req);
     if (!userId) return res.status(401).send('You are unauthorized');
     try {
       await connectDB();
-      const userToCreate: UserDoc | null = await UserModel.findOne({
+      const existingUser: UserDoc | null = await UserModel.findOne({
         clerkUserId: userId,
       });
-      if (!userToCreate) {
+      if (!existingUser) {
         const createdUser: UserDoc | null = await UserModel.create({
           clerkUserId: userId,
         });
-        return res.status(200).send(createdUser);
+        return res.status(201).send(createdUser);
       } else {
-        res.status(200).send(userToCreate );
+        res.status(200).send(existingUser);
       }
     } catch (err: any) {
       console.error(err);
+      res.status(500).send('Intl. server err ');
     }
   }
 }
