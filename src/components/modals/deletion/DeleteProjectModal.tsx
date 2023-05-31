@@ -1,4 +1,5 @@
 import { useAppDispatch } from '@/hooks/redux';
+import { axiosClient } from '@/lib/utils/axiosInstance';
 import { deleteProject } from '@/store/user.slice';
 import {
   Button,
@@ -11,7 +12,6 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import axios from 'axios';
 import { FC } from 'react';
 import { ModalsProps } from '../AboutModal';
 
@@ -24,10 +24,7 @@ const DeleteProjectModal: FC<ModalsProps & { projectId: string }> = ({
 
   const deleteProjectHandler = async () => {
     try {
-      const client = axios.create({
-        baseURL: 'http://localhost:3000/api',
-      });
-      await client.delete(`/project/${projectId}`);
+      await axiosClient.delete(`/project/${projectId}`);
     } catch (err: any) {
       console.error(err);
     }

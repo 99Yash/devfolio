@@ -17,7 +17,6 @@ import TechStackModal from '../modals/TechStackModal';
 const TechStack: FC = () => {
   const dispatch = useAppDispatch();
   const techStack = useAppSelector((state) => state.currentUser.techStack);
-  console.log(techStack);
 
   useEffect(() => {
     const fetchUserTechStack = async () => {

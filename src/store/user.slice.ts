@@ -96,6 +96,18 @@ const UserSlice = createSlice({
 
       state.techStack?.push(...action.payload.techStack);
     },
+    deleteTech: (
+      state: UserState,
+      action: PayloadAction<{ techId: string }>
+    ) => {
+      const updatedTech = state.techStack!.filter(
+        (tech) => tech._id !== action.payload.techId
+      );
+      state.techStack = updatedTech ? updatedTech : [];
+      state.user?.techStack?.filter(
+        (tech) => tech._id !== action.payload.techId
+      );
+    },
   },
 });
 
@@ -107,6 +119,7 @@ export const {
   editProject,
   setCurrentProjects,
   setTechStack,
+  deleteTech,
   updateTechStack,
 } = UserSlice.actions;
 export default UserSlice.reducer;

@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { TechDoc } from '@/models/tech.model';
-import { updateTechStack } from '@/store/user.slice';
+import { deleteTech, updateTechStack } from '@/store/user.slice';
 import {
   Button,
   Flex,
@@ -14,10 +14,12 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
+import { axiosClient } from '@/lib/utils/axiosInstance';
+import { ThunkAction } from '@reduxjs/toolkit';
 
 const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
   isOpen,
@@ -25,6 +27,23 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
   techStack,
 }) => {
   const dispatch = useAppDispatch();
+
+  const deleteTechAction = useCallback(
+    async (techId: string) => {
+      try {
+        await axiosClient.delete(`/tech/${techId}`);
+      } catch (err: any) {
+        console.error(err);
+      }
+      dispatch(deleteTech({ techId }));
+      return onClose();
+    },
+    [dispatch, onClose]
+  );
+
+  const deleteHandler = (techId: string) => {
+    return deleteTechAction(techId);
+  };
   return (
     <Modal size={'xl'} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -35,9 +54,9 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
           {techStack ? (
             <Flex flexDir={'column'} gap={1}>
               {techStack?.map((tech) => (
-                <Flex key={Math.random()} justifyContent={'space-between'}>
+                <Flex key={tech._id} justifyContent={'space-between'}>
                   <Text>{tech.name}</Text>
-                  <Button>
+                  <Button onClick={() => deleteHandler(tech._id)}>
                     <BsFillTrash3Fill />
                   </Button>
                 </Flex>
