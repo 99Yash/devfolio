@@ -1,4 +1,5 @@
 import { useAppDispatch } from '@/hooks/redux';
+import { axiosClient } from '@/lib/utils/axiosInstance';
 import { TechDoc } from '@/models/tech.model';
 import { deleteTech, updateTechStack } from '@/store/user.slice';
 import {
@@ -18,8 +19,6 @@ import { FC, useCallback } from 'react';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
-import { axiosClient } from '@/lib/utils/axiosInstance';
-import { ThunkAction } from '@reduxjs/toolkit';
 
 const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
   isOpen,

@@ -76,7 +76,7 @@ const UserSlice = createSlice({
       );
       state.projects = updatedProjects ? updatedProjects : [];
       state.user?.projects?.filter(
-        (project) => project._id !== action.payload.projectId
+        (project: { _id: string }) => project._id !== action.payload.projectId
       );
     },
     setTechStack: (state: UserState, action: PayloadAction<TechDoc[]>) => {
@@ -105,7 +105,7 @@ const UserSlice = createSlice({
       );
       state.techStack = updatedTech ? updatedTech : [];
       state.user?.techStack?.filter(
-        (tech) => tech._id !== action.payload.techId
+        (tech: { _id: string }) => tech._id !== action.payload.techId
       );
     },
   },
