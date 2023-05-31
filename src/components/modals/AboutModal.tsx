@@ -1,4 +1,3 @@
-import { useUpdateAboutMutation } from '@/store/userApi';
 import {
   Button,
   Modal,

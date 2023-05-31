@@ -1,7 +1,6 @@
-import {
-  useFetchUserTechStackQuery,
-  useUpdateTechStackMutation,
-} from '@/store/userApi';
+import { useAppDispatch } from '@/hooks/redux';
+import { TechDoc } from '@/models/tech.model';
+import { updateTechStack } from '@/store/user.slice';
 import {
   Button,
   Flex,
@@ -13,15 +12,12 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
-import axios from 'axios';
-import { useAppDispatch } from '@/hooks/redux';
-import { setTechStack } from '@/store/user.slice';
-import { TechDoc } from '@/models/tech.model';
 
 const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
   isOpen,
@@ -36,16 +32,18 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
         <ModalHeader>Tech Stack</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Flex flexDir={'column'} gap={1}>
-            {techStack?.map((tech) => (
-              <Flex key={Math.random()} justifyContent={'space-between'}>
-                <Text>{tech.name}</Text>
-                <Button>
-                  <BsFillTrash3Fill />
-                </Button>
-              </Flex>
-            ))}
-          </Flex>
+          {techStack ? (
+            <Flex flexDir={'column'} gap={1}>
+              {techStack?.map((tech) => (
+                <Flex key={Math.random()} justifyContent={'space-between'}>
+                  <Text>{tech.name}</Text>
+                  <Button>
+                    <BsFillTrash3Fill />
+                  </Button>
+                </Flex>
+              ))}
+            </Flex>
+          ) : null}
           <Formik
             initialValues={{ techStack: '' }}
             onSubmit={async (values) => {
@@ -57,7 +55,11 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
                 const { data } = await axios.post<TechDoc[]>('/api/user/tech', {
                   techStack: values.techStack,
                 });
-                dispatch(setTechStack(data));
+                dispatch(
+                  updateTechStack({
+                    techStack: data,
+                  })
+                );
               } catch (err: any) {
                 console.error(err);
               }

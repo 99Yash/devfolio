@@ -8,14 +8,21 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
 import { Flex } from '@chakra-ui/react';
-import { SignIn, UserButton, useUser } from '@clerk/nextjs';
+import {
+  SignIn,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useAuth,
+} from '@clerk/nextjs';
 import axios from 'axios';
 import Head from 'next/head';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const { isSignedIn, isLoaded, user } = useUser();
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const dispatch = useAppDispatch();
+
   const localUserState = useAppSelector((state) => state.currentUser.user);
 
   useEffect(() => {
@@ -25,14 +32,15 @@ export default function Home() {
         const { data: fetchedUser } = await axios.get<UserDoc>(
           '/api/user/user'
         );
-        console.log(fetchedUser);
         dispatch(setCurrentUser(fetchedUser));
+        console.log('here');
       } catch (err: any) {
         console.log(err);
       }
     };
+
     fetchUser();
-  }, [dispatch, isSignedIn, isLoaded]);
+  }, [dispatch, isSignedIn, isLoaded, getToken]);
 
   return (
     <>
@@ -51,10 +59,12 @@ export default function Home() {
         alignItems={'center'}
         py={16}
       >
-        {isSignedIn && <UserButton />}
-        {!isSignedIn && <SignIn />}
+        <SignedOut>
+          <SignIn />
+        </SignedOut>
 
-        {isLoaded && isSignedIn && (
+        <SignedIn>
+          <UserButton />
           <Flex flexDir={'column'} gap={12}>
             <TopUserProfile
               userProfileData={{
@@ -62,7 +72,7 @@ export default function Home() {
                 oneLiner: localUserState?.oneLiner,
                 socials: localUserState?.socials,
               }}
-              clerkUserId={user.id}
+              clerkUserId={userId!}
             />
             {localUserState?.about !== undefined ? (
               <About />
@@ -85,7 +95,7 @@ export default function Home() {
               <DefaultMainSection sectionTitle={'Projects'} />
             )}
           </Flex>
-        )}
+        </SignedIn>
       </Flex>
     </>
   );

@@ -55,7 +55,6 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                   }
                 );
                 dispatch(addProject(data));
-                console.log(data);
               } catch (err: any) {
                 console.error(err);
               }

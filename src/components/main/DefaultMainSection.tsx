@@ -42,31 +42,6 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
   };
 
   const SectionContent = () => {
-    // if (
-    //   sectionTitle === 'About' &&
-    //   userProfileData.about?.length &&
-    //   userProfileData.about?.length > 0
-    // ) {
-    //   return <About />;
-    // } else if (
-    //   sectionTitle === 'Tech Stack' &&
-    //   userProfileData.techStack &&
-    //   userProfileData.techStack?.length > 0
-    // ) {
-    //   return <TechStack />;
-    // } else if (
-    //   sectionTitle === 'Projects' &&
-    //   userProfileData.projects &&
-    //   userProfileData.projects.length > 0
-    // ) {
-    //   return <Projects />;
-    // } else if (
-    //   sectionTitle === 'Experiences' &&
-    //   userProfileData.experiences &&
-    //   userProfileData.experiences?.length > 0
-    // ) {
-    //   return <Experiences />;
-    // } else {
     return (
       <>
         <VStack
@@ -88,7 +63,6 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
         {isOpen && <MainSectionModal />}
       </>
     );
-    // }
   };
 
   return (

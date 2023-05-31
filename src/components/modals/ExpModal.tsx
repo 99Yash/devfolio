@@ -1,4 +1,3 @@
-import { useAddExperienceMutation } from '@/store/userApi';
 import {
   Button,
   Flex,
@@ -21,8 +20,6 @@ import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
 
 const ExpModal: FC<ModalsProps> = (props) => {
-  const [addExp, results] = useAddExperienceMutation();
-
   return (
     <Modal
       size={'3xl'}
@@ -55,21 +52,6 @@ const ExpModal: FC<ModalsProps> = (props) => {
                 return;
               }
               try {
-                await addExp({
-                  experience: {
-                    position: values.position,
-                    companyName: values.companyName,
-                    startDate: {
-                      month: values.startDate.month,
-                      year: values.startDate.year,
-                    },
-                    endDate: {
-                      month: values.endDate.month,
-                      year: values.endDate.year,
-                    },
-                    description: values.description,
-                  },
-                });
               } catch (err: any) {
                 console.error(err);
               }

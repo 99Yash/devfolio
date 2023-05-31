@@ -23,7 +23,10 @@ export default async function handler(
         .split(',')
         .map((t: string) => t.trim());
       const createdProject = await ProjectModel.create({
-        ...project,
+        title: project.title,
+        description: project.description,
+        githubLink: project.githubLink,
+        demoLink: project.demoLink,
         techStack: techStackArr,
         clerkUserId: userId,
       });

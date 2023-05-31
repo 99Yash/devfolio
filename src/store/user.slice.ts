@@ -41,6 +41,7 @@ const UserSlice = createSlice({
       }>
     ) {
       state?.projects?.push(action.payload.project);
+      state?.user?.projects?.push(action.payload.project._id);
     },
     editProject(
       state: UserState,
@@ -74,9 +75,26 @@ const UserSlice = createSlice({
         (project) => project._id !== action.payload.projectId
       );
       state.projects = updatedProjects ? updatedProjects : [];
+      state.user?.projects?.filter(
+        (project) => project._id !== action.payload.projectId
+      );
     },
     setTechStack: (state: UserState, action: PayloadAction<TechDoc[]>) => {
       state.techStack = action.payload;
+    },
+    updateTechStack: (
+      state: UserState,
+      action: PayloadAction<{ techStack: TechDoc[] }>
+    ) => {
+      if (
+        state.techStack?.length === 0 ||
+        state.techStack === undefined ||
+        state.techStack === null
+      ) {
+        state.techStack = action.payload.techStack;
+      }
+
+      state.techStack?.push(...action.payload.techStack);
     },
   },
 });
@@ -89,5 +107,6 @@ export const {
   editProject,
   setCurrentProjects,
   setTechStack,
+  updateTechStack,
 } = UserSlice.actions;
 export default UserSlice.reducer;

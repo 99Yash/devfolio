@@ -17,12 +17,13 @@ import TechStackModal from '../modals/TechStackModal';
 const TechStack: FC = () => {
   const dispatch = useAppDispatch();
   const techStack = useAppSelector((state) => state.currentUser.techStack);
+  console.log(techStack);
 
   useEffect(() => {
     const fetchUserTechStack = async () => {
       try {
-        const { data } = await axios.get<TechDoc[]>('/api/user/tech');
-        dispatch(setTechStack(data));
+        const { data } = await axios.get<TechDoc[] | null>('/api/user/tech');
+        dispatch(setTechStack(data ? data : []));
       } catch (err: any) {
         console.error(err);
       }
@@ -47,12 +48,7 @@ const TechStack: FC = () => {
       </HStack>
       <Flex gap={2}>
         {techStack?.map((tech: TechDoc) => (
-          <Code
-            bg={'transparent'}
-            color="teal.300"
-            key={Math.random().toString()}
-            size={'sm'}
-          >
+          <Code bg={'transparent'} color="teal.300" key={tech._id} size={'sm'}>
             {tech.name}
           </Code>
         ))}

@@ -16,10 +16,10 @@ export default async function handler(
       const user: UserDoc | null = await UserModel.findOne({
         clerkUserId: userId,
       });
+      if (!user) return res.status(404).send("User doesn't exist");
       const userTech: TechDoc[] | null = await TechModel.find({
         clerkUserId: userId,
       });
-      if (!user) return res.status(404).send("User doesn't exist");
       return res.status(200).send(userTech);
     } catch (err: any) {
       console.error(err);
@@ -34,21 +34,21 @@ export default async function handler(
       });
       if (!user) return res.status(404).send("User doesn't exist");
       const { techStack: fullTechString } = req.body;
-      fullTechString.split(',').map(async (t: string) => {
-        const tech = await TechModel.create({
-          name: t.trim(),
-          clerkUserId: userId,
-        });
-        if (!user.techStack) {
-          user.techStack = [];
-        }
-        user.techStack?.push(tech._id);
-      });
-      const userTech = await TechModel.find<TechDoc>({
-        clerkUserId: userId,
-      });
+
+      const techNames = fullTechString.split(',').map((t: string) => t.trim());
+
+      const newlyAddedTech = await Promise.all(
+        techNames.map(async (t: string) => {
+          const tech = await TechModel.create({
+            name: t,
+            clerkUserId: userId,
+          });
+          user.techStack?.push(tech);
+          return tech;
+        })
+      );
       await user.save();
-      return res.status(200).send(userTech);
+      return res.status(200).send(newlyAddedTech);
     } catch (err: any) {
       console.error(err);
     }
