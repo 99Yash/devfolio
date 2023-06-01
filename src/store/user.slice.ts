@@ -2,13 +2,14 @@ import { ExperienceDoc } from '@/models/experience.model';
 import { ProjectDoc } from '@/models/project.model';
 import { UserDoc } from '@/models/user.model';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { TechDoc } from '../models/tech.model';
+import { TechDoc, techSchema } from '../models/tech.model';
+import { Schema } from 'mongoose';
 
 interface UserState {
   user: UserDoc | undefined;
-  techStack: TechDoc[] | undefined;
-  projects: ProjectDoc[] | undefined;
-  experiences: ExperienceDoc[] | undefined;
+  techStack: TechDoc[];
+  projects: ProjectDoc[];
+  experiences: ExperienceDoc[];
 }
 
 const initialState: UserState = {
@@ -33,6 +34,12 @@ const UserSlice = createSlice({
       action: PayloadAction<ProjectDoc[]>
     ) => {
       state.projects = action.payload;
+
+      if (state.user?.projects?.length === 0) {
+        state.user?.projects.push(
+          action.payload.forEach((project) => project._id)
+        );
+      }
     },
     addProject(
       state: UserState,
@@ -71,12 +78,13 @@ const UserSlice = createSlice({
       state: UserState,
       action: PayloadAction<{ projectId: string }>
     ) {
-      const updatedProjects = state.projects!.filter(
+      const updatedProjectsList = state.projects!.filter(
         (project) => project._id !== action.payload.projectId
       );
-      state.projects = updatedProjects ? updatedProjects : [];
+      state.projects = updatedProjectsList ? updatedProjectsList : [];
       state.user?.projects?.filter(
-        (project: { _id: string }) => project._id !== action.payload.projectId
+        (id: Schema.Types.ObjectId) =>
+          id.toString() !== action.payload.projectId.toString()
       );
     },
     setTechStack: (state: UserState, action: PayloadAction<TechDoc[]>) => {
@@ -86,15 +94,11 @@ const UserSlice = createSlice({
       state: UserState,
       action: PayloadAction<{ techStack: TechDoc[] }>
     ) => {
-      if (
-        state.techStack?.length === 0 ||
-        state.techStack === undefined ||
-        state.techStack === null
-      ) {
-        state.techStack = action.payload.techStack;
-      }
-
-      state.techStack?.push(...action.payload.techStack);
+      //! fix this for entering multiple tech if tech init=0
+      state.techStack.push(...action.payload.techStack);
+      state.user?.techStack.push(
+        ...action.payload.techStack.map((tech) => tech._id)
+      );
     },
     deleteTech: (
       state: UserState,
@@ -104,8 +108,9 @@ const UserSlice = createSlice({
         (tech) => tech._id !== action.payload.techId
       );
       state.techStack = updatedTech ? updatedTech : [];
-      state.user?.techStack?.filter(
-        (tech: { _id: string }) => tech._id !== action.payload.techId
+      state.user!.techStack = state.user!.techStack?.filter(
+        (id: Schema.Types.ObjectId) =>
+          id.toString() !== action.payload.techId.toString()
       );
     },
   },

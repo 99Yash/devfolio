@@ -35,9 +35,8 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
         console.error(err);
       }
       dispatch(deleteTech({ techId }));
-      return onClose();
     },
-    [dispatch, onClose]
+    [dispatch]
   );
 
   const deleteHandler = (techId: string) => {

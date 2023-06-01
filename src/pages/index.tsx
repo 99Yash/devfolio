@@ -33,7 +33,6 @@ export default function Home() {
           '/api/user/user'
         );
         dispatch(setCurrentUser(fetchedUser));
-        console.log('here');
       } catch (err: any) {
         console.log(err);
       }
@@ -74,7 +73,7 @@ export default function Home() {
               }}
               clerkUserId={userId!}
             />
-            {localUserState?.about !== undefined ? (
+            {localUserState?.about !== '' ? (
               <About />
             ) : (
               <DefaultMainSection sectionTitle={'About'} />
@@ -84,7 +83,7 @@ export default function Home() {
             ) : (
               <DefaultMainSection sectionTitle={'Experiences'} />
             )}
-            {localUserState?.techStack?.length ? (
+            {localUserState?.techStack?.length > 0 ? (
               <TechStack />
             ) : (
               <DefaultMainSection sectionTitle={'Tech Stack'} />
