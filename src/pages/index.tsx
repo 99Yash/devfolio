@@ -5,41 +5,38 @@ import Projects from '@/components/main/Projects';
 import TechStack from '@/components/main/TechStack';
 import TopUserProfile from '@/components/main/TopUserProfile';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { axiosClient } from '@/lib/utils/axiosInstance';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
 import { Flex } from '@chakra-ui/react';
-import {
-  SignIn,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useAuth,
-} from '@clerk/nextjs';
-import axios from 'axios';
+import { SignedOut, UserButton, useAuth } from '@clerk/nextjs';
 import Head from 'next/head';
 import { useEffect } from 'react';
+import SignInPage from './login';
+import SignUpPage from './signup';
 
 export default function Home() {
-  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const { isLoaded, isSignedIn, userId } = useAuth();
   const dispatch = useAppDispatch();
 
   const localUserState = useAppSelector((state) => state.currentUser.user);
+  console.log(localUserState);
 
   useEffect(() => {
-    if (!isSignedIn && isLoaded) return;
+    if (!isSignedIn || !isLoaded) return;
     const fetchUser = async () => {
       try {
-        const { data: fetchedUser } = await axios.get<UserDoc>(
-          '/api/user/user'
+        const { data: fetchedUser } = await axiosClient.get<UserDoc>(
+          `/user/user`
         );
+        console.log(fetchedUser);
         dispatch(setCurrentUser(fetchedUser));
       } catch (err: any) {
         console.log(err);
       }
     };
-
     fetchUser();
-  }, [dispatch, isSignedIn, isLoaded, getToken]);
+  }, [dispatch, isSignedIn, isLoaded]);
 
   return (
     <>
@@ -49,52 +46,46 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <SignedOut>
+        <SignInPage />
+        <SignUpPage />
+      </SignedOut>
       <Flex
         minH={'full'}
-        bg={'black'}
         flexDir={'column'}
         gap={8}
         justifyContent={'flex-start'}
         alignItems={'center'}
         py={16}
       >
-        <SignedOut>
-          <SignIn />
-        </SignedOut>
-
-        <SignedIn>
-          <UserButton />
-          <Flex flexDir={'column'} gap={12}>
-            <TopUserProfile
-              userProfileData={{
-                fullName: localUserState?.fullName,
-                oneLiner: localUserState?.oneLiner,
-                socials: localUserState?.socials,
-              }}
-              clerkUserId={userId!}
-            />
-            {localUserState?.about !== '' ? (
-              <About />
-            ) : (
-              <DefaultMainSection sectionTitle={'About'} />
-            )}
-            {localUserState?.experiences?.length ? (
-              <Experiences />
-            ) : (
-              <DefaultMainSection sectionTitle={'Experiences'} />
-            )}
-            {localUserState?.techStack?.length > 0 ? (
-              <TechStack />
-            ) : (
-              <DefaultMainSection sectionTitle={'Tech Stack'} />
-            )}
-            {localUserState?.projects?.length ? (
-              <Projects />
-            ) : (
-              <DefaultMainSection sectionTitle={'Projects'} />
-            )}
-          </Flex>
-        </SignedIn>
+        {isSignedIn && isLoaded && (
+          <>
+            <UserButton />
+            <Flex flexDir={'column'} gap={12} minW={'2xl'} maxW={'3xl'}>
+              {localUserState ? <TopUserProfile /> : null}
+              {localUserState?.about !== '' ? (
+                <About />
+              ) : (
+                <DefaultMainSection sectionTitle={'About'} />
+              )}
+              {localUserState?.experiences?.length ? (
+                <Experiences />
+              ) : (
+                <DefaultMainSection sectionTitle={'Experiences'} />
+              )}
+              {localUserState?.techStack?.length > 0 ? (
+                <TechStack />
+              ) : (
+                <DefaultMainSection sectionTitle={'Tech Stack'} />
+              )}
+              {localUserState?.projects?.length ? (
+                <Projects />
+              ) : (
+                <DefaultMainSection sectionTitle={'Projects'} />
+              )}
+            </Flex>
+          </>
+        )}
       </Flex>
     </>
   );

@@ -17,8 +17,11 @@ export default async function handler(
         clerkUserId: userId,
       });
       if (!user) return res.status(404).send("User doesn't exist");
-      return res.status(200).send({
-        experiences: user.experiences,
+      const userExpList = await ExperienceModel.find({
+        clerkUserId: userId,
+      });
+      return res.status(200).setHeader('Cache-Control', 'no-cache').send({
+        experiences: userExpList,
       });
     } catch (err: any) {
       console.error(err);
@@ -35,21 +38,20 @@ export default async function handler(
       if (!user) return res.status(404).send("User doesn't exist");
       const { experience } = req.body;
       const addedExp = await ExperienceModel.create({
-        ...experience,
-        startMonth: experience.startDate.month,
-        startYear: experience.startDate.year,
-        endMonth: experience.endDate.month,
-        endYear: experience.endDate.year,
+        position: experience.position,
+        companyName: experience.companyName,
+        description: experience.description,
+        startDate: experience.startDate,
+        endDate: experience.endDate,
+        present: experience.present,
         clerkUserId: userId,
       });
       if (!user.experiences) {
         user.experiences = [];
       }
-      user.experiences?.push(addedExp._id);
+      user.experiences?.push(addedExp);
       await user.save();
-      return res.status(200).send({
-        experiences: user.experiences,
-      });
+      return res.status(201).send(addedExp);
     } catch (err: any) {
       console.error(err);
     }

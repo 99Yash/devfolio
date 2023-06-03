@@ -38,7 +38,7 @@ const Projects: FC = () => {
         alignItems={'center'}
       >
         <Heading fontSize={'2xl'}>Projects</Heading>
-        <Button onClick={onOpen}>
+        <Button _focus={{}} onClick={onOpen}>
           <IoMdAdd />
         </Button>
       </HStack>

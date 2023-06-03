@@ -56,6 +56,7 @@ const SingleProject: FC<{
                 _hover={{
                   bg: 'transparent',
                 }}
+                _focus={{}}
                 onClick={onOpen}
                 bg={'transparent'}
                 color={'beige'}

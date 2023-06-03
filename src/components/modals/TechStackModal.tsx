@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useRef } from 'react';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
@@ -26,6 +26,7 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
   techStack,
 }) => {
   const dispatch = useAppDispatch();
+  const initialRef = useRef(null);
 
   const deleteTechAction = useCallback(
     async (techId: string) => {
@@ -43,7 +44,13 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
     return deleteTechAction(techId);
   };
   return (
-    <Modal size={'xl'} isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal
+      initialFocusRef={initialRef}
+      size={'xl'}
+      isCentered
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Tech Stack</ModalHeader>
@@ -54,7 +61,7 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
               {techStack?.map((tech) => (
                 <Flex key={tech._id} justifyContent={'space-between'}>
                   <Text>{tech.name}</Text>
-                  <Button onClick={() => deleteHandler(tech._id)}>
+                  <Button _focus={{}} onClick={() => deleteHandler(tech._id)}>
                     <BsFillTrash3Fill />
                   </Button>
                 </Flex>
@@ -86,7 +93,7 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
             {({ isSubmitting }) => (
               <Form>
                 <InputField
-                  variant="unstyled"
+                  variant="outline"
                   autoComplete="off"
                   showLabel={'false'}
                   type="text"

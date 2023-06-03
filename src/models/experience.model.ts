@@ -5,11 +5,9 @@ export interface ExperienceDoc extends Document {
   position: string;
   companyName: string;
   description: string;
-  startYear: string;
-  startMonth: string;
-  endMonth?: string;
-  endYear?: string;
-  present?: boolean;
+  startDate: Date;
+  endDate: Date;
+  present: boolean;
   clerkUserId: UserDoc['clerkUserId'];
 }
 
@@ -26,20 +24,16 @@ export const experienceSchema = new Schema<ExperienceDoc>({
     type: String,
     required: true,
   },
-  startMonth: {
-    type: String,
+  startDate: {
+    type: Date,
     required: true,
   },
-  startYear: {
-    type: String,
+  endDate: {
+    type: Date,
     required: true,
   },
-  endMonth: {
-    type: String,
-    required: true,
-  },
-  endYear: {
-    type: String,
+  present: {
+    type: Boolean,
     required: true,
   },
   clerkUserId: {

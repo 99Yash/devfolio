@@ -1,8 +1,12 @@
+import { useAppDispatch } from '@/hooks/redux';
+import { axiosClient } from '@/lib/utils/axiosInstance';
+import { addExperience } from '@/store/user.slice';
 import {
   Button,
+  Checkbox,
   Flex,
-  FormControl,
-  HStack,
+  FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -10,16 +14,19 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
-  Text,
   VStack,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
 
 const ExpModal: FC<ModalsProps> = (props) => {
+  const dispatch = useAppDispatch();
+  const [startDate, setStartDate] = useState('');
+  const [isPresent, setIsPresent] = useState(false);
+  const [endDate, setEndDate] = useState('');
+
   return (
     <Modal
       size={'3xl'}
@@ -36,14 +43,6 @@ const ExpModal: FC<ModalsProps> = (props) => {
             initialValues={{
               position: '',
               companyName: '',
-              startDate: {
-                month: 'Jan',
-                year: '2021',
-              },
-              endDate: {
-                month: 'Jan',
-                year: '2023',
-              },
               description: '',
             }}
             onSubmit={async (values) => {
@@ -51,7 +50,24 @@ const ExpModal: FC<ModalsProps> = (props) => {
                 props.onClose();
                 return;
               }
+              if (startDate === '' || (endDate === '' && !isPresent)) return;
               try {
+                const { data } = await axiosClient.post('/user/experience', {
+                  experience: {
+                    position: values.position,
+                    companyName: values.companyName,
+                    description: values.description,
+                    startDate,
+                    endDate: isPresent ? 'present' : endDate,
+                    present: isPresent,
+                  },
+                });
+                console.log(data);
+                dispatch(
+                  addExperience({
+                    experience: data,
+                  })
+                );
               } catch (err: any) {
                 console.error(err);
               }
@@ -77,121 +93,35 @@ const ExpModal: FC<ModalsProps> = (props) => {
                     name="companyName"
                     type="text"
                   />
-                  <HStack w={'full'}>
-                    <VStack>
-                      <FormControl>
-                        <Text>Start</Text>
-                        <HStack>
-                          <Select name={values.startDate.month}>
-                            {[
-                              'January',
-                              'February',
-                              'March',
-                              'April',
-                              'May',
-                              'June',
-                              'July',
-                              'August',
-                              'September',
-                              'October',
-                              'November',
-                              'December',
-                            ].map((month) => {
-                              return (
-                                <option key={month} value={month}>
-                                  {month}
-                                </option>
-                              );
-                            })}
-                          </Select>
-                          <Select
-                            name={values.startDate.year}
-                            minWidth={'fit-content'}
-                          >
-                            {[
-                              '2021',
-                              '2020',
-                              '2019',
-                              '2018',
-                              '2017',
-                              '2016',
-                              '2015',
-                              '2014',
-                              '2013',
-                              '2012',
-                              '2011',
-                            ].map((year) => {
-                              return (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
-                              );
-                            })}
-                          </Select>
-                        </HStack>
-                      </FormControl>
-                    </VStack>
-                    <VStack>
-                      <FormControl>
-                        <Text>End</Text>
-                        <HStack>
-                          <Select
-                            name={values.endDate.month}
-                            minWidth={'fit-content'}
-                          >
-                            {[
-                              'January',
-                              'February',
-                              'March',
-                              'April',
-                              'May',
-                              'June',
-                              'July',
-                              'August',
-                              'September',
-                              'October',
-                              'November',
-                              'December',
-                            ].map((month) => {
-                              return (
-                                <option key={month} value={month}>
-                                  {month}
-                                </option>
-                              );
-                            })}
-                          </Select>
-                          <Select
-                            name={values.endDate.year}
-                            minWidth={'fit-content'}
-                          >
-                            {[
-                              '2023',
-                              '2022',
-                              '2021',
-                              '2020',
-                              '2019',
-                              '2018',
-                              '2017',
-                              '2016',
-                              '2015',
-                              '2014',
-                              '2013',
-                              '2012',
-                              '2011',
-                            ].map((year) => {
-                              return (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
-                              );
-                            })}
-                          </Select>
-                          {/* <FormLabel>Current</FormLabel>
-                        <Switch value={'present'} /> */}
-                        </HStack>
-                      </FormControl>
-                    </VStack>
-                  </HStack>
+                  <Flex justifyContent={'space-between'}>
+                    <FormLabel>Start</FormLabel>
+                    <Input
+                      type="date"
+                      placeholder="Select start date"
+                      size={'md'}
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                    />
+                    <FormLabel>End</FormLabel>
+                    <Input
+                      type="date"
+                      placeholder="Select end date"
+                      size={'md'}
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      isDisabled={isPresent}
+                    />
+                  </Flex>
+                  <Flex my={2} alignItems="baseline">
+                    <Checkbox
+                      checked={isPresent}
+                      onChange={(e) => setIsPresent(e.target.checked)}
+                      mr={2}
+                      defaultChecked={false}
+                      colorScheme="teal"
+                    ></Checkbox>
+                    <FormLabel ml={2}>Current</FormLabel>
+                  </Flex>
                   <Flex flexDir={'column'} w={'full'}>
                     <InputField
                       label="Description"
@@ -199,10 +129,11 @@ const ExpModal: FC<ModalsProps> = (props) => {
                       type="text"
                       placeholder="Add some Description"
                       name="description"
-                    ></InputField>
+                    />
                   </Flex>
                   <ModalFooter>
                     <Button
+                      _focus={{}}
                       variant={'outline'}
                       onClick={() => props.onClose()}
                       colorScheme="red"

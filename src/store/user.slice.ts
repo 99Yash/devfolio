@@ -2,8 +2,8 @@ import { ExperienceDoc } from '@/models/experience.model';
 import { ProjectDoc } from '@/models/project.model';
 import { UserDoc } from '@/models/user.model';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { TechDoc, techSchema } from '../models/tech.model';
 import { Schema } from 'mongoose';
+import { TechDoc } from '../models/tech.model';
 
 interface UserState {
   user: UserDoc | undefined;
@@ -82,7 +82,7 @@ const UserSlice = createSlice({
         (project) => project._id !== action.payload.projectId
       );
       state.projects = updatedProjectsList ? updatedProjectsList : [];
-      state.user?.projects?.filter(
+      state.user!.projects = state.user?.projects?.filter(
         (id: Schema.Types.ObjectId) =>
           id.toString() !== action.payload.projectId.toString()
       );
@@ -94,7 +94,6 @@ const UserSlice = createSlice({
       state: UserState,
       action: PayloadAction<{ techStack: TechDoc[] }>
     ) => {
-      //! fix this for entering multiple tech if tech init=0
       state.techStack.push(...action.payload.techStack);
       state.user?.techStack.push(
         ...action.payload.techStack.map((tech) => tech._id)
@@ -113,6 +112,29 @@ const UserSlice = createSlice({
           id.toString() !== action.payload.techId.toString()
       );
     },
+    setExperiences: (
+      state: UserState,
+      action: PayloadAction<ExperienceDoc[]>
+    ) => {
+      state.experiences = action.payload;
+    },
+    addExperience: (
+      state: UserState,
+      action: PayloadAction<{ experience: ExperienceDoc }>
+    ) => {
+      state.experiences.push(action.payload.experience);
+      state.user?.experiences?.push(action.payload.experience._id);
+    },
+    updateUserProfile: (
+      state: UserState,
+      action: PayloadAction<{
+        fullName: string;
+        oneLiner: string;
+      }>
+    ) => {
+      state.user!.fullName = action.payload.fullName;
+      state.user!.oneLiner = action.payload.oneLiner;
+    },
   },
 });
 
@@ -126,5 +148,8 @@ export const {
   setTechStack,
   deleteTech,
   updateTechStack,
+  setExperiences,
+  addExperience,
+  updateUserProfile,
 } = UserSlice.actions;
 export default UserSlice.reducer;

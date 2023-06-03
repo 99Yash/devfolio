@@ -1,33 +1,56 @@
 import { connectDB } from '@/lib/utils/connect';
 import UserModel, { UserDoc } from '@/models/user.model';
-import { clerkClient, getAuth } from '@clerk/nextjs/server';
+import { getAuth } from '@clerk/nextjs/server';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-//this signs in the user if not signed in and returns the user object
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
-    const { userId } = getAuth(req);
-    const user = userId ? await clerkClient.users.getUser(userId) : null;
-    if (!user) return res.status(401).send('You are unauthorized');
+    const { userId, user } = getAuth(req);
+
     try {
+      // Create or retrieve the user
+      await connectDB();
+
+      const existingUser: UserDoc | null = await UserModel.findOne({
+        clerkUserId: userId,
+      });
+
+      if (!existingUser) {
+        const createdUser: UserDoc | null = await UserModel.create({
+          clerkUserId: userId,
+          fullName: `${user?.firstName} ${user?.lastName}`,
+        });
+        return res.status(201).send(createdUser);
+      } else {
+        return res.status(200).send(existingUser);
+      }
+    } catch (err: any) {
+      console.error(err);
+      return res.status(500).send('Intl. server error');
+    }
+  } else if (req.method === 'PATCH') {
+    const { userId } = getAuth(req);
+    try {
+      // Create or retrieve the user
       await connectDB();
       const existingUser: UserDoc | null = await UserModel.findOne({
         clerkUserId: userId,
       });
       if (!existingUser) {
-        const createdUser: UserDoc | null = await UserModel.create({
-          clerkUserId: userId,
-        });
-        return res.status(201).send(createdUser);
+        return res.status(404).send("User doesn't exist");
       } else {
-        res.status(200).send(existingUser);
+        const { fullName, oneLiner } = req.body;
+        existingUser.fullName = fullName;
+        existingUser.oneLiner = oneLiner;
+        const updatedUser = await existingUser.save();
+        return res.status(200).send(updatedUser);
       }
     } catch (err: any) {
       console.error(err);
-      res.status(500).send('Intl. server err ');
+      return res.status(500).send('Intl. server error');
     }
   }
 }

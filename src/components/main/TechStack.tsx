@@ -13,6 +13,7 @@ import axios from 'axios';
 import { FC, useEffect } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import TechStackModal from '../modals/TechStackModal';
+import { axiosClient } from '@/lib/utils/axiosInstance';
 
 const TechStack: FC = () => {
   const dispatch = useAppDispatch();
@@ -21,14 +22,16 @@ const TechStack: FC = () => {
   useEffect(() => {
     const fetchUserTechStack = async () => {
       try {
-        const { data } = await axios.get<TechDoc[] | null>('/api/user/tech');
+        const { data } = await axiosClient.get<TechDoc[] | null>('/user/tech');
         dispatch(setTechStack(data ? data : []));
+        console.log(techStack, data);
       } catch (err: any) {
         console.error(err);
       }
     };
     fetchUserTechStack();
   }, [dispatch]);
+  console.log(techStack);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -41,25 +44,36 @@ const TechStack: FC = () => {
         alignItems={'center'}
       >
         <Heading fontSize={'2xl'}>Tech Stack</Heading>
-        <Button onClick={onOpen}>
+        <Button _focus={{}} onClick={onOpen}>
           <IoMdAdd />
         </Button>
       </HStack>
       <Flex gap={2}>
-        {techStack?.map((tech: TechDoc) => (
-          <Code bg={'transparent'} color="teal.300" key={tech._id} size={'sm'}>
-            {tech.name}
+        {/* {techStack ? (
+          techStack?.map((tech: TechDoc) => (
+            <Code
+              bg={'transparent'}
+              color="teal.300"
+              key={tech._id}
+              size={'sm'}
+            >
+              {tech.name}
+            </Code>
+          ))
+        ) : (
+          <Code bg={'transparent'} color="teal.300" size={'sm'}>
+            No tech stack added yet
           </Code>
-        ))}
+        )} */}
       </Flex>
-      {isOpen && (
+      {/* {isOpen && (
         <TechStackModal
           techStack={techStack}
           isOpen={isOpen}
           isCentered
           onClose={onClose}
         />
-      )}
+      )} */}
     </Flex>
   );
 };

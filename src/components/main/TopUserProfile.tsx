@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   Flex,
   HStack,
@@ -22,14 +23,21 @@ import { Form, Formik } from 'formik';
 import React, { FC, useState } from 'react';
 import * as yup from 'yup';
 import { UserDoc } from '../../models/user.model';
+import InputField from '../utils/InputField';
+import { axiosClient } from '@/lib/utils/axiosInstance';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { updateUserProfile } from '@/store/user.slice';
 
-const TopUserProfile: FC<{
-  clerkUserId: string;
-  userProfileData: Pick<UserDoc, 'oneLiner' | 'socials' | 'fullName'>;
-}> = ({ clerkUserId, userProfileData }) => {
+const TopUserProfile: FC = () => {
+  const userState = useAppSelector((state) => state.currentUser.user);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenEditProfileModal,
+    onOpen: onOpenEditProfileModal,
+    onClose: onCloseEditProfileModal,
+  } = useDisclosure();
   const [selectedLink, setSelectedLink] = useState<string>();
-  const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
 
   const user = useUser();
 
@@ -81,10 +89,10 @@ const TopUserProfile: FC<{
   };
 
   const displayName =
-    userProfileData.fullName && userProfileData.fullName !== ''
-      ? userProfileData.fullName
+    userState?.fullName && userState?.fullName !== ''
+      ? userState?.fullName
       : user.user?.fullName || '';
-
+  const dispatch = useAppDispatch();
   return (
     <Flex flexDir={'column'}>
       <Flex
@@ -97,23 +105,24 @@ const TopUserProfile: FC<{
           variant="circular"
           size="xl"
           bg={'gray.300'}
-          name={userProfileData!.fullName}
+          name={userState!.fullName}
         />
         <Heading size={'md'} fontWeight={'semibold'}>
           {displayName}
         </Heading>
         <Button
-          onClick={() => setOpenEditProfileModal(true)}
+          _focus={{}}
+          onClick={onOpenEditProfileModal}
           variant={'outline'}
         >
           Edit Profile
         </Button>
-        {openEditProfileModal && (
+        {isOpenEditProfileModal && (
           <Modal
             isCentered
             motionPreset="scale"
-            isOpen={openEditProfileModal}
-            onClose={() => setOpenEditProfileModal(false)}
+            isOpen={isOpenEditProfileModal}
+            onClose={onCloseEditProfileModal}
           >
             <ModalOverlay />
             <ModalContent>
@@ -122,61 +131,86 @@ const TopUserProfile: FC<{
               <ModalBody>
                 <Formik
                   validationSchema={yup.object().shape({
-                    name: yup.string().required('Name is required'),
+                    fullName: yup.string().required('Name is required'),
                     oneLiner: yup.string(),
                   })}
                   initialValues={{
-                    name: displayName,
-                    oneLiner: userProfileData.oneLiner
-                      ? userProfileData.oneLiner
-                      : '',
+                    fullName: displayName,
+                    oneLiner: userState?.oneLiner ? userState?.oneLiner : '',
                   }}
-                  onSubmit={(values) => {
+                  onSubmit={async (values, { setErrors }) => {
                     console.log(values);
-                    onClose();
-                    return;
+                    if (values.fullName === '') return;
+                    try {
+                      const { data } = await axiosClient.patch<UserDoc>(
+                        '/user/user',
+                        {
+                          fullName: values.fullName,
+                          oneLiner: values.oneLiner,
+                        }
+                      );
+                      dispatch(
+                        updateUserProfile({
+                          fullName: data.fullName as string,
+                          oneLiner: data.oneLiner as string,
+                        })
+                      );
+                      console.log(userState);
+                    } catch (err: any) {
+                      console.log(err);
+                    }
+                    onCloseEditProfileModal();
                   }}
                 >
                   {({ isSubmitting }) => (
                     <Form className="flex flex-col gap-2 ">
                       {/* //todo pic upload */}
-                      <Input type="file" placeholder="Upload Pic" />
-                      <Input
+                      {/* <InputField
+                        name="picture"
+                        showLabel="true"
+                        label="Display Pic"
+                        type="file"
+                        placeholder="Upload Pic"
+                      /> */}
+                      <InputField
                         type="text"
+                        showLabel="true"
+                        label="Display Name"
                         autoComplete="off"
-                        name="name"
+                        name="fullName"
                         placeholder={displayName}
                       />
-                      <Input
+                      <InputField
+                        showLabel="true"
+                        label="One-Liner"
                         autoComplete="off"
                         type="text"
                         name="oneLiner"
                         placeholder="Enter One-Liner"
                       />
+                      <Button type="submit" w={'full'}>
+                        Save Changes
+                      </Button>
                     </Form>
                   )}
                 </Formik>
               </ModalBody>
-              <ModalFooter>
-                <Button type="submit" w={'full'}>
-                  Save Changes
-                </Button>
-              </ModalFooter>
+              <ModalFooter></ModalFooter>
             </ModalContent>
           </Modal>
         )}
       </Flex>
-      {userProfileData.oneLiner ? (
-        <Text className="mb-4">{userProfileData.oneLiner}</Text>
+      {userState?.oneLiner ? (
+        <Text className="mb-4">{userState?.oneLiner}</Text>
       ) : null}
-      {userProfileData?.socials?.length ? (
+      {userState?.socials?.length ? (
         <VStack
           display={'flex'}
           alignItems={'flex-start'}
           justifyContent={'flex-start'}
           gap={2}
         >
-          {userProfileData?.socials?.map((social) => (
+          {userState?.socials?.map((social) => (
             <HStack
               key={social.name}
               display={'flex'}
@@ -189,9 +223,14 @@ const TopUserProfile: FC<{
           ))}
         </VStack>
       ) : null}
-      <div>
-        {userProfileData.socials?.length === 0 || !userProfileData.socials ? (
-          <Button onClick={onOpen} className="self-start" variant="outline">
+      <Box>
+        {userState?.socials?.length === 0 || !userState?.socials ? (
+          <Button
+            _focus={{}}
+            onClick={onOpen}
+            className="self-start"
+            variant="outline"
+          >
             + Add Links
           </Button>
         ) : null}
@@ -264,7 +303,7 @@ const TopUserProfile: FC<{
             </ModalBody>
           </ModalContent>
         </Modal>
-      </div>
+      </Box>
     </Flex>
   );
 };

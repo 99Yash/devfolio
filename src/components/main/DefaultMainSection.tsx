@@ -56,7 +56,12 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
           <Text size={'sm'} color={'gray.500'}>
             {getDataBySectionTitle(sectionTitle)?.sectionDescription.body}
           </Text>
-          <Button onClick={onOpen} variant={'outline'} color={'teal'}>
+          <Button
+            _focus={{}}
+            onClick={onOpen}
+            variant={'outline'}
+            color={'teal'}
+          >
             {getDataBySectionTitle(sectionTitle)?.buttonText}
           </Button>
         </VStack>
