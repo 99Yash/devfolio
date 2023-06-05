@@ -57,7 +57,9 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
             {getDataBySectionTitle(sectionTitle)?.sectionDescription.body}
           </Text>
           <Button
-            _focus={{}}
+            _focus={{
+              boxShadow: 'none',
+            }}
             onClick={onOpen}
             variant={'outline'}
             color={'teal'}

@@ -9,14 +9,12 @@ import { axiosClient } from '@/lib/utils/axiosInstance';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
 import { Flex } from '@chakra-ui/react';
-import { SignedOut, UserButton, useAuth } from '@clerk/nextjs';
+import { SignIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import SignInPage from './login';
-import SignUpPage from './signup';
 
 export default function Home() {
-  const { isLoaded, isSignedIn, userId } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
 
   const localUserState = useAppSelector((state) => state.currentUser.user);
@@ -47,8 +45,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SignedOut>
-        <SignInPage />
-        <SignUpPage />
+        <SignIn />
       </SignedOut>
       <Flex
         minH={'full'}

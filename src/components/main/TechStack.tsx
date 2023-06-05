@@ -44,7 +44,12 @@ const TechStack: FC = () => {
         alignItems={'center'}
       >
         <Heading fontSize={'2xl'}>Tech Stack</Heading>
-        <Button _focus={{}} onClick={onOpen}>
+        <Button
+          _focus={{
+            boxShadow: 'none',
+          }}
+          onClick={onOpen}
+        >
           <IoMdAdd />
         </Button>
       </HStack>

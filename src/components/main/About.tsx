@@ -27,7 +27,12 @@ const About: FC = () => {
           alignItems={'center'}
         >
           <Heading fontSize={'2xl'}>About</Heading>
-          <Button _focus={{}} onClick={onOpen}>
+          <Button
+            _focus={{
+              boxShadow: 'none',
+            }}
+            onClick={onOpen}
+          >
             <MdModeEdit />
           </Button>
         </HStack>

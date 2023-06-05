@@ -4,12 +4,14 @@ import { UserDoc } from '@/models/user.model';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Schema } from 'mongoose';
 import { TechDoc } from '../models/tech.model';
+import { SocialDoc } from '@/models/social.model';
 
 interface UserState {
   user: UserDoc | undefined;
   techStack: TechDoc[];
   projects: ProjectDoc[];
   experiences: ExperienceDoc[];
+  socials: SocialDoc[];
 }
 
 const initialState: UserState = {
@@ -17,6 +19,7 @@ const initialState: UserState = {
   techStack: [],
   projects: [],
   experiences: [],
+  socials: [],
 };
 
 const UserSlice = createSlice({
@@ -135,6 +138,18 @@ const UserSlice = createSlice({
       state.user!.fullName = action.payload.fullName;
       state.user!.oneLiner = action.payload.oneLiner;
     },
+    setSocialLinks: (state: UserState, action: PayloadAction<SocialDoc[]>) => {
+      state.socials = action.payload;
+    },
+    addSocialLink: (
+      state: UserState,
+      action: PayloadAction<{
+        socialLink: SocialDoc;
+      }>
+    ) => {
+      state.socials.push(action.payload.socialLink);
+      state.user!.socials?.push(action.payload.socialLink);
+    },
   },
 });
 
@@ -151,5 +166,7 @@ export const {
   setExperiences,
   addExperience,
   updateUserProfile,
+  setSocialLinks,
+  addSocialLink,
 } = UserSlice.actions;
 export default UserSlice.reducer;

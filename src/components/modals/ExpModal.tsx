@@ -120,7 +120,7 @@ const ExpModal: FC<ModalsProps> = (props) => {
                       defaultChecked={false}
                       colorScheme="teal"
                     ></Checkbox>
-                    <FormLabel ml={2}>Current</FormLabel>
+                    <FormLabel ml={2}>Present</FormLabel>
                   </Flex>
                   <Flex flexDir={'column'} w={'full'}>
                     <InputField
@@ -133,7 +133,9 @@ const ExpModal: FC<ModalsProps> = (props) => {
                   </Flex>
                   <ModalFooter>
                     <Button
-                      _focus={{}}
+                      _focus={{
+                        boxShadow: 'none',
+                      }}
                       variant={'outline'}
                       onClick={() => props.onClose()}
                       colorScheme="red"

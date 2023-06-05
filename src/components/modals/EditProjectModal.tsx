@@ -122,7 +122,9 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
                   />
                   <ModalFooter>
                     <Button
-                      _focus={{}}
+                      _focus={{
+                        boxShadow: 'none',
+                      }}
                       onClick={onOpenDeleteModal}
                       variant={'outline'}
                       colorScheme="red"

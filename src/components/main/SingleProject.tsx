@@ -31,7 +31,7 @@ const SingleProject: FC<{
         }}
         transition="border-color 400ms"
         borderWidth={'1px'}
-        borderColor={'gray.600'}
+        borderColor={'gray.700'}
         borderRadius={'xl'}
         borderStyle={'solid'}
         my={2}
@@ -56,7 +56,9 @@ const SingleProject: FC<{
                 _hover={{
                   bg: 'transparent',
                 }}
-                _focus={{}}
+                _focus={{
+                  boxShadow: 'none',
+                }}
                 onClick={onOpen}
                 bg={'transparent'}
                 color={'beige'}

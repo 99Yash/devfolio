@@ -42,7 +42,8 @@ export default async function handler(
         companyName: experience.companyName,
         description: experience.description,
         startDate: experience.startDate,
-        endDate: experience.endDate,
+        endDate:
+          experience.endDate === 'present' ? new Date() : experience.endDate,
         present: experience.present,
         clerkUserId: userId,
       });

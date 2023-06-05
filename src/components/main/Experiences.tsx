@@ -42,7 +42,12 @@ const Experiences: FC = () => {
         alignItems={'center'}
       >
         <Heading fontSize={'2xl'}>Experiences</Heading>
-        <Button _focus={{}} onClick={onOpen}>
+        <Button
+          _focus={{
+            outline: 'none',
+          }}
+          onClick={onOpen}
+        >
           <IoMdAdd />
         </Button>
       </HStack>

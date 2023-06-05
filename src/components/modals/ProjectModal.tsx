@@ -97,7 +97,9 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                   />
                   <ModalFooter>
                     <Button
-                      _focus={{}}
+                      _focus={{
+                        boxShadow: 'none',
+                      }}
                       onClick={() => onClose()}
                       variant={'outline'}
                       colorScheme="red"

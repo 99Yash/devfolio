@@ -1,3 +1,10 @@
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { axiosClient } from '@/lib/utils/axiosInstance';
+import {
+  addSocialLink,
+  setSocialLinks,
+  updateUserProfile,
+} from '@/store/user.slice';
 import {
   Avatar,
   Box,
@@ -5,12 +12,11 @@ import {
   Flex,
   HStack,
   Heading,
-  Input,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Select,
@@ -20,16 +26,18 @@ import {
 } from '@chakra-ui/react';
 import { useUser } from '@clerk/nextjs';
 import { Form, Formik } from 'formik';
-import React, { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
+import { BsGlobe2 } from 'react-icons/bs';
+import { RiTwitterFill } from 'react-icons/ri';
+import { SiGithub, SiLinkedin } from 'react-icons/si';
 import * as yup from 'yup';
 import { UserDoc } from '../../models/user.model';
 import InputField from '../utils/InputField';
-import { axiosClient } from '@/lib/utils/axiosInstance';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { updateUserProfile } from '@/store/user.slice';
+import { SocialDoc } from '@/models/social.model';
 
 const TopUserProfile: FC = () => {
   const userState = useAppSelector((state) => state.currentUser.user);
+  const socialState = useAppSelector((state) => state.currentUser.socials);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -37,7 +45,7 @@ const TopUserProfile: FC = () => {
     onOpen: onOpenEditProfileModal,
     onClose: onCloseEditProfileModal,
   } = useDisclosure();
-  const [selectedLink, setSelectedLink] = useState<string>();
+  const dispatch = useAppDispatch();
 
   const user = useUser();
 
@@ -60,7 +68,7 @@ const TopUserProfile: FC = () => {
     },
   ];
 
-  const linkValidaitonSchema = yup.object().shape({
+  const linkValidationSchema = yup.object().shape({
     github: yup
       .string()
       .url()
@@ -84,15 +92,36 @@ const TopUserProfile: FC = () => {
       ),
   });
 
-  const selectLinkHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedLink(e.target.value);
-  };
+  useEffect(() => {
+    const getSocialsForUser = async () => {
+      const { data } = await axiosClient.get<SocialDoc[] | null>(
+        '/user/socials'
+      );
+      if (data) {
+        dispatch(setSocialLinks(data));
+      } else {
+        dispatch(setSocialLinks([]));
+      }
+    };
+    getSocialsForUser();
+  }, [dispatch]);
 
+  const getIconsByLink = (linkName: string) => {
+    switch (linkName) {
+      case 'Github':
+        return <SiGithub />;
+      case 'Twitter':
+        return <RiTwitterFill />;
+      case 'LinkedIn':
+        return <SiLinkedin />;
+      case 'Website':
+        return <BsGlobe2 />;
+    }
+  };
   const displayName =
     userState?.fullName && userState?.fullName !== ''
       ? userState?.fullName
       : user.user?.fullName || '';
-  const dispatch = useAppDispatch();
   return (
     <Flex flexDir={'column'}>
       <Flex
@@ -111,7 +140,9 @@ const TopUserProfile: FC = () => {
           {displayName}
         </Heading>
         <Button
-          _focus={{}}
+          _focus={{
+            boxShadow: 'none',
+          }}
           onClick={onOpenEditProfileModal}
           variant={'outline'}
         >
@@ -195,7 +226,6 @@ const TopUserProfile: FC = () => {
                   )}
                 </Formik>
               </ModalBody>
-              <ModalFooter></ModalFooter>
             </ModalContent>
           </Modal>
         )}
@@ -218,7 +248,15 @@ const TopUserProfile: FC = () => {
               justifyContent={'flex-start'}
               gap={2}
             >
-              <Text>{social.url}</Text>
+              {socialState
+                ? socialState.map((social) => {
+                    return (
+                      <Link href={social.url} key={social.name} isExternal>
+                        {getIconsByLink(social.name)}
+                      </Link>
+                    );
+                  })
+                : null}
             </HStack>
           ))}
         </VStack>
@@ -226,14 +264,18 @@ const TopUserProfile: FC = () => {
       <Box>
         {userState?.socials?.length === 0 || !userState?.socials ? (
           <Button
-            _focus={{}}
+            _focus={{
+              outline: 'none',
+            }}
             onClick={onOpen}
             className="self-start"
             variant="outline"
           >
             + Add Links
           </Button>
-        ) : null}
+        ) : (
+          <Flex>{}</Flex>
+        )}
         <Modal
           isCentered
           motionPreset="scale"
@@ -246,51 +288,52 @@ const TopUserProfile: FC = () => {
             <ModalCloseButton />
             <ModalBody>
               <Formik
-                validationSchema={linkValidaitonSchema}
                 initialValues={{
-                  social: {
-                    name: '',
-                    url: '',
-                  },
+                  name: '',
+                  url: '',
                 }}
-                onSubmit={
-                  async (values) => {
-                    console.log(values);
-                    const {
-                      social: { name, url },
-                    } = values;
-                    //try{
-                    // await addLink({
-                    //   variables: {
-                    //     userId: userId,
-                    //     name: name,
-                    //     url: url,
-                    //   },
-                    // });
-                    // }
+                onSubmit={async (values) => {
+                  console.log(values);
+                  try {
+                    const { data } = await axiosClient.post('/user/socials', {
+                      name: values.name,
+                      url: values.url,
+                    });
+                    dispatch(addSocialLink(data));
                     onClose();
-                  } // TODO: Add submit handler
-                }
+                  } catch (err: any) {
+                    console.error(err);
+                  }
+                }}
               >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, values, handleChange }) => (
                   <Form>
                     <VStack display={'flex'} gap={2}>
                       <HStack display={'flex'} gap={2}>
                         <Select
-                          className="max-w-fit"
-                          value={selectedLink}
-                          onChange={selectLinkHandler}
+                          maxW={'fit-content'}
+                          value={values.name}
+                          onChange={handleChange}
+                          name="name"
+                          placeholder="Select Link"
                         >
-                          {linkOptions.map((link) => (
-                            <option key={link.id} value={link.type}>
-                              {link.type}
+                          {linkOptions.map((option) => (
+                            <option key={option.id} value={option.type}>
+                              {option.type}
                             </option>
                           ))}
                         </Select>
-                        <Input type="text" placeholder="Enter URL" />
+                        <InputField
+                          showLabel="false"
+                          autoComplete="off"
+                          type="text"
+                          name={'url'}
+                          placeholder="Enter URL"
+                        />
                       </HStack>
                       <Button
                         w={'full'}
+                        type="submit"
                         colorScheme="teal"
                         disabled={isSubmitting}
                       >
@@ -307,5 +350,4 @@ const TopUserProfile: FC = () => {
     </Flex>
   );
 };
-
 export default TopUserProfile;

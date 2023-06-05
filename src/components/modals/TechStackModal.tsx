@@ -61,7 +61,12 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
               {techStack?.map((tech) => (
                 <Flex key={tech._id} justifyContent={'space-between'}>
                   <Text>{tech.name}</Text>
-                  <Button _focus={{}} onClick={() => deleteHandler(tech._id)}>
+                  <Button
+                    _focus={{
+                      boxShadow: 'none',
+                    }}
+                    onClick={() => deleteHandler(tech._id)}
+                  >
                     <BsFillTrash3Fill />
                   </Button>
                 </Flex>
