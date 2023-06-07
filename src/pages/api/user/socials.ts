@@ -7,8 +7,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { userId } = getAuth(req);
   if (req.method === 'POST') {
+    const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('Unauthorized');
     const user: UserDoc | null = await UserModel.findOne({
       clerkUserId: userId,
     });
@@ -29,6 +30,8 @@ export default async function handler(
       res.status(404).send({ message: 'user not found' });
     }
   } else if (req.method === 'GET') {
+    const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('Unauthorized');
     const user: UserDoc | null = await UserModel.findOne({
       clerkUserId: userId,
     });

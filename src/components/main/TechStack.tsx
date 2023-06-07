@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { axiosClient } from '@/lib/utils/axiosInstance';
 import { TechDoc } from '@/models/tech.model';
 import { setTechStack } from '@/store/user.slice';
 import {
@@ -9,11 +10,9 @@ import {
   Heading,
   useDisclosure,
 } from '@chakra-ui/react';
-import axios from 'axios';
 import { FC, useEffect } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import TechStackModal from '../modals/TechStackModal';
-import { axiosClient } from '@/lib/utils/axiosInstance';
 
 const TechStack: FC = () => {
   const dispatch = useAppDispatch();
@@ -54,7 +53,7 @@ const TechStack: FC = () => {
         </Button>
       </HStack>
       <Flex gap={2}>
-        {/* {techStack ? (
+        {techStack ? (
           techStack?.map((tech: TechDoc) => (
             <Code
               bg={'transparent'}
@@ -69,16 +68,16 @@ const TechStack: FC = () => {
           <Code bg={'transparent'} color="teal.300" size={'sm'}>
             No tech stack added yet
           </Code>
-        )} */}
+        )}
       </Flex>
-      {/* {isOpen && (
+      {isOpen && (
         <TechStackModal
           techStack={techStack}
           isOpen={isOpen}
           isCentered
           onClose={onClose}
         />
-      )} */}
+      )}
     </Flex>
   );
 };

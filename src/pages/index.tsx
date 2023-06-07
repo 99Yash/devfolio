@@ -8,33 +8,37 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
-import { Flex } from '@chakra-ui/react';
-import { SignIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs';
+import { Button, Flex } from '@chakra-ui/react';
+import { SignIn, UserButton, useAuth } from '@clerk/nextjs';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export default function Home() {
   const { isLoaded, isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
-
+  const userId = useAppSelector((state) => state.currentUser.user?._id);
   const localUserState = useAppSelector((state) => state.currentUser.user);
+
   console.log(localUserState);
 
+  const router = useRouter();
+
   useEffect(() => {
-    if (!isSignedIn || !isLoaded) return;
+    if (!isSignedIn) return;
     const fetchUser = async () => {
       try {
         const { data: fetchedUser } = await axiosClient.get<UserDoc>(
           `/user/user`
         );
-        console.log(fetchedUser);
         dispatch(setCurrentUser(fetchedUser));
+        console.log(fetchedUser);
       } catch (err: any) {
         console.log(err);
       }
     };
     fetchUser();
-  }, [dispatch, isSignedIn, isLoaded]);
+  }, [dispatch, isSignedIn]);
 
   return (
     <>
@@ -44,9 +48,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SignedOut>
-        <SignIn />
-      </SignedOut>
+      {!isSignedIn && <SignIn />}
       <Flex
         minH={'full'}
         flexDir={'column'}
@@ -83,6 +85,7 @@ export default function Home() {
             </Flex>
           </>
         )}
+        <Button onClick={() => router.push(`/${userId}`)}>View</Button>
       </Flex>
     </>
   );

@@ -9,9 +9,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
+    const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('You are unauthorized');
     try {
-      const { userId } = getAuth(req);
-      if (!userId) return res.status(401).send('You are unauthorized');
       await connectDB();
       const user: UserDoc | null = await UserModel.findOne({
         clerkUserId: userId,
@@ -28,9 +28,9 @@ export default async function handler(
     }
   }
   if (req.method === 'POST') {
+    const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('You are unauthorized');
     try {
-      const { userId } = getAuth(req);
-      if (!userId) return res.status(401).send('You are unauthorized');
       await connectDB();
       const user: UserDoc | null = await UserModel.findOne({
         clerkUserId: userId,
@@ -53,6 +53,36 @@ export default async function handler(
       user.experiences?.push(addedExp);
       await user.save();
       return res.status(201).send(addedExp);
+    } catch (err: any) {
+      console.error(err);
+    }
+  }
+  if (req.method === 'PUT') {
+    const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('You are unauthorized');
+    try {
+      await connectDB();
+      const expUser: UserDoc | null = await UserModel.findOne({
+        clerkUserId: userId,
+      });
+      if (!expUser) return res.status(404).send("User doesn't exist");
+      const { experience } = req.body;
+      const expToUpdate = await ExperienceModel.findOne({
+        _id: experience._id,
+      });
+      if (!expToUpdate) return res.status(404).send("Experience doesn't exist");
+      expToUpdate.position = experience.position;
+      expToUpdate.companyName = experience.companyName;
+      expToUpdate.description = experience.description;
+      expToUpdate.startDate = experience.startDate;
+      expToUpdate.endDate =
+        experience.endDate === experience.present
+          ? new Date()
+          : experience.endDate;
+      expToUpdate.present = experience.present;
+      const returnedExp = await expToUpdate.save();
+      if (!returnedExp) return res.status(500).send('Error saving experience.');
+      return res.status(200).send(returnedExp);
     } catch (err: any) {
       console.error(err);
     }

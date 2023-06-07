@@ -1,5 +1,6 @@
 import { connectDB } from '@/lib/utils/connect';
 import UserModel, { UserDoc } from '@/models/user.model';
+import { clerkClient } from '@clerk/nextjs';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -8,8 +9,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
-    const { userId, user } = getAuth(req);
-
+    const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('No you are unauthorized');
+    if (userId) {
+      const user = await clerkClient.users.getUser(userId);
+      console.log(
+        `User ${userId} is requesting their user data. Clerk user: ${user?.firstName} ${user?.lastName}`
+      );
+    }
     try {
       // Create or retrieve the user
       await connectDB();
@@ -19,6 +26,7 @@ export default async function handler(
       });
 
       if (!existingUser) {
+        const user = await clerkClient.users.getUser(userId);
         const createdUser: UserDoc | null = await UserModel.create({
           clerkUserId: userId,
           fullName: `${user?.firstName} ${user?.lastName}`,

@@ -37,7 +37,7 @@ const About: FC = () => {
           </Button>
         </HStack>
         <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
-          <Text>{userAbout}</Text>
+          <Text color={'gray.300'}>{userAbout}</Text>
         </Flex>
       </Flex>
       {isOpen && (

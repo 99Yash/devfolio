@@ -128,6 +128,43 @@ const UserSlice = createSlice({
       state.experiences.push(action.payload.experience);
       state.user?.experiences?.push(action.payload.experience._id);
     },
+    editExperience: (
+      state: UserState,
+      action: PayloadAction<{ experience: ExperienceDoc }>
+    ) => {
+      state.experiences.map((experience) => {
+        if (experience._id === action.payload.experience._id) {
+          if (action.payload.experience.companyName) {
+            experience.companyName = action.payload.experience.companyName;
+          }
+          if (action.payload.experience.description) {
+            experience.description = action.payload.experience.description;
+          }
+          if (action.payload.experience.endDate) {
+            experience.endDate = action.payload.experience.endDate;
+          }
+          if (action.payload.experience.startDate) {
+            experience.startDate = action.payload.experience.startDate;
+          }
+          if (action.payload.experience.position) {
+            experience.position = action.payload.experience.position;
+          }
+        }
+      });
+    },
+    deleteExperience: (
+      state: UserState,
+      action: PayloadAction<{ experienceId: string }>
+    ) => {
+      const updatedExperiences = state.experiences!.filter(
+        (experience) => experience._id !== action.payload.experienceId
+      );
+      state.experiences = updatedExperiences ? updatedExperiences : [];
+      state.user!.experiences = state.user!.experiences?.filter(
+        (id: Schema.Types.ObjectId) =>
+          id.toString() !== action.payload.experienceId.toString()
+      );
+    },
     updateUserProfile: (
       state: UserState,
       action: PayloadAction<{
@@ -165,6 +202,8 @@ export const {
   updateTechStack,
   setExperiences,
   addExperience,
+  editExperience,
+  deleteExperience,
   updateUserProfile,
   setSocialLinks,
   addSocialLink,

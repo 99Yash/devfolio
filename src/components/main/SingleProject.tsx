@@ -30,15 +30,17 @@ const SingleProject: FC<{
           borderColor: 'gray.800',
         }}
         transition="border-color 400ms"
-        borderWidth={'1px'}
         borderColor={'gray.700'}
+        borderWidth={'1px'}
         borderRadius={'xl'}
         borderStyle={'solid'}
         my={2}
       >
         <Flex m={2} p={4} flexDir={'column'}>
           <Flex justifyContent={'space-between'}>
-            <Heading size={'md'}>{project.title}</Heading>
+            <Heading color={'gray.300'} size={'md'}>
+              {project.title}
+            </Heading>
             <HStack>
               {project?.demoLink ? (
                 <Link target="_blank" href={project?.demoLink}>
