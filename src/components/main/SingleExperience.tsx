@@ -47,7 +47,7 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
               {experience.companyName}
             </Heading>
 
-            <Flex gap={1} flexDir={'column'}>
+            <Flex wrap={'wrap'} gap={1} flexDir={'column'}>
               <Heading color={'gray.300'} fontSize={'sm'}>
                 {experience.position}
               </Heading>

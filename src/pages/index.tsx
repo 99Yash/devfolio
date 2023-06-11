@@ -48,7 +48,18 @@ export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!isSignedIn && <SignIn />}
+      {!isSignedIn && (
+        <Flex
+          minH={'full'}
+          flexDir={'column'}
+          gap={8}
+          justifyContent={'flex-start'}
+          alignItems={'center'}
+          py={16}
+        >
+          <SignIn />
+        </Flex>
+      )}
       <Flex
         minH={'full'}
         flexDir={'column'}

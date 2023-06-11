@@ -41,7 +41,6 @@ const Portfolio = () => {
   const localExperiencesState = useAppSelector(
     (state) => state.currentUser.experiences
   );
-  console.log(localUserState);
   const localSocialsState = useAppSelector(
     (state) => state.currentUser.socials
   );
@@ -88,7 +87,7 @@ const Portfolio = () => {
         py={16}
       >
         {/* add picture maybe */}
-        <Flex flexDir={'column'} gap={12} minW={'2xl'} maxW={'3xl'}>
+        <Flex flexDir={'column'} gap={8} minW={'2xl'} maxW={'3xl'}>
           {localUserState?.fullName ? (
             <Flex gap={4} alignItems={'center'}>
               <Avatar
@@ -108,6 +107,7 @@ const Portfolio = () => {
                   href={social.url}
                   target={'_blank'}
                   key={social._id}
+                  fontSize={'lg'}
                   _hover={{ textDecoration: 'none' }}
                 >
                   {getIconByLinkName(social.name)}

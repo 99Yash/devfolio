@@ -29,20 +29,16 @@ import {
 import { useUser } from '@clerk/nextjs';
 import { Form, Formik } from 'formik';
 import { FC, useEffect } from 'react';
-import { BsGithub } from 'react-icons/bs';
-import { FaLinkedinIn } from 'react-icons/fa';
+import { IoMdTrash } from 'react-icons/io';
 import { MdEdit } from 'react-icons/md';
-import { RiTwitterFill } from 'react-icons/ri';
-import { VscGlobe } from 'react-icons/vsc';
 import EditProfileModal from '../modals/EditProfileModal';
 import InputField from '../utils/InputField';
-import { IoMdTrash } from 'react-icons/io';
-import { useRouter } from 'next/router';
+import { getIconByLinkName } from '../utils/getIconsByLink';
 
 const TopUserProfile: FC = () => {
   const userState = useAppSelector((state) => state.currentUser.user);
   const socialState = useAppSelector((state) => state.currentUser.socials);
-  const router = useRouter();
+
   const {
     isOpen: isOpenLinksModal,
     onOpen: onOpenLinksModal,
@@ -62,7 +58,6 @@ const TopUserProfile: FC = () => {
         const { data } = await axiosClient.get<SocialDoc[] | null>(
           '/user/socials'
         );
-        console.log(data);
         if (data) {
           dispatch(setSocialLinks(data));
         } else {
@@ -93,27 +88,11 @@ const TopUserProfile: FC = () => {
       type: 'Website',
     },
   ];
-  const getIconsByLink = (linkName: string) => {
-    switch (linkName) {
-      case 'Github':
-        return <BsGithub />;
-      case 'Twitter':
-        return <RiTwitterFill />;
-      case 'LinkedIn':
-        return <FaLinkedinIn />;
-      case 'Website':
-        return <VscGlobe />;
-    }
-  };
 
   const displayName =
     userState?.fullName && userState?.fullName !== ''
       ? userState?.fullName
       : user.user?.fullName || '';
-
-  const handleViewPortfolio = () => {
-    return router.push(`/${userState?._id}`);
-  };
 
   return (
     <Flex flexDir={'column'}>
@@ -167,8 +146,13 @@ const TopUserProfile: FC = () => {
                       alignItems={'center'}
                       key={social.name}
                     >
-                      <Link fontSize={'xl'} href={social.url} isExternal>
-                        {getIconsByLink(social.name)}
+                      <Link
+                        color={'yellow.500'}
+                        fontSize={'xl'}
+                        href={social.url}
+                        isExternal
+                      >
+                        {getIconByLinkName(social.name)}
                       </Link>
                     </Flex>
                   );
@@ -204,9 +188,20 @@ const TopUserProfile: FC = () => {
               </Button>
             ) : null}
           </Flex>
-          <Button onClick={handleViewPortfolio} variant={'outline'}>
+          <Link
+            target="_blank"
+            display="inline-block"
+            px={4}
+            py={2}
+            borderWidth={1}
+            borderRadius="md"
+            _hover={{
+              textDecoration: 'none',
+            }}
+            href={`/${user?.user?.id}`}
+          >
             View Profile
-          </Button>
+          </Link>
         </Flex>
 
         {isOpenLinksModal && (
