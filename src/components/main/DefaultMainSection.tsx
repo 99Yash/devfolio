@@ -50,7 +50,7 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Heading fontSize={'lg'}>
+          <Heading color={'gray.300'} fontSize={'lg'}>
             {getDataBySectionTitle(sectionTitle)?.sectionDescription.title}
           </Heading>
           <Text size={'sm'} color={'gray.500'}>
@@ -80,7 +80,9 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading fontSize={'2xl'}>{sectionTitle}</Heading>
+        <Heading color={'gray.300'} fontSize={'2xl'}>
+          {sectionTitle}
+        </Heading>
         <Button onClick={onOpen}>
           {sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
         </Button>

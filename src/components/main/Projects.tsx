@@ -37,7 +37,9 @@ const Projects: FC = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading fontSize={'2xl'}>Projects</Heading>
+        <Heading color={'gray.300'} fontSize={'2xl'}>
+          Projects
+        </Heading>
         <Button
           _focus={{
             boxShadow: 'none',

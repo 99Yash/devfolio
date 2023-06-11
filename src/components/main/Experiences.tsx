@@ -41,7 +41,9 @@ const Experiences: FC = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading fontSize={'2xl'}>Experiences</Heading>
+        <Heading color={'gray.300'} fontSize={'2xl'}>
+          Experiences
+        </Heading>
         <Button
           _focus={{
             outline: 'none',

@@ -72,7 +72,7 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '0.5rem',
+                  gap: '1rem',
                 }}
               >
                 {/* //todo pic upload */}
@@ -97,7 +97,6 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                   autoComplete="off"
                   type="text"
                   name="oneLiner"
-                  placeholder="Enter One-Liner"
                 />
                 <Button isLoading={isSubmitting} type="submit" w={'full'}>
                   Save Changes

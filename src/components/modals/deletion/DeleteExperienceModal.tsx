@@ -22,8 +22,6 @@ const DeleteExperienceModal: FC<ModalsProps & { experienceId: string }> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  //todo add deleteHandler
-
   const deleteExperienceHandler = async () => {
     try {
       await axiosClient.delete(`/experience/${experienceId}`);

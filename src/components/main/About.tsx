@@ -26,7 +26,9 @@ const About: FC = () => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Heading fontSize={'2xl'}>About</Heading>
+          <Heading color={'gray.300'} fontSize={'2xl'}>
+            About
+          </Heading>
           <Button
             _focus={{
               boxShadow: 'none',
@@ -37,7 +39,7 @@ const About: FC = () => {
           </Button>
         </HStack>
         <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
-          <Text color={'gray.300'}>{userAbout}</Text>
+          <Text color={'gray.400'}>{userAbout}</Text>
         </Flex>
       </Flex>
       {isOpen && (

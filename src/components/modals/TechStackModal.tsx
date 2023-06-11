@@ -35,14 +35,16 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
       } catch (err: any) {
         console.error(err);
       }
+      onClose();
       dispatch(deleteTech({ techId }));
     },
-    [dispatch]
+    [dispatch, onClose]
   );
 
   const deleteHandler = (techId: string) => {
     return deleteTechAction(techId);
   };
+
   return (
     <Modal
       initialFocusRef={initialRef}

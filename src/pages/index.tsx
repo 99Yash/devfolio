@@ -14,25 +14,25 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-export default function Home() {
+export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
   const { isLoaded, isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.currentUser.user?._id);
   const localUserState = useAppSelector((state) => state.currentUser.user);
-
-  console.log(localUserState);
-
   const router = useRouter();
 
   useEffect(() => {
     if (!isSignedIn) return;
     const fetchUser = async () => {
       try {
-        const { data: fetchedUser } = await axiosClient.get<UserDoc>(
+        const { data: fetchedUser, status } = await axiosClient.get<UserDoc>(
           `/user/user`
         );
-        dispatch(setCurrentUser(fetchedUser));
         console.log(fetchedUser);
+        if (status === 304) {
+          console.log('304');
+          return;
+        }
+        dispatch(setCurrentUser(fetchedUser));
       } catch (err: any) {
         console.log(err);
       }
@@ -85,7 +85,6 @@ export default function Home() {
             </Flex>
           </>
         )}
-        <Button onClick={() => router.push(`/${userId}`)}>View</Button>
       </Flex>
     </>
   );

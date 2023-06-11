@@ -23,14 +23,12 @@ const TechStack: FC = () => {
       try {
         const { data } = await axiosClient.get<TechDoc[] | null>('/user/tech');
         dispatch(setTechStack(data ? data : []));
-        console.log(techStack, data);
       } catch (err: any) {
         console.error(err);
       }
     };
     fetchUserTechStack();
   }, [dispatch]);
-  console.log(techStack);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -42,7 +40,9 @@ const TechStack: FC = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading fontSize={'2xl'}>Tech Stack</Heading>
+        <Heading color={'gray.300'} fontSize={'2xl'}>
+          Tech Stack
+        </Heading>
         <Button
           _focus={{
             boxShadow: 'none',

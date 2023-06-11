@@ -13,9 +13,6 @@ export default async function handler(
     if (!userId) return res.status(401).send('No you are unauthorized');
     if (userId) {
       const user = await clerkClient.users.getUser(userId);
-      console.log(
-        `User ${userId} is requesting their user data. Clerk user: ${user?.firstName} ${user?.lastName}`
-      );
     }
     try {
       // Create or retrieve the user

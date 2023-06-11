@@ -187,6 +187,20 @@ const UserSlice = createSlice({
       state.socials.push(action.payload.socialLink);
       state.user!.socials?.push(action.payload.socialLink);
     },
+    deleteSocialLink: (
+      state: UserState,
+      action: PayloadAction<{
+        socialId: string;
+      }>
+    ) => {
+      const updatedSocials = state.socials!.filter(
+        (social) => social._id !== action.payload.socialId
+      );
+      state.socials = updatedSocials ? updatedSocials : [];
+      state.user!.socials = state.user!.socials?.filter(
+        (id: Schema.Types.ObjectId) => id.toString() !== action.payload.socialId
+      );
+    },
   },
 });
 
@@ -207,5 +221,6 @@ export const {
   updateUserProfile,
   setSocialLinks,
   addSocialLink,
+  deleteSocialLink,
 } = UserSlice.actions;
 export default UserSlice.reducer;
