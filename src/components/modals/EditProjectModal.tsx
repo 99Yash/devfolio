@@ -50,7 +50,7 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
                   ? project.techStack.join(', ')
                   : '',
             }}
-            onSubmit={async (values, actions) => {
+            onSubmit={async (values) => {
               if (Object.values(values).every((val) => val === '')) {
                 onClose();
                 return;

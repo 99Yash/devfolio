@@ -18,7 +18,6 @@ export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
   const { isLoaded, isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
   const localUserState = useAppSelector((state) => state.currentUser.user);
-  const router = useRouter();
 
   useEffect(() => {
     if (!isSignedIn) return;
@@ -27,7 +26,6 @@ export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
         const { data: fetchedUser, status } = await axiosClient.get<UserDoc>(
           `/user/user`
         );
-        console.log(fetchedUser);
         if (status === 304) {
           console.log('304');
           return;
@@ -70,8 +68,14 @@ export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
       >
         {isSignedIn && isLoaded && (
           <>
-            <UserButton />
-            <Flex flexDir={'column'} gap={12} minW={'2xl'} maxW={'3xl'}>
+            <Flex
+              flexDir={'column'}
+              gap={12}
+              minW={['100%', '2xl']}
+              maxW={['100%', '3xl']}
+              px={[4, 8]}
+            >
+              <UserButton />
               {localUserState ? <TopUserProfile /> : null}
               {localUserState?.about !== '' ? (
                 <About />

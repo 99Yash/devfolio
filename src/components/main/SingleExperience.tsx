@@ -35,8 +35,8 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
 
   return (
     <>
-      <Box whiteSpace={'pre'} gap={4} p={8} cursor={'default'} my={2}>
-        <Flex gap={2} flexDir={'column'}>
+      <Box gap={4} p={8} cursor={'default'} my={2}>
+        <Flex whiteSpace={'pre-wrap'} gap={2} flexDir={'column'}>
           <Flex gap={12} alignItems={'flex-start'} justifyContent={'start'}>
             <Heading
               color={'gray.300'}

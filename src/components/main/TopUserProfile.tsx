@@ -105,7 +105,8 @@ const TopUserProfile: FC = () => {
       >
         <Avatar
           variant="circular"
-          size="xl"
+          src={user.user?.profileImageUrl}
+          size="2xl"
           bg={'gray.300'}
           name={userState!.fullName}
         />
@@ -147,7 +148,7 @@ const TopUserProfile: FC = () => {
                       key={social.name}
                     >
                       <Link
-                        color={'yellow.500'}
+                        color={'skyblue'}
                         fontSize={'xl'}
                         href={social.url}
                         isExternal

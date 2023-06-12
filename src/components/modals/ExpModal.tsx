@@ -74,11 +74,11 @@ const ExpModal: FC<ModalsProps> = (props) => {
               props.onClose();
             }}
           >
-            {({ values, isSubmitting }) => (
+            {({ isSubmitting }) => (
               <Form>
                 <VStack>
                   <InputField
-                    label="position"
+                    label="Position"
                     showLabel={'true'}
                     placeholder="Sr. Software Engineer"
                     autoComplete="off"
@@ -138,10 +138,9 @@ const ExpModal: FC<ModalsProps> = (props) => {
                       }}
                       variant={'outline'}
                       onClick={() => props.onClose()}
-                      colorScheme="red"
                       mr={3}
                     >
-                      Delete
+                      Cancel
                     </Button>
                     <Button
                       isLoading={isSubmitting}

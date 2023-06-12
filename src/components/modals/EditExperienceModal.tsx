@@ -51,7 +51,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
       size={'3xl'}
       isOpen={isOpen}
       onClose={onClose}
-      motionPreset="none"
+      motionPreset="scale"
       isCentered
     >
       <ModalOverlay />
@@ -77,6 +77,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
               try {
                 const { data } = await axiosClient.put('/user/experience', {
                   experience: {
+                    _id: experience._id,
                     position: values.position,
                     companyName: values.companyName,
                     description: values.description,
@@ -85,14 +86,13 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                     present: isPresent,
                   },
                 });
-                console.log(data);
                 dispatch(
                   editExperience({
                     experience: data,
                   })
                 );
               } catch (err: any) {
-                console.error(err);
+                console.log(err);
               }
               onClose();
             }}
@@ -136,8 +136,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                   </Flex>
                   <Flex my={2} alignItems="baseline">
                     <Checkbox
-                      checked={isPresent}
-                      value={!!isPresent ? 'true' : 'false'}
+                      isChecked={isPresent}
                       onChange={(e) => setIsPresent(e.target.checked)}
                       mr={2}
                       colorScheme="teal"
@@ -161,7 +160,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                       }}
                       onClick={onOpenDeleteModal}
                       variant={'outline'}
-                      colorScheme="red"
+                      colorScheme={'red'}
                     >
                       Delete
                     </Button>

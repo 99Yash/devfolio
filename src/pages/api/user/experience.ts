@@ -2,6 +2,7 @@ import { connectDB } from '@/lib/utils/connect';
 import ExperienceModel from '@/models/experience.model';
 import UserModel, { UserDoc } from '@/models/user.model';
 import { getAuth } from '@clerk/nextjs/server';
+import { Types } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -67,16 +68,15 @@ export default async function handler(
       });
       if (!expUser) return res.status(404).send("User doesn't exist");
       const { experience } = req.body;
-      const expToUpdate = await ExperienceModel.findOne({
-        _id: experience._id,
-      });
+      const expId = new Types.ObjectId(experience._id);
+      const expToUpdate = await ExperienceModel.findById(expId);
       if (!expToUpdate) return res.status(404).send("Experience doesn't exist");
       expToUpdate.position = experience.position;
       expToUpdate.companyName = experience.companyName;
       expToUpdate.description = experience.description;
       expToUpdate.startDate = experience.startDate;
       expToUpdate.endDate =
-        experience.endDate === experience.present
+        (experience.endDate === experience.present) === true
           ? new Date()
           : experience.endDate;
       expToUpdate.present = experience.present;
