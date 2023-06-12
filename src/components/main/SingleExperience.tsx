@@ -40,6 +40,8 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
           <Flex gap={12} alignItems={'flex-start'} justifyContent={'start'}>
             <Heading
               color={'gray.300'}
+              bgClip={'text'}
+              bgGradient="linear(to-r, gray.500, gray.200)"
               fontWeight={'bold'}
               alignSelf={'flex-start'}
               fontSize={'md'}
@@ -48,7 +50,7 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
             </Heading>
 
             <Flex wrap={'wrap'} gap={1} flexDir={'column'}>
-              <Heading color={'gray.300'} fontSize={'sm'}>
+              <Heading color={'gray.400'} fontSize={'sm'}>
                 {experience.position}
               </Heading>
               <Code color={'teal.300'} bg={'transparent'} fontSize={'sm'}>

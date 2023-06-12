@@ -9,7 +9,7 @@ import { theme } from '@/lib/utils/theme';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider resetCSS theme={theme}>
+    <ChakraProvider theme={theme}>
       <Provider store={store}>
         <ClerkProvider
           appearance={{

@@ -127,6 +127,7 @@ const ExpModal: FC<ModalsProps> = (props) => {
                       label="Description"
                       showLabel={'true'}
                       type="text"
+                      istextarea={'true'}
                       placeholder="Add some Description"
                       name="description"
                     />

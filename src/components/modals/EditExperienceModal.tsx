@@ -82,7 +82,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                     companyName: values.companyName,
                     description: values.description,
                     startDate: startingDate ? startingDate : startDate,
-                    endDate: isPresent ? 'present' : endingDate || endDate,
+                    endDate: isPresent ? null : endingDate || endDate,
                     present: isPresent,
                   },
                 });
@@ -149,6 +149,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                       label="Description"
                       showLabel={'true'}
                       type="text"
+                      istextarea={'true'}
                       placeholder={experience.description}
                       name="description"
                     />

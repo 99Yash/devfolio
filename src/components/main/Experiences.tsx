@@ -41,7 +41,12 @@ const Experiences: FC = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading color={'gray.300'} fontSize={'2xl'}>
+        <Heading
+          color={'gray.300'}
+          bgClip={'text'}
+          bgGradient="linear(to-r, gray.200, pink.600)"
+          fontSize={'2xl'}
+        >
           Experiences
         </Heading>
         <Button

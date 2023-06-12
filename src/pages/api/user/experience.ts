@@ -76,9 +76,7 @@ export default async function handler(
       expToUpdate.description = experience.description;
       expToUpdate.startDate = experience.startDate;
       expToUpdate.endDate =
-        (experience.endDate === experience.present) === true
-          ? new Date()
-          : experience.endDate;
+        experience.endDate === null ? new Date() : experience.endDate;
       expToUpdate.present = experience.present;
       const returnedExp = await expToUpdate.save();
       if (!returnedExp) return res.status(500).send('Error saving experience.');

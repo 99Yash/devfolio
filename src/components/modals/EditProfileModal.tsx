@@ -47,13 +47,10 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
               console.log(values);
               if (values.fullName === '') return;
               try {
-                const { data } = await axiosClient.patch<UserDoc>(
-                  '/user/user',
-                  {
-                    fullName: values.fullName,
-                    oneLiner: values.oneLiner,
-                  }
-                );
+                const { data } = await axiosClient.put<UserDoc>('/user/user', {
+                  fullName: values.fullName,
+                  oneLiner: values.oneLiner,
+                });
                 dispatch(
                   updateUserProfile({
                     fullName: data.fullName as string,
@@ -75,14 +72,6 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                   gap: '1rem',
                 }}
               >
-                {/* //todo pic upload */}
-                {/* <InputField
-                name="picture"
-                showLabel="true"
-                label="Display Pic"
-                type="file"
-                placeholder="Upload Pic"
-              /> */}
                 <InputField
                   type="text"
                   showLabel="true"

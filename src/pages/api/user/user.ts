@@ -36,7 +36,7 @@ export default async function handler(
       console.error(err);
       return res.status(500).send('Intl. server error');
     }
-  } else if (req.method === 'PATCH') {
+  } else if (req.method === 'PUT') {
     const { userId } = getAuth(req);
     try {
       // Create or retrieve the user
