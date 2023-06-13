@@ -8,10 +8,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
-import { Button, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { SignIn, UserButton, useAuth } from '@clerk/nextjs';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {

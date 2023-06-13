@@ -38,6 +38,7 @@ export default async function handler(
     }
   } else if (req.method === 'PUT') {
     const { userId } = getAuth(req);
+    if (!userId) return res.status(401).send('No you are unauthorized');
     try {
       // Create or retrieve the user
       await connectDB();
@@ -48,6 +49,7 @@ export default async function handler(
         return res.status(404).send("User doesn't exist");
       } else {
         const { fullName, oneLiner } = req.body;
+
         existingUser.fullName = fullName;
         existingUser.oneLiner = oneLiner;
         const updatedUser = await existingUser.save();

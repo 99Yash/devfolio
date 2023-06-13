@@ -1,11 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { SocialDoc } from '@/models/social.model';
-import {
-  addSocialLink,
-  deleteSocialLink,
-  setSocialLinks,
-} from '@/store/user.slice';
+import { setSocialLinks } from '@/store/user.slice';
 import {
   Avatar,
   Box,
@@ -15,24 +11,15 @@ import {
   Heading,
   IconButton,
   Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Select,
   Text,
-  VStack,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useUser } from '@clerk/nextjs';
-import { Form, Formik } from 'formik';
 import { FC, useEffect } from 'react';
-import { IoMdTrash } from 'react-icons/io';
 import { MdEdit } from 'react-icons/md';
 import EditProfileModal from '../modals/EditProfileModal';
-import InputField from '../utils/InputField';
+import OpenLinksModal from '../modals/OpenLinksModal';
 import { getIconByLinkName } from '../utils/getIconsByLink';
 
 const TopUserProfile: FC = () => {
@@ -70,25 +57,6 @@ const TopUserProfile: FC = () => {
     getSocialsForUser();
   }, [dispatch]);
 
-  const linkOptions = [
-    {
-      id: 1,
-      type: 'Github',
-    },
-    {
-      id: 2,
-      type: 'Twitter',
-    },
-    {
-      id: 3,
-      type: 'LinkedIn',
-    },
-    {
-      id: 4,
-      type: 'Website',
-    },
-  ];
-
   const displayName =
     userState?.fullName && userState?.fullName !== ''
       ? userState?.fullName
@@ -103,13 +71,22 @@ const TopUserProfile: FC = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Avatar
-          variant="circular"
-          src={user.user?.profileImageUrl}
-          size="2xl"
-          bg={'gray.300'}
-          name={userState!.fullName}
-        />
+        <Tooltip
+          label={'Use the User Button to change picture'}
+          aria-label="A tooltip"
+          bg={'transparent'}
+          color={'purple.200'}
+          border={'gray.200'}
+        >
+          <Avatar
+            loading="lazy"
+            variant="circular"
+            src={user.user?.profileImageUrl}
+            size="2xl"
+            bg={'gray.300'}
+            name={userState!.fullName}
+          />
+        </Tooltip>
         <Heading size={'md'} fontWeight={'semibold'}>
           {displayName}
         </Heading>
@@ -206,107 +183,11 @@ const TopUserProfile: FC = () => {
         </Flex>
 
         {isOpenLinksModal && (
-          <Modal
-            isCentered
-            motionPreset="scale"
+          <OpenLinksModal
+            socialState={socialState}
             isOpen={isOpenLinksModal}
             onClose={onCloseLinksModal}
-          >
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Add Links</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                {socialState.map((social) => {
-                  return (
-                    <Flex
-                      justifyContent={'space-between'}
-                      alignItems={'center'}
-                      key={social.name}
-                    >
-                      <Text>{social.name}</Text>
-                      <IconButton
-                        aria-label="delete"
-                        icon={<IoMdTrash />}
-                        onClick={async () => {
-                          try {
-                            await axiosClient.delete(`/socials/${social._id}`);
-                            dispatch(
-                              deleteSocialLink({
-                                socialId: social._id.toString(),
-                              })
-                            );
-                          } catch (err: any) {
-                            console.log(err);
-                          }
-                        }}
-                      />
-                    </Flex>
-                  );
-                })}
-                <Formik
-                  initialValues={{
-                    name: '',
-                    url: '',
-                  }}
-                  onSubmit={async (values) => {
-                    console.log(values);
-                    try {
-                      const { data } = await axiosClient.post<SocialDoc>(
-                        '/user/socials',
-                        {
-                          name: values.name,
-                          url: values.url,
-                        }
-                      );
-                      console.log(data);
-                      dispatch(addSocialLink({ socialLink: data }));
-                      onCloseLinksModal();
-                    } catch (err: any) {
-                      console.error(err);
-                    }
-                  }}
-                >
-                  {({ isSubmitting, values, handleChange }) => (
-                    <Form>
-                      <VStack display={'flex'} gap={2}>
-                        <HStack display={'flex'} gap={2}>
-                          <Select
-                            maxW={'fit-content'}
-                            value={values.name}
-                            onChange={handleChange}
-                            name="name"
-                            placeholder="Select Link"
-                          >
-                            {linkOptions.map((option) => (
-                              <option key={option.id} value={option.type}>
-                                {option.type}
-                              </option>
-                            ))}
-                          </Select>
-                          <InputField
-                            showLabel="false"
-                            autoComplete="off"
-                            type="text"
-                            name={'url'}
-                            placeholder="Enter URL"
-                          />
-                        </HStack>
-                        <Button
-                          w={'full'}
-                          type="submit"
-                          colorScheme="teal"
-                          disabled={isSubmitting}
-                        >
-                          Add Link
-                        </Button>
-                      </VStack>
-                    </Form>
-                  )}
-                </Formik>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
+          />
         )}
       </Box>
     </Flex>
