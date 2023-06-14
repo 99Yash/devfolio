@@ -10,6 +10,7 @@ import {
 import { FC } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import AboutModal from '../modals/AboutModal';
+import { Fade } from 'react-awesome-reveal';
 
 const About: FC = () => {
   const userAbout = useAppSelector(
@@ -20,24 +21,26 @@ const About: FC = () => {
   return (
     <>
       <Flex gap={2} flexDir={'column'}>
-        <HStack
-          display={'flex'}
-          gap={2}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-        >
-          <Heading color={'gray.300'} fontSize={'2xl'}>
-            About
-          </Heading>
-          <Button
-            _focus={{
-              boxShadow: 'none',
-            }}
-            onClick={onOpen}
+        <Fade>
+          <HStack
+            display={'flex'}
+            gap={2}
+            justifyContent={'space-between'}
+            alignItems={'center'}
           >
-            <MdModeEdit />
-          </Button>
-        </HStack>
+            <Heading color={'gray.300'} fontSize={'2xl'}>
+              About
+            </Heading>
+            <Button
+              _focus={{
+                boxShadow: 'none',
+              }}
+              onClick={onOpen}
+            >
+              <MdModeEdit />
+            </Button>
+          </HStack>
+        </Fade>
         <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
           <Text color={'gray.400'}>{userAbout}</Text>
         </Flex>

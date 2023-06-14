@@ -8,6 +8,7 @@ import axios from 'axios';
 import { IoMdAdd } from 'react-icons/io';
 import ProjectModal from '../modals/ProjectModal';
 import SingleProject from './SingleProject';
+import { Fade } from 'react-awesome-reveal';
 
 const Projects: FC = () => {
   const dispatch = useAppDispatch();
@@ -31,24 +32,26 @@ const Projects: FC = () => {
 
   return (
     <Flex gap={2} flexDir={'column'}>
-      <HStack
-        display={'flex'}
-        gap={2}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-      >
-        <Heading color={'gray.300'} fontSize={'2xl'}>
-          Projects
-        </Heading>
-        <Button
-          _focus={{
-            boxShadow: 'none',
-          }}
-          onClick={onOpen}
+      <Fade>
+        <HStack
+          display={'flex'}
+          gap={2}
+          justifyContent={'space-between'}
+          alignItems={'center'}
         >
-          <IoMdAdd />
-        </Button>
-      </HStack>
+          <Heading color={'gray.300'} fontSize={'2xl'}>
+            Projects
+          </Heading>
+          <Button
+            _focus={{
+              boxShadow: 'none',
+            }}
+            onClick={onOpen}
+          >
+            <IoMdAdd />
+          </Button>
+        </HStack>
+      </Fade>
       {projects?.map((project: ProjectDoc) => (
         <SingleProject key={project._id} project={project} />
       ))}

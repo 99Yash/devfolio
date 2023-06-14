@@ -30,7 +30,7 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
   return (
     <Modal isCentered motionPreset="scale" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={'gray.800'}>
         <ModalHeader>Edit Profile</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -81,6 +81,7 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                   placeholder={displayName}
                 />
                 <InputField
+                  istextarea="true"
                   showLabel="true"
                   label="One-Liner"
                   autoComplete="off"

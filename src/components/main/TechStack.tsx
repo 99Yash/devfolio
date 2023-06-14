@@ -33,14 +33,24 @@ const TechStack: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex gap={2} flexDir={'column'}>
+    <Flex
+      gap={2}
+      flexDir={'column'}
+      minW={['100%', '2xl']}
+      maxW={['100%', '3xl']}
+    >
       <HStack
         display={'flex'}
         gap={2}
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Heading color={'gray.300'} fontSize={'2xl'}>
+        <Heading
+          color={'gray.300'}
+          bgClip={'text'}
+          bgGradient="linear(to-r, gray.100, blue.200)"
+          fontSize={'2xl'}
+        >
           Tech Stack
         </Heading>
         <Button
@@ -52,7 +62,7 @@ const TechStack: FC = () => {
           <IoMdAdd />
         </Button>
       </HStack>
-      <Flex gap={2}>
+      <Flex gap={2} wrap={'wrap'}>
         {techStack ? (
           techStack?.map((tech: TechDoc) => (
             <Code

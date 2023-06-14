@@ -35,7 +35,7 @@ const ExpModal: FC<ModalsProps> = (props) => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={'gray.800'}>
         <ModalHeader>Update Positions</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

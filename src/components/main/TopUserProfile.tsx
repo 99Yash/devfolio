@@ -21,6 +21,7 @@ import { MdEdit } from 'react-icons/md';
 import EditProfileModal from '../modals/EditProfileModal';
 import OpenLinksModal from '../modals/OpenLinksModal';
 import { getIconByLinkName } from '../utils/getIconsByLink';
+import { Fade } from 'react-awesome-reveal';
 
 const TopUserProfile: FC = () => {
   const userState = useAppSelector((state) => state.currentUser.user);
@@ -65,47 +66,48 @@ const TopUserProfile: FC = () => {
   return (
     <Flex flexDir={'column'}>
       {/* //?top head */}
-      <Flex
-        mb={8}
-        gap={12}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-      >
-        <Tooltip
-          label={'Use the User Button to change picture'}
-          aria-label="A tooltip"
-          bg={'transparent'}
-          color={'purple.200'}
-          border={'gray.200'}
+      <Fade cascade>
+        <Flex
+          mb={8}
+          gap={12}
+          justifyContent={'space-between'}
+          alignItems={'center'}
         >
-          <Avatar
-            loading="lazy"
-            variant="circular"
-            src={user.user?.profileImageUrl}
-            size="2xl"
-            bg={'gray.300'}
-            name={userState!.fullName}
-          />
-        </Tooltip>
-        <Heading size={'md'} fontWeight={'semibold'}>
-          {displayName}
-        </Heading>
-        <Button
-          _focus={{
-            boxShadow: 'none',
-          }}
-          onClick={onOpenEditProfileModal}
-          variant={'outline'}
-        >
-          Edit Profile
-        </Button>
-        {isOpenEditProfileModal && (
-          <EditProfileModal
-            isOpen={isOpenEditProfileModal}
-            onClose={onCloseEditProfileModal}
-          />
-        )}
-      </Flex>
+          <Tooltip
+            label={'Use the User Button to change picture'}
+            aria-label="A tooltip"
+            bg={'transparent'}
+            color={'purple.200'}
+            border={'gray.200'}
+          >
+            <Avatar
+              loading="lazy"
+              variant="circular"
+              src={user.user?.profileImageUrl}
+              size="2xl"
+              name={userState!.fullName}
+            />
+          </Tooltip>
+          <Heading color={'gray.200'} size={'md'} fontWeight={'semibold'}>
+            {displayName}
+          </Heading>
+          <Button
+            _focus={{
+              boxShadow: 'none',
+            }}
+            onClick={onOpenEditProfileModal}
+            variant={'outline'}
+          >
+            Edit Profile
+          </Button>
+          {isOpenEditProfileModal && (
+            <EditProfileModal
+              isOpen={isOpenEditProfileModal}
+              onClose={onCloseEditProfileModal}
+            />
+          )}
+        </Flex>
+      </Fade>
 
       <Box>
         {/* //?social link icons */}
@@ -147,9 +149,14 @@ const TopUserProfile: FC = () => {
           </HStack>
         ) : null}
         <Flex justifyContent={'space-between'}>
-          <Flex flexDir={'column'}>
+          <Flex wrap={'wrap'} flexDir={'column'}>
             {userState?.oneLiner ? (
-              <Text my={2} color={'gray.300'}>
+              <Text
+                bgGradient={'linear(to-r, gray.200, gray.600)'}
+                bgClip={'text'}
+                my={2}
+                color={'gray.300'}
+              >
                 {userState?.oneLiner}
               </Text>
             ) : null}

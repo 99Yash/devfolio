@@ -1,3 +1,5 @@
+import { useAppDispatch } from '@/hooks/redux';
+import { updateAbout } from '@/store/user.slice';
 import {
   Button,
   Modal,
@@ -7,12 +9,10 @@ import {
   ModalOverlay,
   ModalProps,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import InputField from '../utils/InputField';
-import axios from 'axios';
-import { useAppDispatch } from '@/hooks/redux';
-import { updateAbout } from '@/store/user.slice';
 
 export type ModalsProps = Omit<ModalProps, 'children'>;
 
@@ -22,7 +22,7 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
   return (
     <Modal size={'xl'} isCentered isOpen={props.isOpen} onClose={props.onClose}>
       <ModalOverlay />
-      <ModalContent bg={'black'}>
+      <ModalContent bg={'gray.800'}>
         <ModalHeader>Edit Bio</ModalHeader>
         <ModalBody>
           <Formik
@@ -55,7 +55,6 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
                   showLabel={'false'}
                 />
                 <Button
-                  variant={'ghost'}
                   w={'full'}
                   mt={8}
                   type="submit"

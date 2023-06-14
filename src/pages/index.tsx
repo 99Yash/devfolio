@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex, Heading, useDisclosure } from '@chakra-ui/react';
 import { SignIn, UserButton, useAuth } from '@clerk/nextjs';
 import Head from 'next/head';
 import { useEffect } from 'react';
@@ -45,6 +45,7 @@ export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {/* signin */}
       {!isSignedIn && (
         <Flex
           minH={'full'}
@@ -55,6 +56,29 @@ export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
           py={16}
         >
           <SignIn />
+        </Flex>
+      )}
+      {isSignedIn && isLoaded && (
+        //* header
+        <Flex
+          px={4}
+          pt={4}
+          gap={4}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Heading
+            fontSize={['2xl', '3xl']}
+            bg={
+              'linear-gradient(90deg, #2f53b5 0%, #1773ad 35%, rgba(0,212,255,1) 100%)'
+            }
+            bgClip={'text'}
+          >
+            Devfolio
+          </Heading>
+          <Box border={'1px solid gray.100'}>
+            <UserButton />
+          </Box>
         </Flex>
       )}
       <Flex
@@ -74,7 +98,6 @@ export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
               maxW={['100%', '3xl']}
               px={[4, 8]}
             >
-              <UserButton />
               {localUserState ? <TopUserProfile /> : null}
               {localUserState?.about !== '' ? (
                 <About />

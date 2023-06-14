@@ -39,6 +39,7 @@ const InputField: FC<InputFieldProps> = ({
           {...field}
           {...props}
           id={field.name}
+          color={'gray.200'}
           placeholder={props.placeholder}
           type={!props.istextarea && props.type ? props.type : 'text'}
           mt={showLabel === 'true' ? 0 : 2}

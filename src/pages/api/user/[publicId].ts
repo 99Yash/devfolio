@@ -3,6 +3,7 @@ import ProjectModel, { ProjectDoc } from '@/models/project.model';
 import SocialsModel, { SocialDoc } from '@/models/social.model';
 import TechModel, { TechDoc } from '@/models/tech.model';
 import UserModel, { UserDoc } from '@/models/user.model';
+import { clerkClient } from '@clerk/nextjs';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -11,6 +12,7 @@ export default async function handler(
 ) {
   const { publicId: clerkUserId } = req.query;
   const clerkIdStr = clerkUserId as string;
+  const userId = clerkIdStr;
   if (req.method === 'GET') {
     const mongoUser: UserDoc | null = await UserModel.findOne({
       clerkUserId: clerkIdStr,
@@ -29,12 +31,16 @@ export default async function handler(
       const techStack: TechDoc[] | null = await TechModel.find({
         clerkUserId: clerkIdStr,
       });
+      const clerkUserImage = (await clerkClient.users.getUser(userId))
+        .profileImageUrl;
+
       return res.status(200).send({
         projects: projects ? projects : [],
         mongoUser,
         experiences: experiences ? experiences : [],
         socials: socials ? socials : [],
         techStack: techStack ? techStack : [],
+        clerkUserImage,
       });
     }
   }

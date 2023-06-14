@@ -55,7 +55,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
       isCentered
     >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={'gray.800'}>
         <ModalHeader>Update Positions</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -99,9 +99,9 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
           >
             {({ values, isSubmitting }) => (
               <Form>
-                <VStack>
+                <VStack spacing={4}>
                   <InputField
-                    label="position"
+                    label="Position"
                     showLabel={'true'}
                     placeholder={experience.position}
                     autoComplete="off"
@@ -116,15 +116,20 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                     name="companyName"
                     type="text"
                   />
-                  <Flex justifyContent={'space-between'}>
-                    <FormLabel>Start Date</FormLabel>
+                  <Flex
+                    flexDir={['column', 'row']}
+                    gap={2}
+                    alignItems={['center']}
+                    justifyContent={'space-between'}
+                  >
+                    <FormLabel>Start</FormLabel>
                     <Input
                       type="date"
                       size={'md'}
                       value={startDate}
                       onChange={(e) => setStartingDate(e.target.value)}
                     />
-                    <FormLabel>End Date</FormLabel>
+                    <FormLabel>End</FormLabel>
                     <Input
                       type="date"
                       placeholder="Select end date"
