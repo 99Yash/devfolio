@@ -56,3 +56,8 @@ body {
   ); /* Replace with your desired gradient colors */
   width: 20px;
 }
+
+::selection {
+  background-color: rgb(222, 211, 211);
+  color: rgb(12, 12, 12);
+}

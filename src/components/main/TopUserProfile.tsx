@@ -183,7 +183,7 @@ const TopUserProfile: FC = () => {
             _hover={{
               textDecoration: 'none',
             }}
-            href={`/${user?.user?.id}`}
+            href={`/portfolio/${user?.user?.id}`}
           >
             View Profile
           </Link>

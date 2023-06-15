@@ -22,7 +22,6 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerHeader,
   DrawerOverlay,
   Flex,
   HStack,
@@ -39,8 +38,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Fade } from 'react-awesome-reveal';
 import { BsGlobe } from 'react-icons/bs';
-import { VscGithubAlt } from 'react-icons/vsc';
 import { FaBars } from 'react-icons/fa';
+import { VscGithubAlt } from 'react-icons/vsc';
 
 const Portfolio = () => {
   const router = useRouter();
@@ -98,15 +97,39 @@ const Portfolio = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Flex justify={'end'}>
-        <Button px={4} pt={6} bg={'transparent'} onClick={onOpen}>
+      <Flex
+        display={{
+          base: 'flex',
+          md: 'none',
+          lg: 'none',
+          xl: 'none',
+          sm: 'flex',
+        }}
+        justify={'end'}
+      >
+        <Button
+          _hover={{
+            background: 'transparent',
+            color: 'pink.200',
+          }}
+          px={4}
+          pt={6}
+          bg={'transparent'}
+          onClick={onOpen}
+        >
           <FaBars />
         </Button>
         {isOpen && (
           <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
             <DrawerOverlay />
             <DrawerContent bg={'black'}>
-              <DrawerCloseButton _focus={{ outline: 'none' }} />
+              <DrawerCloseButton
+                _hover={{
+                  background: 'transparent',
+                  color: 'pink.200',
+                }}
+                _focus={{ outline: 'none' }}
+              />
               <DrawerBody
                 display={'flex'}
                 justifyContent={'center'}
@@ -162,7 +185,13 @@ const Portfolio = () => {
       </Flex>
 
       <Flex
-        display={['none', 'none', 'flex']}
+        display={{
+          base: 'none',
+          md: 'flex',
+          lg: 'flex',
+          xl: 'flex',
+          sm: 'none',
+        }}
         pt={8}
         px={8}
         gap={8}
@@ -170,7 +199,7 @@ const Portfolio = () => {
       >
         {localUserState?.about && localUserState.about !== '' ? (
           <Link href="#about">
-            <Code bgClip={'text'} bgGradient="linear(to-r, white, orange.400)">
+            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
               About
             </Code>
           </Link>
@@ -178,21 +207,21 @@ const Portfolio = () => {
         {localUserState?.techStack &&
         localUserState?.techStack?.length !== 0 ? (
           <Link href="#tech">
-            <Code bgClip={'text'} bgGradient="linear(to-r, white, orange.400)">
+            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
               Tech Stack
             </Code>
           </Link>
         ) : null}
         {localExperiencesState?.length !== 0 ? (
           <Link href="#experience">
-            <Code bgClip={'text'} bgGradient="linear(to-r, white, orange.400)">
+            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
               Experiences
             </Code>
           </Link>
         ) : null}
         {localProjectsState?.length !== 0 ? (
           <Link href="#projects">
-            <Code bgClip={'text'} bgGradient="linear(to-r, white, orange.400)">
+            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
               Projects
             </Code>
           </Link>
@@ -225,7 +254,7 @@ const Portfolio = () => {
               />
               <Heading
                 bgClip={'text'}
-                bgGradient="linear(to-r, gray.100, pink.100)"
+                bgGradient="linear(to-r, gray.300, pink.200)"
                 fontSize={'2xl'}
               >
                 {localUserState?.fullName}
