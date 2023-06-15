@@ -183,7 +183,6 @@ const Portfolio = () => {
           </Drawer>
         )}
       </Flex>
-
       <Flex
         display={{
           base: 'none',
@@ -261,6 +260,7 @@ const Portfolio = () => {
               </Heading>
             </Flex>
           ) : null}
+
           {localUserState?.socials?.length !== 0 ? (
             <Flex gap={4} flexDir={'column'} alignItems={'flex-start'}>
               <Flex gap={2}>
@@ -341,6 +341,7 @@ const Portfolio = () => {
               </Flex>
             </Flex>
           ) : null}
+
           {localUserState?.experiences && (
             <>
               {localUserState?.experiences?.length !== 0 ? (
@@ -461,6 +462,7 @@ const Portfolio = () => {
                       <Heading color={'gray.300'} size={'md'}>
                         {project.title}
                       </Heading>
+
                       <HStack>
                         {project?.demoLink ? (
                           <Link target="_blank" href={project?.demoLink}>
@@ -476,6 +478,7 @@ const Portfolio = () => {
                         </Link>
                       </HStack>
                     </Flex>
+
                     <Text
                       fontStyle={'italic'}
                       my={4}

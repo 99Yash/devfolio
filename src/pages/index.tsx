@@ -8,12 +8,12 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
-import { Box, Flex, Heading, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { SignIn, UserButton, useAuth } from '@clerk/nextjs';
 import Head from 'next/head';
 import { useEffect } from 'react';
 
-export default function Home({ fetchedUser }: { fetchedUser: UserDoc }) {
+export default function Home() {
   const { isLoaded, isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
   const localUserState = useAppSelector((state) => state.currentUser.user);
