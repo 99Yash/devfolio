@@ -55,6 +55,14 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
                   showLabel={'false'}
                 />
                 <Button
+                  _hover={{
+                    bg: 'black',
+                  }}
+                  bg={'gray.800'}
+                  color={'gray.300'}
+                  variant={'outline'}
+                  borderColor={'gray.500'}
+                  borderWidth={'1px'}
                   w={'full'}
                   mt={8}
                   type="submit"

@@ -85,7 +85,14 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
           <Heading color={'gray.300'} fontSize={'2xl'}>
             {sectionTitle}
           </Heading>
-          <Button onClick={onOpen}>
+          <Button
+            _hover={{
+              bg: 'black',
+            }}
+            bg={'black'}
+            color={'gray.200'}
+            onClick={onOpen}
+          >
             {sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
           </Button>
         </HStack>

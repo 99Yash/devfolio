@@ -88,7 +88,19 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                   type="text"
                   name="oneLiner"
                 />
-                <Button isLoading={isSubmitting} type="submit" w={'full'}>
+                <Button
+                  _hover={{
+                    bg: 'black',
+                  }}
+                  bg={'gray.800'}
+                  color={'gray.300'}
+                  variant={'outline'}
+                  borderColor={'gray.500'}
+                  borderWidth={'1px'}
+                  isLoading={isSubmitting}
+                  type="submit"
+                  w={'full'}
+                >
                   Save Changes
                 </Button>
               </Form>

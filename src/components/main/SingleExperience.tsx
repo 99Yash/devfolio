@@ -68,9 +68,9 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
                 _focus={{
                   boxShadow: 'none',
                 }}
+                bg={'transparent'}
                 size={'xs'}
                 onClick={onOpen}
-                bg={'transparent'}
                 color={'beige'}
               >
                 <BsFillPencilFill />

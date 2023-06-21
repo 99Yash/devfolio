@@ -52,6 +52,11 @@ const Experiences: FC = () => {
             Experiences
           </Heading>
           <Button
+            _hover={{
+              bg: 'black',
+            }}
+            bg={'black'}
+            color={'gray.200'}
             _focus={{
               outline: 'none',
             }}

@@ -54,6 +54,11 @@ const TechStack: FC = () => {
           Tech Stack
         </Heading>
         <Button
+          _hover={{
+            bg: 'black',
+          }}
+          bg={'black'}
+          color={'gray.200'}
           _focus={{
             boxShadow: 'none',
           }}

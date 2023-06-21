@@ -61,3 +61,30 @@ body {
   background-color: rgb(222, 211, 211);
   color: rgb(12, 12, 12);
 }
+
+scrollbar-track {
+  background-color: transparent;
+}
+
+/* Handle style */
+/* Replace the background color with your desired gradient */
+scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    rgb(15, 136, 176),
+    rgba(9, 10, 10, 0.663)
+  );
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, rgb(9, 152, 199), rgb(11, 0, 0));
+  width: 20px;
+}
+
+/* Text selection style */
+::selection {
+  background-color: rgb(222, 211, 211);
+  color: rgb(12, 12, 12);
+}

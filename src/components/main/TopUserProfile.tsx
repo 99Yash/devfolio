@@ -92,11 +92,18 @@ const TopUserProfile: FC = () => {
             {displayName}
           </Heading>
           <Button
+            _hover={{
+              bg: 'gray.900',
+            }}
+            bg={'black'}
+            color={'gray.300'}
+            variant={'outline'}
+            borderColor={'gray.500'}
+            borderWidth={'1px'}
             _focus={{
               boxShadow: 'none',
             }}
             onClick={onOpenEditProfileModal}
-            variant={'outline'}
           >
             Edit Profile
           </Button>
@@ -140,6 +147,11 @@ const TopUserProfile: FC = () => {
               : null}
             <IconButton
               fontSize={'sm'}
+              _hover={{
+                bg: 'black',
+              }}
+              bg={'black'}
+              color={'gray.200'}
               borderRadius={'50%'}
               aria-label="Add/Edit links"
               icon={<MdEdit />}
@@ -166,7 +178,7 @@ const TopUserProfile: FC = () => {
                   outline: 'none',
                 }}
                 onClick={onOpenLinksModal}
-                className="self-start"
+                alignItems={'self-start'}
                 variant="outline"
               >
                 Add Links

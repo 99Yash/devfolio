@@ -43,6 +43,11 @@ const Projects: FC = () => {
             Projects
           </Heading>
           <Button
+            _hover={{
+              bg: 'black',
+            }}
+            bg={'black'}
+            color={'gray.200'}
             _focus={{
               boxShadow: 'none',
             }}
