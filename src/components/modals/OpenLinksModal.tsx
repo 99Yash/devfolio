@@ -51,7 +51,7 @@ const OpenLinksModal: FC<
   return (
     <Modal isCentered motionPreset="scale" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={'gray.800'}>
         <ModalHeader>Add Links</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -107,8 +107,8 @@ const OpenLinksModal: FC<
           >
             {({ isSubmitting, values, handleChange }) => (
               <Form>
-                <VStack display={'flex'} gap={2}>
-                  <HStack display={'flex'} gap={2}>
+                <Flex flexDir={'column'} display={'flex'} gap={2}>
+                  <Flex gap={2}>
                     <Select
                       maxW={'fit-content'}
                       value={values.name}
@@ -129,7 +129,7 @@ const OpenLinksModal: FC<
                       name={'url'}
                       placeholder="Enter URL"
                     />
-                  </HStack>
+                  </Flex>
                   <Button
                     w={'full'}
                     type="submit"
@@ -138,7 +138,7 @@ const OpenLinksModal: FC<
                   >
                     Add Link
                   </Button>
-                </VStack>
+                </Flex>
               </Form>
             )}
           </Formik>

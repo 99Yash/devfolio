@@ -44,14 +44,18 @@ const Experiences: FC = () => {
           alignItems={'center'}
         >
           <Heading
-            color={'gray.300'}
             bgClip={'text'}
-            bgGradient="linear(to-r, gray.200, blue.600)"
+            bgGradient="linear(to-r, gray.200, blue.400)"
             fontSize={'2xl'}
           >
             Experiences
           </Heading>
           <Button
+            _hover={{
+              bg: 'black',
+            }}
+            bg={'black'}
+            color={'gray.200'}
             _focus={{
               outline: 'none',
             }}

@@ -39,10 +39,19 @@ const Projects: FC = () => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Heading color={'gray.300'} fontSize={'2xl'}>
+          <Heading
+            bgClip={'text'}
+            bgGradient="linear(to-r, gray.200, blue.400)"
+            fontSize={'2xl'}
+          >
             Projects
           </Heading>
           <Button
+            _hover={{
+              bg: 'black',
+            }}
+            bg={'black'}
+            color={'gray.200'}
             _focus={{
               boxShadow: 'none',
             }}
