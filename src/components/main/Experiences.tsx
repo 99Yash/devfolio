@@ -46,7 +46,7 @@ const Experiences: FC = () => {
           <Heading
             bgClip={'text'}
             bgGradient="linear(to-r, gray.200, blue.400)"
-            fontSize={'2xl'}
+            fontSize={'3xl'}
           >
             Experiences
           </Heading>

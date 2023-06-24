@@ -54,8 +54,8 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
       onClose={onClose}
     >
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Tech Stack</ModalHeader>
+      <ModalContent bg={'gray.800'}>
+        <ModalHeader>Your Stack</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {techStack ? (

@@ -82,7 +82,7 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Heading color={'gray.300'} fontSize={'2xl'}>
+          <Heading color={'gray.300'} fontSize={'3xl'}>
             {sectionTitle}
           </Heading>
           <Button

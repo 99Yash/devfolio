@@ -192,6 +192,7 @@ const TopUserProfile: FC = () => {
             py={2}
             borderWidth={1}
             borderRadius="md"
+            textAlign={'center'}
             _hover={{
               textDecoration: 'none',
             }}

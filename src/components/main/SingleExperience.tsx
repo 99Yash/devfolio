@@ -44,38 +44,37 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
               bgGradient="linear(to-r, gray.500, gray.200)"
               fontWeight={'bold'}
               alignSelf={'flex-start'}
-              fontSize={'md'}
+              fontSize={'lg'}
             >
               {experience.companyName}
             </Heading>
 
             <Flex wrap={'wrap'} gap={1} flexDir={'column'}>
-              <Heading color={'gray.400'} fontSize={'sm'}>
+              <Heading color={'gray.400'} fontSize={'md'}>
                 {experience.position}
               </Heading>
-              <Code color={'teal.300'} bg={'transparent'} fontSize={'sm'}>
+              <Code color={'teal.300'} bg={'transparent'} fontSize={'md'}>
                 {startDate}-{endDate}
               </Code>
-              <Text fontSize={'sm'} color={'gray.500'} fontStyle={'italic'}>
+              <Text fontSize={'md'} color={'gray.500'} fontStyle={'italic'}>
                 {experience.description}
               </Text>
             </Flex>
-            <HStack>
-              <Button
-                _hover={{
-                  bg: 'transparent',
-                }}
-                _focus={{
-                  boxShadow: 'none',
-                }}
-                bg={'transparent'}
-                size={'xs'}
-                onClick={onOpen}
-                color={'beige'}
-              >
-                <BsFillPencilFill />
-              </Button>
-            </HStack>
+
+            <Button
+              _hover={{
+                bg: 'transparent',
+              }}
+              _focus={{
+                boxShadow: 'none',
+              }}
+              bg={'transparent'}
+              onClick={onOpen}
+              size={'lg'}
+              color={'antiquewhite'}
+            >
+              <BsFillPencilFill fontSize={'md'} />
+            </Button>
           </Flex>
         </Flex>
         {isOpen && (

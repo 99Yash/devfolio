@@ -49,7 +49,7 @@ const TechStack: FC = () => {
           color={'gray.300'}
           bgClip={'text'}
           bgGradient="linear(to-r, gray.100, blue.400)"
-          fontSize={'2xl'}
+          fontSize={'3xl'}
         >
           Tech Stack
         </Heading>
@@ -67,14 +67,14 @@ const TechStack: FC = () => {
           <IoMdAdd />
         </Button>
       </HStack>
-      <Flex gap={2} wrap={'wrap'}>
+      <Flex fontSize={'md'} gap={2} wrap={'wrap'}>
         {techStack ? (
           techStack?.map((tech: TechDoc) => (
             <Code
               bg={'transparent'}
               color="teal.300"
               key={tech._id}
-              size={'sm'}
+              size={'md'}
             >
               {tech.name}
             </Code>

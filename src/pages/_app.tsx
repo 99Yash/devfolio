@@ -11,13 +11,13 @@ import Head from 'next/head';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <Provider store={store}>
-        <ClerkProvider
-          appearance={{
-            baseTheme: dark,
-          }}
-          {...pageProps}
-        >
+      <ClerkProvider
+        appearance={{
+          baseTheme: dark,
+        }}
+        {...pageProps}
+      >
+        <Provider store={store}>
           <Head>
             <title>Devfolio</title>
             <meta
@@ -31,8 +31,8 @@ export default function App({ Component, pageProps }: AppProps) {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Component {...pageProps} />
-        </ClerkProvider>
-      </Provider>
+        </Provider>
+      </ClerkProvider>
     </ChakraProvider>
   );
 }

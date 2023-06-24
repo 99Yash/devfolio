@@ -10,7 +10,13 @@ import { axiosClient } from '@/lib/utils/axiosInstance';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
 import { Box, Flex, Heading } from '@chakra-ui/react';
-import { UserButton, useAuth } from '@clerk/nextjs';
+import {
+  SignIn,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useAuth,
+} from '@clerk/nextjs';
 import { useEffect } from 'react';
 
 export default function Home() {
@@ -34,11 +40,12 @@ export default function Home() {
         console.log(err);
       }
     };
-    fetchUser();
-  }, [dispatch, isSignedIn]);
+    isLoaded && fetchUser();
+  }, [dispatch, isLoaded, isSignedIn]);
+
   return (
     <>
-      {!isSignedIn && (
+      <SignedOut>
         <Flex
           minH={'full'}
           flexDir={'column'}
@@ -47,11 +54,11 @@ export default function Home() {
           alignItems={'center'}
           py={16}
         >
-          <SignInBtn />
+          <SignIn />
         </Flex>
-      )}
-      {isSignedIn && isLoaded && (
-        //* header
+      </SignedOut>
+
+      <SignedIn>
         <Flex
           px={4}
           pt={4}
@@ -60,7 +67,7 @@ export default function Home() {
           justifyContent={'space-between'}
         >
           <Heading
-            fontSize={['2xl', '3xl']}
+            fontSize={['3xl', '4xl']}
             bg={
               'linear-gradient(90deg, #2f53b5 0%, #1773ad 35%, rgba(0,212,255,1) 100%)'
             }
@@ -72,20 +79,20 @@ export default function Home() {
             <UserButton />
           </Box>
         </Flex>
-      )}
-      <Flex
-        minH={'full'}
-        flexDir={'column'}
-        gap={8}
-        justifyContent={'flex-start'}
-        alignItems={'center'}
-        py={16}
-      >
-        {isSignedIn && isLoaded && (
-          <>
+
+        <Flex
+          minH={'full'}
+          flexDir={'column'}
+          gap={8}
+          justifyContent={'flex-start'}
+          alignItems={'center'}
+          py={16}
+        >
+          {isSignedIn && isLoaded && (
             <Flex
               flexDir={'column'}
               gap={12}
+              fontSize={'lg'}
               minW={['100%', '2xl']}
               maxW={['100%', '3xl']}
               px={[4, 8]}
@@ -112,9 +119,9 @@ export default function Home() {
                 <DefaultMainSection sectionTitle={'Projects'} />
               )}
             </Flex>
-          </>
-        )}
-      </Flex>
+          )}
+        </Flex>
+      </SignedIn>
     </>
   );
 }
