@@ -29,7 +29,7 @@ body {
 
 /* Target the scrollbar */
 ::-webkit-scrollbar {
-  width: 5px; /* Adjust the width as needed */
+  width: 6px; /* Adjust the width as needed */
 }
 
 /* Track style */
@@ -44,7 +44,7 @@ body {
     rgb(15, 136, 176),
     rgba(9, 10, 10, 0.663)
   ); /* Replace with your desired gradient colors */
-  border-radius: 5px;
+  border-radius: 7px;
 }
 
 /* Handle on hover */

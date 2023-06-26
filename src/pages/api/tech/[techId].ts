@@ -24,11 +24,7 @@ export default async function handler(
       const techIdStr = techId as string;
       const techIdToDelete = new mongoose.Types.ObjectId(techIdStr);
       await TechModel.findByIdAndDelete(techIdToDelete);
-      await UserModel.findByIdAndUpdate(techUser._id, {
-        $pull: {
-          techStack: techIdStr,
-        },
-      });
+
       return res.status(200).send('Project deleted');
     } catch (err: any) {
       console.error(err);

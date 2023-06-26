@@ -24,7 +24,7 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
   return (
     <Modal size={'2xl'} isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={'gray.800'}>
         <ModalHeader>Add Project</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -36,7 +36,7 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
               demoLink: '',
               techStack: '',
             }}
-            onSubmit={async (values, actions) => {
+            onSubmit={async (values) => {
               if (Object.values(values).every((val) => val === '')) {
                 onClose();
                 return;

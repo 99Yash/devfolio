@@ -23,11 +23,7 @@ export default async function handler(
       if (!user) return res.status(404).send("User doesn't exist");
 
       await SocialsModel.findByIdAndDelete(socialIdToDelete);
-      await UserModel.findByIdAndUpdate(user._id, {
-        $pull: {
-          socials: socialIdStr,
-        },
-      });
+
       return res.status(200).send('Social deleted');
     } catch (err: any) {
       console.error(err);

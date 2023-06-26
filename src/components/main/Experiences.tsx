@@ -1,7 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { axiosClient } from '@/lib/utils/axiosInstance';
-import { ExperienceDoc } from '@/models/experience.model';
-import { setExperiences } from '@/store/user.slice';
+import { useAppSelector } from '@/hooks/redux';
 import {
   Button,
   Flex,
@@ -10,33 +7,19 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FC, useEffect } from 'react';
-import { IoMdAdd } from 'react-icons/io';
-import SingleExperience from './SingleExperience';
-import ExpModal from '../modals/ExpModal';
+import { FC } from 'react';
 import { Fade } from 'react-awesome-reveal';
+import { IoMdAdd } from 'react-icons/io';
+import ExpModal from '../modals/ExpModal';
+import SingleExperience from './SingleExperience';
 
 const Experiences: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const experiences = useAppSelector((state) => state.currentUser.experiences);
-  const dispatch = useAppDispatch();
+  const experiences = useAppSelector((state) => state.experiences.experiences);
 
-  useEffect(() => {
-    const fetchUserExpList = async () => {
-      try {
-        const { data: experiences } = await axiosClient.get<{
-          experiences: ExperienceDoc[];
-        }>('/user/experience');
-        dispatch(setExperiences(experiences.experiences));
-      } catch (err: any) {
-        console.error(err);
-      }
-    };
-    fetchUserExpList();
-  }, [dispatch]);
   return (
     <Flex gap={2} flexDir={'column'}>
-      <Fade>
+      <Fade cascade>
         <HStack
           display={'flex'}
           gap={2}

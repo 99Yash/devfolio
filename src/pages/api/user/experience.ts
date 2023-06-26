@@ -21,7 +21,7 @@ export default async function handler(
       const userExpList = await ExperienceModel.find({
         clerkUserId: userId,
       });
-      return res.status(200).setHeader('Cache-Control', 'no-cache').send({
+      return res.status(200).send({
         experiences: userExpList,
       });
     } catch (err: any) {
@@ -48,11 +48,6 @@ export default async function handler(
         present: experience.present,
         clerkUserId: userId,
       });
-      if (!user.experiences) {
-        user.experiences = [];
-      }
-      user.experiences?.push(addedExp);
-      await user.save();
       return res.status(201).send(addedExp);
     } catch (err: any) {
       console.error(err);

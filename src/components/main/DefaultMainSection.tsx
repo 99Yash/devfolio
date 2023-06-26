@@ -72,7 +72,6 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
       </>
     );
   };
-
   return (
     <Flex flexDir={'column'}>
       <Fade cascade>

@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
-import { addExperience } from '@/store/user.slice';
+import { addExperience } from '@/store/experiences.slice';
 import {
   Button,
   Checkbox,
@@ -62,7 +62,6 @@ const ExpModal: FC<ModalsProps> = (props) => {
                     present: isPresent,
                   },
                 });
-                console.log(data);
                 dispatch(
                   addExperience({
                     experience: data,

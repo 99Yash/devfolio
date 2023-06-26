@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { SocialDoc } from '@/models/social.model';
-import { setSocialLinks } from '@/store/user.slice';
 import {
   Avatar,
   Box,
@@ -16,7 +15,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useUser } from '@clerk/nextjs';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { MdEdit } from 'react-icons/md';
 import EditProfileModal from '../modals/EditProfileModal';
 import OpenLinksModal from '../modals/OpenLinksModal';
@@ -25,7 +24,7 @@ import { Fade } from 'react-awesome-reveal';
 
 const TopUserProfile: FC = () => {
   const userState = useAppSelector((state) => state.currentUser.user);
-  const socialState = useAppSelector((state) => state.currentUser.socials);
+  const socialState = useAppSelector((state) => state.socials.socials);
 
   const {
     isOpen: isOpenLinksModal,
@@ -37,26 +36,8 @@ const TopUserProfile: FC = () => {
     onOpen: onOpenEditProfileModal,
     onClose: onCloseEditProfileModal,
   } = useDisclosure();
-  const dispatch = useAppDispatch();
 
   const user = useUser();
-  useEffect(() => {
-    const getSocialsForUser = async () => {
-      try {
-        const { data } = await axiosClient.get<SocialDoc[] | null>(
-          '/user/socials'
-        );
-        if (data) {
-          dispatch(setSocialLinks(data));
-        } else {
-          dispatch(setSocialLinks([]));
-        }
-      } catch (err: any) {
-        console.log(err);
-      }
-    };
-    getSocialsForUser();
-  }, [dispatch]);
 
   const displayName =
     userState?.fullName && userState?.fullName !== ''
@@ -118,7 +99,7 @@ const TopUserProfile: FC = () => {
 
       <Box>
         {/* //?social link icons */}
-        {userState?.socials?.length ? (
+        {socialState?.length ? (
           <HStack
             display={'flex'}
             alignItems={'center'}
@@ -172,7 +153,7 @@ const TopUserProfile: FC = () => {
                 {userState?.oneLiner}
               </Text>
             ) : null}
-            {userState?.socials?.length === 0 || !userState?.socials ? (
+            {socialState?.length === 0 || !socialState ? (
               <Button
                 _focus={{
                   outline: 'none',

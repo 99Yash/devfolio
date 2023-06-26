@@ -43,7 +43,6 @@ export default async function handler(
             name: t,
             clerkUserId: userId,
           });
-          user.techStack?.push(tech);
           return tech;
         })
       );

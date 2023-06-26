@@ -1,32 +1,15 @@
 import { Button, Flex, HStack, Heading, useDisclosure } from '@chakra-ui/react';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks/redux';
 import { ProjectDoc } from '@/models/project.model';
-import { setCurrentProjects } from '@/store/user.slice';
-import axios from 'axios';
+import { Fade } from 'react-awesome-reveal';
 import { IoMdAdd } from 'react-icons/io';
 import ProjectModal from '../modals/ProjectModal';
 import SingleProject from './SingleProject';
-import { Fade } from 'react-awesome-reveal';
 
 const Projects: FC = () => {
-  const dispatch = useAppDispatch();
-  const projects = useAppSelector((state) => state.currentUser.projects);
-
-  useEffect(() => {
-    const fetchUserProjects = async () => {
-      try {
-        const { data: projects } = await axios.get<{ projects: ProjectDoc[] }>(
-          '/api/user/project'
-        );
-        dispatch(setCurrentProjects(projects.projects));
-      } catch (err: any) {
-        console.error(err);
-      }
-    };
-    fetchUserProjects();
-  }, [dispatch]);
+  const projects = useAppSelector((state) => state.projects.projects);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

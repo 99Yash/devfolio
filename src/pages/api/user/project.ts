@@ -30,11 +30,7 @@ export default async function handler(
         techStack: techStackArr,
         clerkUserId: userId,
       });
-      if (!userToUpdate.projects) {
-        userToUpdate.projects = [];
-      }
-      userToUpdate.projects?.push(createdProject);
-      await userToUpdate.save();
+
       return res.status(201).send({ project: createdProject });
     } catch (err: any) {
       console.error(err);

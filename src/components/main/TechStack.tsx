@@ -1,7 +1,5 @@
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { axiosClient } from '@/lib/utils/axiosInstance';
+import { useAppSelector } from '@/hooks/redux';
 import { TechDoc } from '@/models/tech.model';
-import { setTechStack } from '@/store/user.slice';
 import {
   Button,
   Code,
@@ -10,25 +8,12 @@ import {
   Heading,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import TechStackModal from '../modals/TechStackModal';
 
 const TechStack: FC = () => {
-  const dispatch = useAppDispatch();
-  const techStack = useAppSelector((state) => state.currentUser.techStack);
-
-  useEffect(() => {
-    const fetchUserTechStack = async () => {
-      try {
-        const { data } = await axiosClient.get<TechDoc[] | null>('/user/tech');
-        dispatch(setTechStack(data ? data : []));
-      } catch (err: any) {
-        console.error(err);
-      }
-    };
-    fetchUserTechStack();
-  }, [dispatch]);
+  const techStack = useAppSelector((state) => state.techStack.techStack);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

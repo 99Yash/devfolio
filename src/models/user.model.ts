@@ -8,11 +8,7 @@ export interface UserDoc extends Document {
   fullName?: string;
   clerkUserId: string;
   oneLiner?: string;
-  socials?: Array<SocialDoc['_id']>;
   about?: string;
-  experiences?: Array<ExperienceDoc['_id']>;
-  techStack?: TechDoc['_id'];
-  projects?: Array<ProjectDoc['_id']>;
 }
 
 const userSchema = new Schema<UserDoc>({
@@ -28,30 +24,9 @@ const userSchema = new Schema<UserDoc>({
     type: String,
     default: '',
   },
-  socials: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'Socials' }],
-    default: [],
-  },
   about: {
     type: String,
     default: '',
-  },
-  experiences: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'Experience' }],
-    default: [],
-  },
-  techStack: {
-    type: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Tech',
-      },
-    ],
-    default: [],
-  },
-  projects: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
-    default: [],
   },
 });
 

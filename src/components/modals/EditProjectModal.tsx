@@ -35,7 +35,7 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
   return (
     <Modal size={'2xl'} isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={'gray.800'}>
         <ModalHeader>Add Project</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

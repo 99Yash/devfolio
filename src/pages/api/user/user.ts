@@ -11,9 +11,7 @@ export default async function handler(
   if (req.method === 'GET') {
     const { userId } = getAuth(req);
     if (!userId) return res.status(401).send('No you are unauthorized');
-    if (userId) {
-      const user = await clerkClient.users.getUser(userId);
-    }
+
     try {
       // Create or retrieve the user
       await connectDB();

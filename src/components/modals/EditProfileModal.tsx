@@ -43,8 +43,7 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
               fullName: displayName,
               oneLiner: userState?.oneLiner ? userState?.oneLiner : '',
             }}
-            onSubmit={async (values, { setErrors }) => {
-              console.log(values);
+            onSubmit={async (values) => {
               if (values.fullName === '') return;
               try {
                 const { data } = await axiosClient.put<UserDoc>('/user/user', {
@@ -57,7 +56,6 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                     oneLiner: data.oneLiner as string,
                   })
                 );
-                console.log(userState);
               } catch (err: any) {
                 console.log(err);
               }

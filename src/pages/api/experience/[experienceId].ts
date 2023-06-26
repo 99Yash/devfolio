@@ -23,11 +23,7 @@ export default async function handler(
       const expIdStr = experienceId as string;
       const expId = new mongoose.Types.ObjectId(expIdStr);
       await ExperienceModel.findByIdAndDelete(expId);
-      await UserModel.findByIdAndUpdate(experienceUser._id, {
-        $pull: {
-          experiences: expId,
-        },
-      });
+
       return res.status(200).send('Project deleted');
     } catch (err: any) {
       console.error(err);

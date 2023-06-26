@@ -18,30 +18,29 @@ export default async function handler(
       clerkUserId: clerkIdStr,
     });
     if (!mongoUser) return res.status(404).send("User doesn't exist");
-    if (mongoUser.projects?.length && mongoUser.projects.length > 0) {
-      const projects: ProjectDoc[] | null = await ProjectModel.find({
-        clerkUserId: clerkIdStr,
-      });
-      const experiences: ExperienceDoc[] | null = await ExperienceModel.find({
-        clerkUserId: clerkIdStr,
-      });
-      const socials: SocialDoc[] | null = await SocialsModel.find({
-        clerkUserId: clerkIdStr,
-      });
-      const techStack: TechDoc[] | null = await TechModel.find({
-        clerkUserId: clerkIdStr,
-      });
-      const clerkUserImage = (await clerkClient.users.getUser(userId))
-        .profileImageUrl;
 
-      return res.status(200).send({
-        projects: projects ? projects : [],
-        mongoUser,
-        experiences: experiences ? experiences : [],
-        socials: socials ? socials : [],
-        techStack: techStack ? techStack : [],
-        clerkUserImage,
-      });
-    }
+    const projects: ProjectDoc[] | null = await ProjectModel.find({
+      clerkUserId: clerkIdStr,
+    });
+    const experiences: ExperienceDoc[] | null = await ExperienceModel.find({
+      clerkUserId: clerkIdStr,
+    });
+    const socials: SocialDoc[] | null = await SocialsModel.find({
+      clerkUserId: clerkIdStr,
+    });
+    const techStack: TechDoc[] | null = await TechModel.find({
+      clerkUserId: clerkIdStr,
+    });
+    const clerkUserImage = (await clerkClient.users.getUser(userId))
+      .profileImageUrl;
+
+    return res.status(200).send({
+      projects: projects ? projects : [],
+      mongoUser,
+      experiences: experiences ? experiences : [],
+      socials: socials ? socials : [],
+      techStack: techStack ? techStack : [],
+      clerkUserImage,
+    });
   }
 }

@@ -65,6 +65,8 @@ const OpenLinksModal: FC<
                 <Text>{social.name}</Text>
                 <IconButton
                   aria-label="delete"
+                  bg={'blackAlpha.700'}
+                  _hover={{}}
                   icon={<IoMdTrash />}
                   onClick={async () => {
                     try {

@@ -8,20 +8,21 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { FC } from 'react';
+import { Fade } from 'react-awesome-reveal';
 import { MdModeEdit } from 'react-icons/md';
 import AboutModal from '../modals/AboutModal';
-import { Fade } from 'react-awesome-reveal';
 
 const About: FC = () => {
   const userAbout = useAppSelector(
     (state) => state.currentUser.user?.about
   ) as string;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Flex gap={2} flexDir={'column'}>
-        <Fade>
+        <Fade cascade>
           <HStack
             display={'flex'}
             gap={2}
@@ -50,6 +51,7 @@ const About: FC = () => {
             </Button>
           </HStack>
         </Fade>
+
         <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
           <Text color={'gray.400'}>{userAbout}</Text>
         </Flex>

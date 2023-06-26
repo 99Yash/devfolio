@@ -6,13 +6,7 @@ import { ProjectDoc } from '@/models/project.model';
 import { SocialDoc } from '@/models/social.model';
 import { TechDoc } from '@/models/tech.model';
 import { UserDoc } from '@/models/user.model';
-import {
-  setCurrentProjects,
-  setCurrentUser,
-  setExperiences,
-  setSocialLinks,
-  setTechStack,
-} from '@/store/user.slice';
+import { setCurrentUser } from '@/store/user.slice';
 import {
   Avatar,
   Box,
@@ -40,22 +34,22 @@ import { Fade } from 'react-awesome-reveal';
 import { BsGlobe } from 'react-icons/bs';
 import { FaBars } from 'react-icons/fa';
 import { VscGithubAlt } from 'react-icons/vsc';
+import { setProjects } from '@/store/projects.slice';
+import { setExperiences } from '@/store/experiences.slice';
+import { setSocialLinks } from '@/store/socials.slice';
+import { setTechStack } from '@/store/tech.slice';
 
 const Portfolio = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   const localUserState = useAppSelector((state) => state.currentUser.user);
-  const localProjectsState = useAppSelector(
-    (state) => state.currentUser.projects
-  );
+  const localProjectsState = useAppSelector((state) => state.projects.projects);
   const localExperiencesState = useAppSelector(
-    (state) => state.currentUser.experiences
+    (state) => state.experiences.experiences
   );
-  const localSocialsState = useAppSelector(
-    (state) => state.currentUser.socials
-  );
-  const localTechStack = useAppSelector((state) => state.currentUser.techStack);
+  const localSocialsState = useAppSelector((state) => state.socials.socials);
+  const localTechStack = useAppSelector((state) => state.techStack.techStack);
   const [profileImgUrl, setProfileImageUrl] = useState('');
 
   useEffect(() => {
@@ -72,7 +66,7 @@ const Portfolio = () => {
         }>(`/user/${router.query.userId}`);
         if (!data.mongoUser) return;
         if (data.mongoUser) dispatch(setCurrentUser(data.mongoUser));
-        if (data.projects) dispatch(setCurrentProjects(data.projects));
+        if (data.projects) dispatch(setProjects(data.projects));
         if (data.experiences) dispatch(setExperiences(data.experiences));
         if (data.socials) dispatch(setSocialLinks(data.socials));
         if (data.techStack) dispatch(setTechStack(data.techStack));
@@ -146,8 +140,7 @@ const Portfolio = () => {
                       </Code>
                     </Link>
                   ) : null}
-                  {localUserState?.techStack &&
-                  localUserState?.techStack?.length !== 0 ? (
+                  {localTechStack && localTechStack?.length !== 0 ? (
                     <Link onClick={onClose} href="#tech">
                       <Code
                         bgClip={'text'}
@@ -203,8 +196,7 @@ const Portfolio = () => {
             </Code>
           </Link>
         ) : null}
-        {localUserState?.techStack &&
-        localUserState?.techStack?.length !== 0 ? (
+        {localTechStack && localTechStack?.length !== 0 ? (
           <Link href="#tech">
             <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
               Tech Stack
@@ -261,7 +253,7 @@ const Portfolio = () => {
             </Flex>
           ) : null}
 
-          {localUserState?.socials?.length !== 0 ? (
+          {localSocialsState?.length !== 0 ? (
             <Flex gap={4} flexDir={'column'} alignItems={'flex-start'}>
               <Flex gap={2}>
                 {localSocialsState.map((social) => (
@@ -309,8 +301,7 @@ const Portfolio = () => {
               </Flex>
             </Fade>
           ) : null}
-          {localUserState?.techStack &&
-          localUserState?.techStack?.length !== 0 ? (
+          {localTechStack && localTechStack?.length !== 0 ? (
             <Flex
               id="tech"
               whiteSpace={'pre-wrap'}
@@ -342,99 +333,92 @@ const Portfolio = () => {
             </Flex>
           ) : null}
 
-          {localUserState?.experiences && (
-            <>
-              {localUserState?.experiences?.length !== 0 ? (
-                <Flex id="experiences" flexDir={'column'} gap={4}>
-                  <Heading
-                    bgClip={'text'}
-                    bgGradient="linear(to-r, blue.300, white)"
-                    fontSize={'2xl'}
+          {localExperiencesState && localExperiencesState?.length !== 0 ? (
+            <Flex id="experiences" flexDir={'column'} gap={4}>
+              <Heading
+                bgClip={'text'}
+                bgGradient="linear(to-r, blue.300, white)"
+                fontSize={'2xl'}
+              >
+                Experiences
+              </Heading>
+              <>
+                {localExperiencesState.map((experience) => (
+                  <Box
+                    whiteSpace={'pre'}
+                    gap={4}
+                    p={8}
+                    key={experience._id}
+                    cursor={'default'}
+                    my={2}
                   >
-                    Experiences
-                  </Heading>
-                  <>
-                    {localExperiencesState.map((experience) => (
-                      <Box
-                        whiteSpace={'pre'}
-                        gap={4}
-                        p={8}
-                        key={experience._id}
-                        cursor={'default'}
-                        my={2}
+                    <Flex whiteSpace={'pre-wrap'} gap={2} flexDir={'column'}>
+                      <Flex
+                        gap={12}
+                        alignItems={'flex-start'}
+                        justifyContent={'start'}
                       >
-                        <Flex
-                          whiteSpace={'pre-wrap'}
-                          gap={2}
-                          flexDir={'column'}
+                        <Heading
+                          bgClip={'text'}
+                          bgGradient="linear(to-r, gray.300, gray.300)"
+                          fontWeight={'bold'}
+                          alignSelf={'flex-start'}
+                          fontSize={'md'}
                         >
-                          <Flex
-                            gap={12}
-                            alignItems={'flex-start'}
-                            justifyContent={'start'}
+                          {experience.companyName}
+                        </Heading>
+
+                        <Flex gap={1} flexDir={'column'}>
+                          <Heading
+                            bgClip={'text'}
+                            bgGradient="linear(to-r, gray.400, white)"
+                            fontSize={'sm'}
                           >
-                            <Heading
-                              bgClip={'text'}
-                              bgGradient="linear(to-r, gray.300, gray.300)"
-                              fontWeight={'bold'}
-                              alignSelf={'flex-start'}
-                              fontSize={'md'}
-                            >
-                              {experience.companyName}
-                            </Heading>
-
-                            <Flex gap={1} flexDir={'column'}>
-                              <Heading
-                                bgClip={'text'}
-                                bgGradient="linear(to-r, gray.400, white)"
-                                fontSize={'sm'}
-                              >
-                                {experience.position}
-                              </Heading>
-                              <Code
-                                bgClip={'text'}
-                                bgGradient="linear(to-r, blue.300, green.300)"
-                                fontSize={'sm'}
-                              >
-                                {experience.startDate
-                                  ? `${new Date(
-                                      experience.startDate
-                                    ).toLocaleString('default', {
-                                      month: 'long',
-                                    })} ${new Date(
-                                      experience.startDate
-                                    ).getFullYear()}`
-                                  : null}
-                                -
-                                {experience.present === false
-                                  ? `${new Date(
-                                      experience.endDate
-                                    ).toLocaleString('default', {
-                                      month: 'long',
-                                    })} ${new Date(
-                                      experience.endDate
-                                    ).getFullYear()}`
-                                  : 'Present'}
-                              </Code>
-                              <Text
-                                fontSize={'sm'}
-                                color={'gray.500'}
-                                fontStyle={'italic'}
-                              >
-                                {experience.description}
-                              </Text>
-                            </Flex>
-                          </Flex>
+                            {experience.position}
+                          </Heading>
+                          <Code
+                            bgClip={'text'}
+                            bgGradient="linear(to-r, blue.300, green.300)"
+                            fontSize={'sm'}
+                          >
+                            {experience.startDate
+                              ? `${new Date(
+                                  experience.startDate
+                                ).toLocaleString('default', {
+                                  month: 'long',
+                                })} ${new Date(
+                                  experience.startDate
+                                ).getFullYear()}`
+                              : null}
+                            -
+                            {experience.present === false
+                              ? `${new Date(experience.endDate).toLocaleString(
+                                  'default',
+                                  {
+                                    month: 'long',
+                                  }
+                                )} ${new Date(
+                                  experience.endDate
+                                ).getFullYear()}`
+                              : 'Present'}
+                          </Code>
+                          <Text
+                            fontSize={'sm'}
+                            color={'gray.500'}
+                            fontStyle={'italic'}
+                          >
+                            {experience.description}
+                          </Text>
                         </Flex>
-                      </Box>
-                    ))}
-                  </>
-                </Flex>
-              ) : null}
-            </>
-          )}
+                      </Flex>
+                    </Flex>
+                  </Box>
+                ))}
+              </>
+            </Flex>
+          ) : null}
 
-          {localUserState?.projects ? (
+          {localProjectsState ? (
             <Flex id="projects" flexDir={'column'} gap={4}>
               <Heading
                 bgClip={'text'}

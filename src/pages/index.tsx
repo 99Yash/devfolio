@@ -4,10 +4,17 @@ import Experiences from '@/components/main/Experiences';
 import Projects from '@/components/main/Projects';
 import TechStack from '@/components/main/TechStack';
 import TopUserProfile from '@/components/main/TopUserProfile';
-import SignInBtn from '@/components/utils/SignInBtn';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
+import { ExperienceDoc } from '@/models/experience.model';
+import { ProjectDoc } from '@/models/project.model';
+import { SocialDoc } from '@/models/social.model';
+import { TechDoc } from '@/models/tech.model';
 import { UserDoc } from '@/models/user.model';
+import { setExperiences } from '@/store/experiences.slice';
+import { setProjects } from '@/store/projects.slice';
+import { setSocialLinks } from '@/store/socials.slice';
+import { setTechStack } from '@/store/tech.slice';
 import { setCurrentUser } from '@/store/user.slice';
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import {
@@ -20,28 +27,46 @@ import {
 import { useEffect } from 'react';
 
 export default function Home() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
+
   const localUserState = useAppSelector((state) => state.currentUser.user);
+  const localExperienceState = useAppSelector(
+    (state) => state.experiences.experiences
+  );
+  const localTechStack = useAppSelector((state) => state.techStack.techStack);
+  const localProjectsState = useAppSelector((state) => state.projects.projects);
 
   useEffect(() => {
     if (!isSignedIn) return;
     const fetchUser = async () => {
       try {
-        const { data: fetchedUser, status } = await axiosClient.get<UserDoc>(
+        const { data: fetchedUser } = await axiosClient.get<UserDoc>(
           `/user/user`
         );
-        if (status === 304) {
-          console.log('304');
-          return;
-        }
+        const { data: fetchedExperiences } = await axiosClient.get<{
+          experiences: ExperienceDoc[];
+        }>(`/user/experience`);
+        const { data: fetchedTechStack } = await axiosClient.get<
+          TechDoc[] | null
+        >(`/user/tech`);
+        const { data: fetchedProjects } = await axiosClient.get<{
+          projects: ProjectDoc[];
+        }>(`/user/project`);
+        const { data: fetchedSocials } = await axiosClient.get<
+          SocialDoc[] | null
+        >('/user/socials');
+        dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
         dispatch(setCurrentUser(fetchedUser));
+        dispatch(setExperiences(fetchedExperiences.experiences));
+        dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
+        dispatch(setProjects(fetchedProjects.projects));
       } catch (err: any) {
         console.log(err);
       }
     };
-    isLoaded && fetchUser();
-  }, [dispatch, isLoaded, isSignedIn]);
+    fetchUser();
+  }, [dispatch, isSignedIn]);
 
   return (
     <>
@@ -88,7 +113,7 @@ export default function Home() {
           alignItems={'center'}
           py={16}
         >
-          {isSignedIn && isLoaded && (
+          {isSignedIn && (
             <Flex
               flexDir={'column'}
               gap={12}
@@ -98,22 +123,22 @@ export default function Home() {
               px={[4, 8]}
             >
               {localUserState ? <TopUserProfile /> : null}
-              {localUserState?.about && localUserState.about !== '' ? (
+              {localUserState?.about ? (
                 <About />
               ) : (
                 <DefaultMainSection sectionTitle={'About'} />
               )}
-              {localUserState?.experiences?.length ? (
+              {localExperienceState.length > 0 ? (
                 <Experiences />
               ) : (
                 <DefaultMainSection sectionTitle={'Experiences'} />
               )}
-              {localUserState?.techStack?.length > 0 ? (
+              {localTechStack?.length > 0 ? (
                 <TechStack />
               ) : (
                 <DefaultMainSection sectionTitle={'Tech Stack'} />
               )}
-              {localUserState?.projects?.length ? (
+              {localProjectsState?.length > 0 ? (
                 <Projects />
               ) : (
                 <DefaultMainSection sectionTitle={'Projects'} />
