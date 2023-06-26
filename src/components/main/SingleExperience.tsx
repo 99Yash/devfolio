@@ -60,21 +60,22 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
                 {experience.description}
               </Text>
             </Flex>
-
-            <Button
-              _hover={{
-                bg: 'transparent',
-              }}
-              _focus={{
-                boxShadow: 'none',
-              }}
-              bg={'transparent'}
-              onClick={onOpen}
-              size={'lg'}
-              color={'antiquewhite'}
-            >
-              <BsFillPencilFill fontSize={'md'} />
-            </Button>
+            <HStack>
+              <Button
+                _hover={{
+                  bg: 'transparent',
+                }}
+                _focus={{
+                  boxShadow: 'none',
+                }}
+                bg={'transparent'}
+                size={'xs'}
+                onClick={onOpen}
+                color={'beige'}
+              >
+                <BsFillPencilFill />
+              </Button>
+            </HStack>
           </Flex>
         </Flex>
         {isOpen && (
