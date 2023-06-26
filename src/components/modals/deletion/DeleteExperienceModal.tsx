@@ -13,7 +13,7 @@ import {
 import { FC } from 'react';
 import { ModalsProps } from '../AboutModal';
 import { axiosClient } from '@/lib/utils/axiosInstance';
-import { deleteExperience } from '@/store/user.slice';
+import { deleteExperience } from '@/store/experiences.slice';
 
 const DeleteExperienceModal: FC<ModalsProps & { experienceId: string }> = ({
   isOpen,

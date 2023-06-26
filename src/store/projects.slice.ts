@@ -63,5 +63,6 @@ const ProjectsSlice = createSlice({
   },
 });
 
-export const { setProjects, addProject, editProject } = ProjectsSlice.actions;
+export const { setProjects, addProject, editProject, deleteProject } =
+  ProjectsSlice.actions;
 export default ProjectsSlice.reducer;

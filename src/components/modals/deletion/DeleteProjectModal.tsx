@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
-import { deleteProject } from '@/store/user.slice';
+import { deleteProject } from '@/store/projects.slice';
 import {
   Button,
   Flex,

@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { ProjectDoc } from '@/models/project.model';
-import { addProject } from '@/store/user.slice';
+import { addProject } from '@/store/projects.slice';
 import {
   Button,
   Modal,

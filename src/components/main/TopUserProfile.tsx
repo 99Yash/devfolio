@@ -21,6 +21,7 @@ import EditProfileModal from '../modals/EditProfileModal';
 import OpenLinksModal from '../modals/OpenLinksModal';
 import { getIconByLinkName } from '../utils/getIconsByLink';
 import { Fade } from 'react-awesome-reveal';
+import { BsBoxArrowUpRight } from 'react-icons/bs';
 
 const TopUserProfile: FC = () => {
   const userState = useAppSelector((state) => state.currentUser.user);
@@ -130,9 +131,10 @@ const TopUserProfile: FC = () => {
               fontSize={'sm'}
               _hover={{
                 bg: 'black',
+                border: '1px solid #ccc',
               }}
               bg={'black'}
-              color={'gray.200'}
+              borderColor={'black'}
               borderRadius={'50%'}
               aria-label="Add/Edit links"
               icon={<MdEdit />}
@@ -166,21 +168,29 @@ const TopUserProfile: FC = () => {
               </Button>
             ) : null}
           </Flex>
-          <Link
-            target="_blank"
-            display="inline-block"
-            px={4}
-            py={2}
-            borderWidth={1}
-            borderRadius="md"
-            textAlign={'center'}
-            _hover={{
-              textDecoration: 'none',
-            }}
-            href={`/portfolio/${user?.user?.id}`}
+          <Tooltip
+            label={'Visit generated portfolio'}
+            aria-label="A tooltip"
+            bg={'transparent'}
+            color={'purple.200'}
+            border={'gray.200'}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
           >
-            View Profile
-          </Link>
+            <Link
+              target="_blank"
+              display="inline-block"
+              borderRadius="none"
+              textAlign={'center'}
+              _hover={{
+                textDecoration: 'none',
+              }}
+              href={`/portfolio/${user?.user?.id}`}
+            >
+              <BsBoxArrowUpRight />
+            </Link>
+          </Tooltip>
         </Flex>
 
         {isOpenLinksModal && (

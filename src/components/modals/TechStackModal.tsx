@@ -1,7 +1,6 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { TechDoc } from '@/models/tech.model';
-import { deleteTech, updateTechStack } from '@/store/user.slice';
 import {
   Button,
   Flex,
@@ -19,6 +18,7 @@ import { FC, useCallback, useRef } from 'react';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
+import { deleteTech, updateTechStack } from '@/store/tech.slice';
 
 const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
   isOpen,
@@ -67,6 +67,7 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
                     _focus={{
                       boxShadow: 'none',
                     }}
+                    bg={'black'}
                     onClick={() => deleteHandler(tech._id)}
                   >
                     <BsFillTrash3Fill />

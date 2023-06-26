@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { ExperienceDoc } from '@/models/experience.model';
-import { editExperience } from '@/store/user.slice';
+import { editExperience } from '@/store/experiences.slice';
 import {
   Button,
   Checkbox,
