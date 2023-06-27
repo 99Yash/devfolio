@@ -1,7 +1,7 @@
-import { BsGithub } from 'react-icons/bs';
-import { RiTwitterFill } from 'react-icons/ri';
-import { FaLinkedinIn } from 'react-icons/fa';
-import { VscGlobe } from 'react-icons/vsc';
+import { FiGithub } from 'react-icons/fi';
+import { FiTwitter } from 'react-icons/fi';
+import { FiLinkedin } from 'react-icons/fi';
+import { BsGlobeAmericas } from 'react-icons/bs';
 import { IconType } from 'react-icons';
 
 export const getIconByLinkName = (linkName: string): JSX.Element => {
@@ -9,16 +9,16 @@ export const getIconByLinkName = (linkName: string): JSX.Element => {
 
   switch (linkName) {
     case 'Github':
-      IconComponent = BsGithub;
+      IconComponent = FiGithub;
       break;
     case 'Twitter':
-      IconComponent = RiTwitterFill;
+      IconComponent = FiTwitter;
       break;
     case 'LinkedIn':
-      IconComponent = FaLinkedinIn;
+      IconComponent = FiLinkedin;
       break;
     case 'Website':
-      IconComponent = VscGlobe;
+      IconComponent = BsGlobeAmericas;
       break;
     default:
       return <></>;

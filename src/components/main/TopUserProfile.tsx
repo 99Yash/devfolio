@@ -48,55 +48,54 @@ const TopUserProfile: FC = () => {
   return (
     <Flex flexDir={'column'}>
       {/* //?top head */}
-      <Fade cascade>
-        <Flex
-          mb={8}
-          gap={12}
-          justifyContent={'space-between'}
-          alignItems={'center'}
+
+      <Flex
+        mb={8}
+        gap={12}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+      >
+        <Tooltip
+          label={'Use the User Button to change picture'}
+          aria-label="A tooltip"
+          bg={'transparent'}
+          color={'purple.200'}
+          border={'gray.200'}
         >
-          <Tooltip
-            label={'Use the User Button to change picture'}
-            aria-label="A tooltip"
-            bg={'transparent'}
-            color={'purple.200'}
-            border={'gray.200'}
-          >
-            <Avatar
-              loading="lazy"
-              variant="circular"
-              src={user.user?.profileImageUrl}
-              size="2xl"
-              name={userState!.fullName}
-            />
-          </Tooltip>
-          <Heading color={'gray.200'} size={'md'} fontWeight={'semibold'}>
-            {displayName}
-          </Heading>
-          <Button
-            _hover={{
-              bg: 'gray.900',
-            }}
-            bg={'black'}
-            color={'gray.300'}
-            variant={'outline'}
-            borderColor={'gray.500'}
-            borderWidth={'1px'}
-            _focus={{
-              boxShadow: 'none',
-            }}
-            onClick={onOpenEditProfileModal}
-          >
-            Edit Profile
-          </Button>
-          {isOpenEditProfileModal && (
-            <EditProfileModal
-              isOpen={isOpenEditProfileModal}
-              onClose={onCloseEditProfileModal}
-            />
-          )}
-        </Flex>
-      </Fade>
+          <Avatar
+            loading="lazy"
+            variant="circular"
+            src={user.user?.profileImageUrl}
+            size="2xl"
+            name={userState!.fullName}
+          />
+        </Tooltip>
+        <Heading color={'gray.200'} size={'md'} fontWeight={'semibold'}>
+          {displayName}
+        </Heading>
+        <Button
+          _hover={{
+            bg: 'gray.900',
+          }}
+          bg={'black'}
+          color={'gray.300'}
+          variant={'outline'}
+          borderColor={'gray.500'}
+          borderWidth={'1px'}
+          _focus={{
+            boxShadow: 'none',
+          }}
+          onClick={onOpenEditProfileModal}
+        >
+          Edit Profile
+        </Button>
+        {isOpenEditProfileModal && (
+          <EditProfileModal
+            isOpen={isOpenEditProfileModal}
+            onClose={onCloseEditProfileModal}
+          />
+        )}
+      </Flex>
 
       <Box>
         {/* //?social link icons */}

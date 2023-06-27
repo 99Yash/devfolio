@@ -28,16 +28,16 @@ import {
 import Head from 'next/head';
 import { useEffect } from 'react';
 
+import { setExperiences } from '@/store/experiences.slice';
+import { setProjects } from '@/store/projects.slice';
+import { setSocialLinks } from '@/store/socials.slice';
+import { setTechStack } from '@/store/tech.slice';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Fade } from 'react-awesome-reveal';
-import { BsGlobe } from 'react-icons/bs';
+import { BsGlobeAmericas } from 'react-icons/bs';
 import { FaBars } from 'react-icons/fa';
 import { VscGithubAlt } from 'react-icons/vsc';
-import { setProjects } from '@/store/projects.slice';
-import { setExperiences } from '@/store/experiences.slice';
-import { setSocialLinks } from '@/store/socials.slice';
-import { setTechStack } from '@/store/tech.slice';
 
 const Portfolio = () => {
   const router = useRouter();
@@ -94,10 +94,10 @@ const Portfolio = () => {
       <Flex
         display={{
           base: 'flex',
+          sm: 'flex',
           md: 'none',
           lg: 'none',
           xl: 'none',
-          sm: 'flex',
         }}
         justify={'end'}
       >
@@ -254,8 +254,18 @@ const Portfolio = () => {
           ) : null}
 
           {localSocialsState?.length !== 0 ? (
-            <Flex gap={4} flexDir={'column'} alignItems={'flex-start'}>
-              <Flex gap={2}>
+            <Flex
+              display={{
+                base: 'none',
+                sm: 'none',
+                md: 'flex',
+                lg: 'flex',
+              }}
+              gap={4}
+              flexDir={'column'}
+              alignItems={'flex-start'}
+            >
+              <Flex gap={4}>
                 {localSocialsState.map((social) => (
                   <Link
                     key={social._id}
@@ -263,7 +273,12 @@ const Portfolio = () => {
                     color={'blue.100'}
                     target={'_blank'}
                     fontSize={'xl'}
-                    _hover={{ textDecoration: 'none' }}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: '#0cee08',
+                      mt: '-2',
+                      transition: 'all 400ms',
+                    }}
                   >
                     {getIconByLinkName(social.name)}
                   </Link>
@@ -450,7 +465,7 @@ const Portfolio = () => {
                       <HStack>
                         {project?.demoLink ? (
                           <Link target="_blank" href={project?.demoLink}>
-                            <BsGlobe />
+                            <BsGlobeAmericas />
                           </Link>
                         ) : null}
                         <Link
@@ -498,6 +513,50 @@ const Portfolio = () => {
                   </Flex>
                 </Box>
               ))}
+            </Flex>
+          ) : null}
+
+          {localSocialsState?.length !== 0 ? (
+            <Flex
+              display={{
+                base: 'flex',
+                sm: 'flex',
+                md: 'none',
+                lg: 'none',
+              }}
+              gap={4}
+              flexDir={'column'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
+              <Flex gap={4}>
+                {localSocialsState.map((social) => (
+                  <Link
+                    key={social._id}
+                    href={social.url}
+                    color={'blue.100'}
+                    target={'_blank'}
+                    fontSize={'2xl'}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: '#0cee08',
+                      mt: '-2',
+                      transition: 'all 400ms',
+                    }}
+                  >
+                    {getIconByLinkName(social.name)}
+                  </Link>
+                ))}
+              </Flex>
+              {localUserState?.oneLiner ? (
+                <Text
+                  bgGradient="linear(to-r, gray.400, gray.100)"
+                  bgClip="text"
+                  cursor={'default'}
+                >
+                  {localUserState?.oneLiner}
+                </Text>
+              ) : null}
             </Flex>
           ) : null}
         </Flex>
