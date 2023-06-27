@@ -1,5 +1,4 @@
 import { SocialDoc } from '@/models/social.model';
-import { addSocialLink, deleteSocialLink } from '@/store/user.slice';
 import {
   Button,
   Flex,
@@ -22,6 +21,7 @@ import InputField from '../utils/InputField';
 import { ModalsProps } from './AboutModal';
 import { useAppDispatch } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
+import { addSocialLink, deleteSocialLink } from '@/store/socials.slice';
 
 const OpenLinksModal: FC<
   ModalsProps & {
@@ -99,7 +99,6 @@ const OpenLinksModal: FC<
                     url: values.url,
                   }
                 );
-                console.log(data);
                 dispatch(addSocialLink({ socialLink: data }));
                 onClose();
               } catch (err: any) {
