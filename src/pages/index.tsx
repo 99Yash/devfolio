@@ -16,7 +16,7 @@ import { setProjects } from '@/store/projects.slice';
 import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
 import { setCurrentUser } from '@/store/user.slice';
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spinner } from '@chakra-ui/react';
 import {
   SignIn,
   SignedIn,
@@ -123,7 +123,7 @@ export default function Home() {
               px={[4, 8]}
             >
               {localUserState ? <TopUserProfile /> : null}
-              {localUserState?.about ? (
+              {localUserState?.about !== '' ? (
                 <About />
               ) : (
                 <DefaultMainSection sectionTitle={'About'} />

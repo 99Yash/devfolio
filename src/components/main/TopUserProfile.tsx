@@ -20,7 +20,6 @@ import { MdEdit } from 'react-icons/md';
 import EditProfileModal from '../modals/EditProfileModal';
 import OpenLinksModal from '../modals/OpenLinksModal';
 import { getIconByLinkName } from '../utils/getIconsByLink';
-import { Fade } from 'react-awesome-reveal';
 import { BsBoxArrowUpRight } from 'react-icons/bs';
 
 const TopUserProfile: FC = () => {

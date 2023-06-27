@@ -1,3 +1,7 @@
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { axiosClient } from '@/lib/utils/axiosInstance';
+import { UserDoc } from '@/models/user.model';
+import { updateUserProfile } from '@/store/user.slice';
 import {
   Button,
   Modal,
@@ -7,16 +11,11 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
+import { useUser } from '@clerk/nextjs';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
-import { ModalsProps } from './AboutModal';
 import InputField from '../utils/InputField';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { updateUserProfile } from '@/store/user.slice';
-import * as yup from 'yup';
-import { axiosClient } from '@/lib/utils/axiosInstance';
-import { UserDoc } from '@/models/user.model';
-import { useUser } from '@clerk/nextjs';
+import { ModalsProps } from './AboutModal';
 
 const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
   const userState = useAppSelector((state) => state.currentUser.user);
@@ -35,10 +34,6 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <ModalBody>
           <Formik
-            validationSchema={yup.object().shape({
-              fullName: yup.string().required('Name is required'),
-              oneLiner: yup.string(),
-            })}
             initialValues={{
               fullName: displayName,
               oneLiner: userState?.oneLiner ? userState?.oneLiner : '',

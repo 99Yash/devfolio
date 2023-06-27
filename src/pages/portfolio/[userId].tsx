@@ -34,7 +34,6 @@ import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Fade } from 'react-awesome-reveal';
 import { BsGlobeAmericas } from 'react-icons/bs';
 import { FaBars } from 'react-icons/fa';
 import { VscGithubAlt } from 'react-icons/vsc';
@@ -91,6 +90,7 @@ const Portfolio = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      {/* hamburger */}
       <Flex
         display={{
           base: 'flex',
@@ -176,6 +176,8 @@ const Portfolio = () => {
           </Drawer>
         )}
       </Flex>
+
+      {/* nav bar anchor tags */}
       <Flex
         display={{
           base: 'none',
@@ -234,6 +236,7 @@ const Portfolio = () => {
           maxW={['100%', '2xl']}
           px={[4, 8]}
         >
+          {/* top user section */}
           {localUserState?.fullName ? (
             <Flex gap={4} position={'relative'} alignItems={'center'}>
               <Avatar
@@ -254,18 +257,16 @@ const Portfolio = () => {
           ) : null}
 
           {localSocialsState?.length !== 0 ? (
-            <Flex
-              display={{
-                base: 'none',
-                sm: 'none',
-                md: 'flex',
-                lg: 'flex',
-              }}
-              gap={4}
-              flexDir={'column'}
-              alignItems={'flex-start'}
-            >
-              <Flex gap={4}>
+            <Flex gap={4} flexDir={'column'} alignItems={'flex-start'}>
+              <Flex
+                display={{
+                  base: 'none',
+                  sm: 'none',
+                  md: 'flex',
+                  lg: 'flex',
+                }}
+                gap={4}
+              >
                 {localSocialsState.map((social) => (
                   <Link
                     key={social._id}
@@ -296,26 +297,27 @@ const Portfolio = () => {
             </Flex>
           ) : null}
 
+          {/* user's about */}
           {localUserState?.about && localUserState.about !== '' ? (
-            <Fade cascade>
-              <Flex id="about" gap={2} flexDir={'column'}>
-                <Heading
-                  bgClip={'text'}
-                  bgGradient="linear(to-r, blue.300, white)"
-                  fontSize={'2xl'}
-                >
-                  About
-                </Heading>
-                <Text
-                  bgGradient="linear(to-r, gray.300, gray.200)"
-                  bgClip="text"
-                  cursor={'default'}
-                >
-                  {localUserState?.about}.
-                </Text>
-              </Flex>
-            </Fade>
+            <Flex id="about" gap={2} flexDir={'column'}>
+              <Heading
+                bgClip={'text'}
+                bgGradient="linear(to-r, blue.300, white)"
+                fontSize={'2xl'}
+              >
+                About
+              </Heading>
+              <Text
+                bgGradient="linear(to-r, gray.300, gray.200)"
+                bgClip="text"
+                cursor={'default'}
+              >
+                {localUserState?.about}.
+              </Text>
+            </Flex>
           ) : null}
+
+          {/* users' tech */}
           {localTechStack && localTechStack?.length !== 0 ? (
             <Flex
               id="tech"
@@ -347,6 +349,8 @@ const Portfolio = () => {
               </Flex>
             </Flex>
           ) : null}
+
+          {/* user's experiences */}
 
           {localExperiencesState && localExperiencesState?.length !== 0 ? (
             <Flex id="experiences" flexDir={'column'} gap={4}>
@@ -433,6 +437,7 @@ const Portfolio = () => {
             </Flex>
           ) : null}
 
+          {/* user's projects */}
           {localProjectsState ? (
             <Flex id="projects" flexDir={'column'} gap={4}>
               <Heading
@@ -516,20 +521,23 @@ const Portfolio = () => {
             </Flex>
           ) : null}
 
+          {/* user's socials in case of mobile view */}
           {localSocialsState?.length !== 0 ? (
             <Flex
-              display={{
-                base: 'flex',
-                sm: 'flex',
-                md: 'none',
-                lg: 'none',
-              }}
               gap={4}
               flexDir={'column'}
               alignItems={'center'}
               justifyContent={'center'}
             >
-              <Flex gap={4}>
+              <Flex
+                display={{
+                  base: 'flex',
+                  sm: 'flex',
+                  md: 'none',
+                  lg: 'none',
+                }}
+                gap={4}
+              >
                 {localSocialsState.map((social) => (
                   <Link
                     key={social._id}
@@ -548,15 +556,6 @@ const Portfolio = () => {
                   </Link>
                 ))}
               </Flex>
-              {localUserState?.oneLiner ? (
-                <Text
-                  bgGradient="linear(to-r, gray.400, gray.100)"
-                  bgClip="text"
-                  cursor={'default'}
-                >
-                  {localUserState?.oneLiner}
-                </Text>
-              ) : null}
             </Flex>
           ) : null}
         </Flex>

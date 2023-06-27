@@ -15,7 +15,6 @@ import AboutModal from '../modals/AboutModal';
 import ExpModal from '../modals/ExpModal';
 import ProjectModal from '../modals/ProjectModal';
 import TechStackModal from '../modals/TechStackModal';
-import { Fade } from 'react-awesome-reveal';
 
 interface DefaultMainSectionProps {
   sectionTitle: string;
@@ -74,29 +73,27 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
   };
   return (
     <Flex flexDir={'column'}>
-      <Fade cascade>
-        <HStack
-          display={'flex'}
-          gap={2}
-          justifyContent={'space-between'}
-          alignItems={'center'}
+      <HStack
+        display={'flex'}
+        gap={2}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+      >
+        <Heading color={'gray.300'} fontSize={'3xl'}>
+          {sectionTitle}
+        </Heading>
+        <Button
+          _hover={{
+            bg: 'black',
+          }}
+          bg={'black'}
+          color={'gray.200'}
+          onClick={onOpen}
         >
-          <Heading color={'gray.300'} fontSize={'3xl'}>
-            {sectionTitle}
-          </Heading>
-          <Button
-            _hover={{
-              bg: 'black',
-            }}
-            bg={'black'}
-            color={'gray.200'}
-            onClick={onOpen}
-          >
-            {sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
-          </Button>
-        </HStack>
-        <SectionContent />
-      </Fade>
+          {sectionTitle === 'About' ? <MdModeEdit /> : <IoMdAdd />}
+        </Button>
+      </HStack>
+      <SectionContent />
       {isOpen && <MainSectionModal />}
     </Flex>
   );

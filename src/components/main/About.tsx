@@ -8,7 +8,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { FC } from 'react';
-import { Fade } from 'react-awesome-reveal';
 import { MdModeEdit } from 'react-icons/md';
 import AboutModal from '../modals/AboutModal';
 
@@ -22,35 +21,33 @@ const About: FC = () => {
   return (
     <>
       <Flex gap={2} flexDir={'column'}>
-        <Fade cascade>
-          <HStack
-            display={'flex'}
-            gap={2}
-            justifyContent={'space-between'}
-            alignItems={'center'}
+        <HStack
+          display={'flex'}
+          gap={2}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+        >
+          <Heading
+            bgClip={'text'}
+            bgGradient="linear(to-r, gray.200, blue.300)"
+            fontSize={'3xl'}
           >
-            <Heading
-              bgClip={'text'}
-              bgGradient="linear(to-r, gray.200, blue.300)"
-              fontSize={'3xl'}
-            >
-              About
-            </Heading>
-            <Button
-              _hover={{
-                bg: 'black',
-              }}
-              bg={'black'}
-              color={'gray.200'}
-              _focus={{
-                boxShadow: 'none',
-              }}
-              onClick={onOpen}
-            >
-              <MdModeEdit />
-            </Button>
-          </HStack>
-        </Fade>
+            About
+          </Heading>
+          <Button
+            _hover={{
+              bg: 'black',
+            }}
+            bg={'black'}
+            color={'gray.200'}
+            _focus={{
+              boxShadow: 'none',
+            }}
+            onClick={onOpen}
+          >
+            <MdModeEdit />
+          </Button>
+        </HStack>
 
         <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
           <Text color={'gray.400'}>{userAbout}</Text>

@@ -9,7 +9,7 @@ export default function Document() {
           content="A social media platform for developers to share their projects and connect with other developers."
         />
       </Head>
-      <body>
+      <body className="antialiased">
         <Main />
         <NextScript />
       </body>
