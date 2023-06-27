@@ -46,7 +46,6 @@ export default async function handler(
           return tech;
         })
       );
-      await user.save();
       return res.status(200).send(newlyAddedTech);
     } catch (err: any) {
       console.error(err);

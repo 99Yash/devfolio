@@ -20,11 +20,6 @@ export default async function handler(
         url,
         clerkUserId: userId,
       });
-      if (user.socials?.find((social) => social.name === name)) {
-        res.status(409).send(`${name} link already exists`);
-      }
-      user.socials?.push(createdSocial);
-      await user.save();
       res.status(200).send(createdSocial);
     } else {
       res.status(404).send({ message: 'user not found' });
