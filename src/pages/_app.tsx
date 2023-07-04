@@ -31,8 +31,8 @@ export default function App({ Component, pageProps }: AppProps) {
             />
             <link rel="icon" href="/favicon.ico" />
           </Head>
+          <Analytics />
           <Component {...pageProps} />
-          <Analytics/>
         </Provider>
       </ClerkProvider>
     </ChakraProvider>
