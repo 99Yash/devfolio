@@ -86,6 +86,7 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
                     placeholder={project.title}
                   />
                   <InputField
+                    height={'4xs'}
                     istextarea={'true'}
                     label="Description"
                     name="description"

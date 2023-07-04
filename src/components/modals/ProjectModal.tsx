@@ -102,10 +102,10 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                       }}
                       onClick={() => onClose()}
                       variant={'outline'}
-                      colorScheme="red"
+                      colorScheme="gray.600"
                       mr={3}
                     >
-                      Delete
+                      Cancel
                     </Button>
                     <Button
                       isLoading={isSubmitting}

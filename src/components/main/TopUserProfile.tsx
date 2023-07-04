@@ -144,12 +144,7 @@ const TopUserProfile: FC = () => {
         <Flex justifyContent={'space-between'}>
           <Flex wrap={'wrap'} flexDir={'column'}>
             {userState?.oneLiner ? (
-              <Text
-                bgGradient={'linear(to-r, gray.200, gray.600)'}
-                bgClip={'text'}
-                my={2}
-                color={'gray.300'}
-              >
+              <Text my={2} color={'gray.400'}>
                 {userState?.oneLiner}
               </Text>
             ) : null}
@@ -158,8 +153,11 @@ const TopUserProfile: FC = () => {
                 _focus={{
                   outline: 'none',
                 }}
+                _hover={{
+                  bg: 'black',
+                }}
                 onClick={onOpenLinksModal}
-                alignItems={'self-start'}
+                alignItems={'center'}
                 variant="outline"
               >
                 Add Links

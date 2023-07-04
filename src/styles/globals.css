@@ -41,7 +41,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(
     to bottom,
-    rgb(15, 136, 176),
+    rgb(96, 98, 99),
     rgba(9, 10, 10, 0.663)
   ); /* Replace with your desired gradient colors */
   border-radius: 7px;
@@ -85,6 +85,6 @@ scrollbar-thumb:hover {
 
 /* Text selection style */
 ::selection {
-  background-color: rgb(222, 211, 211);
-  color: rgb(12, 12, 12);
+  background-color: rgb(25, 33, 34);
+  color: rgb(255, 205, 4);
 }

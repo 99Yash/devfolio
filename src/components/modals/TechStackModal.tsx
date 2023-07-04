@@ -67,6 +67,7 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
                     _focus={{
                       boxShadow: 'none',
                     }}
+                    _hover={{}}
                     bg={'black'}
                     onClick={() => deleteHandler(tech._id)}
                   >

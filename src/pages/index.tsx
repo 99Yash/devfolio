@@ -24,12 +24,13 @@ import {
   UserButton,
   useAuth,
 } from '@clerk/nextjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const { isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
 
+  const [isLoading, setIsLoading] = useState(true);
   const localUserState = useAppSelector((state) => state.currentUser.user);
   const localExperienceState = useAppSelector(
     (state) => state.experiences.experiences
@@ -39,6 +40,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!isSignedIn) return;
+    setIsLoading(true);
     const fetchUser = async () => {
       try {
         const { data: fetchedUser } = await axiosClient.get<UserDoc>(
@@ -63,11 +65,16 @@ export default function Home() {
         dispatch(setProjects(fetchedProjects.projects));
       } catch (err: any) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchUser();
   }, [dispatch, isSignedIn]);
 
+  if (isLoading) {
+    <Spinner color="green.400" />;
+  }
   return (
     <>
       <SignedOut>
@@ -122,22 +129,29 @@ export default function Home() {
               maxW={['100%', '3xl']}
               px={[4, 8]}
             >
-              {localUserState ? <TopUserProfile /> : null}
+              {localUserState ? (
+                <TopUserProfile />
+              ) : (
+                <Spinner color="green.400" />
+              )}
               {localUserState?.about !== '' ? (
                 <About />
               ) : (
                 <DefaultMainSection sectionTitle={'About'} />
               )}
-              {localExperienceState.length > 0 ? (
+
+              {localExperienceState && localExperienceState.length > 0 ? (
                 <Experiences />
               ) : (
                 <DefaultMainSection sectionTitle={'Experiences'} />
               )}
+
               {localTechStack?.length > 0 ? (
                 <TechStack />
               ) : (
                 <DefaultMainSection sectionTitle={'Tech Stack'} />
               )}
+
               {localProjectsState?.length > 0 ? (
                 <Projects />
               ) : (

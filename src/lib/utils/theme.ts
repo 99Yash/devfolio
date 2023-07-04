@@ -2,17 +2,20 @@ import { extendTheme } from '@chakra-ui/react';
 
 const fonts = {
   heading: 'Inter, sans-serif',
-  body: 'Roboto, sans-serif',
+  body: 'Inter, sans-serif',
 };
 
 export const theme = extendTheme({
-  fonts,
   styles: {
     global: {
       body: {
         bg: 'black',
         color: 'gray.200',
         borderColor: 'gray.400',
+        fonts: {
+          heading: 'Inter, sans-serif',
+          body: 'Inter, sans-serif',
+        },
       },
     },
   },

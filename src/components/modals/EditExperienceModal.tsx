@@ -151,6 +151,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                   </Flex>
                   <Flex flexDir={'column'} w={'full'}>
                     <InputField
+                      height={'3xs'}
                       label="Description"
                       showLabel={'true'}
                       type="text"

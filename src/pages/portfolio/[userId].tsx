@@ -1,4 +1,3 @@
-import { getIconByLinkName } from '@/components/utils/getIconsByLink';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { ExperienceDoc } from '@/models/experience.model';
@@ -8,8 +7,6 @@ import { TechDoc } from '@/models/tech.model';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
 import {
-  Avatar,
-  Box,
   Button,
   Code,
   Drawer,
@@ -18,9 +15,11 @@ import {
   DrawerContent,
   DrawerOverlay,
   Flex,
-  HStack,
   Heading,
-  Link,
+  List,
+  ListIcon,
+  ListItem,
+  Spinner,
   Text,
   VStack,
   useDisclosure,
@@ -32,11 +31,11 @@ import { setExperiences } from '@/store/experiences.slice';
 import { setProjects } from '@/store/projects.slice';
 import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { BsGlobeAmericas } from 'react-icons/bs';
 import { FaBars } from 'react-icons/fa';
-import { VscGithubAlt } from 'react-icons/vsc';
+import { MdSettings } from 'react-icons/md';
 
 const Portfolio = () => {
   const router = useRouter();
@@ -108,6 +107,7 @@ const Portfolio = () => {
           }}
           px={4}
           pt={6}
+          color="yellow.600"
           bg={'transparent'}
           onClick={onOpen}
         >
@@ -193,28 +193,44 @@ const Portfolio = () => {
       >
         {localUserState?.about && localUserState.about !== '' ? (
           <Link href="#about">
-            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
+            <Code
+              fontSize={'md'}
+              bgClip={'text'}
+              bgGradient="linear(to-r, #2fe, #adf4dc)"
+            >
               About
             </Code>
           </Link>
         ) : null}
         {localTechStack && localTechStack?.length !== 0 ? (
           <Link href="#tech">
-            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
+            <Code
+              fontSize={'md'}
+              bgClip={'text'}
+              bgGradient="linear(to-r, #2fe, #c1fde9)"
+            >
               Tech Stack
             </Code>
           </Link>
         ) : null}
         {localExperiencesState?.length !== 0 ? (
           <Link href="#experience">
-            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
+            <Code
+              fontSize={'md'}
+              bgClip={'text'}
+              bgGradient="linear(to-r, #2fe, #c8eadf)"
+            >
               Experiences
             </Code>
           </Link>
         ) : null}
         {localProjectsState?.length !== 0 ? (
           <Link href="#projects">
-            <Code bgClip={'text'} bgGradient="linear(to-r, bisque, cyan.300)">
+            <Code
+              fontSize={'md'}
+              bgClip={'text'}
+              bgGradient="linear(to-r, #2fe, #d5ebe4)"
+            >
               Projects
             </Code>
           </Link>
@@ -223,21 +239,23 @@ const Portfolio = () => {
 
       <Flex
         minH={'full'}
+        maxW={['full', '70vw']}
         flexDir={'column'}
         gap={8}
         justifyContent={'flex-start'}
-        alignItems={'center'}
+        alignItems={'flex-start'}
+        px={['4', '40']}
         py={16}
       >
-        <Flex
+        {/* <Flex
           flexDir={'column'}
           gap={12}
           minW={['100%', 'xl']}
           maxW={['100%', '2xl']}
           px={[4, 8]}
-        >
-          {/* top user section */}
-          {localUserState?.fullName ? (
+        > */}
+        {/* top user section */}
+        {/* {localUserState?.fullName ? (
             <Flex gap={4} position={'relative'} alignItems={'center'}>
               <Avatar
                 variant="square"
@@ -254,9 +272,9 @@ const Portfolio = () => {
                 {localUserState?.fullName}
               </Heading>
             </Flex>
-          ) : null}
+          ) : null} */}
 
-          {localSocialsState?.length !== 0 ? (
+        {/* {localSocialsState?.length !== 0 ? (
             <Flex gap={4} flexDir={'column'} alignItems={'flex-start'}>
               <Flex
                 display={{
@@ -269,17 +287,10 @@ const Portfolio = () => {
               >
                 {localSocialsState.map((social) => (
                   <Link
+                    className="text-lg"
                     key={social._id}
                     href={social.url}
-                    color={'blue.100'}
                     target={'_blank'}
-                    fontSize={'xl'}
-                    _hover={{
-                      textDecoration: 'none',
-                      color: '#0cee08',
-                      mt: '-2',
-                      transition: 'all 400ms',
-                    }}
                   >
                     {getIconByLinkName(social.name)}
                   </Link>
@@ -295,10 +306,10 @@ const Portfolio = () => {
                 </Text>
               ) : null}
             </Flex>
-          ) : null}
+          ) : null} */}
 
-          {/* user's about */}
-          {localUserState?.about && localUserState.about !== '' ? (
+        {/* user's about */}
+        {/* {localUserState?.about && localUserState.about !== '' ? (
             <Flex id="about" gap={2} flexDir={'column'}>
               <Heading
                 bgClip={'text'}
@@ -315,10 +326,10 @@ const Portfolio = () => {
                 {localUserState?.about}.
               </Text>
             </Flex>
-          ) : null}
+          ) : null} */}
 
-          {/* users' tech */}
-          {localTechStack && localTechStack?.length !== 0 ? (
+        {/* users' tech */}
+        {/* {localTechStack && localTechStack?.length !== 0 ? (
             <Flex
               id="tech"
               whiteSpace={'pre-wrap'}
@@ -348,10 +359,10 @@ const Portfolio = () => {
                 ))}
               </Flex>
             </Flex>
-          ) : null}
+          ) : null} */}
 
-          {/* user's experiences */}
-
+        {/* user's experiences */}
+        {/* 
           {localExperiencesState && localExperiencesState?.length !== 0 ? (
             <Flex id="experiences" flexDir={'column'} gap={4}>
               <Heading
@@ -435,10 +446,10 @@ const Portfolio = () => {
                 ))}
               </>
             </Flex>
-          ) : null}
+          ) : null} */}
 
-          {/* user's projects */}
-          {localProjectsState ? (
+        {/* user's projects */}
+        {/* {localProjectsState && localProjectsState?.length > 0 ? (
             <Flex id="projects" flexDir={'column'} gap={4}>
               <Heading
                 bgClip={'text'}
@@ -519,10 +530,10 @@ const Portfolio = () => {
                 </Box>
               ))}
             </Flex>
-          ) : null}
+          ) : null} */}
 
-          {/* user's socials in case of mobile view */}
-          {localSocialsState?.length !== 0 ? (
+        {/* user's socials in case of mobile view */}
+        {/* {localSocialsState?.length !== 0 ? (
             <Flex
               gap={4}
               flexDir={'column'}
@@ -540,28 +551,139 @@ const Portfolio = () => {
               >
                 {localSocialsState.map((social) => (
                   <Link
+                    className="text-xl hover:-mt-2 hover:text-green transition-all duration-300 "
                     key={social._id}
                     href={social.url}
-                    color={'blue.100'}
                     target={'_blank'}
-                    fontSize={'2xl'}
-                    _hover={{
-                      textDecoration: 'none',
-                      color: '#0cee08',
-                      mt: '-2',
-                      transition: 'all 400ms',
-                    }}
                   >
                     {getIconByLinkName(social.name)}
                   </Link>
                 ))}
               </Flex>
             </Flex>
-          ) : null}
+          ) : null} */}
+        {/* <p className="text-gray-400 ">
+            Powered by{' '}
+            <Link
+              className="text-purple-400"
+              href="https://devfolio-client.vercel.app"
+            >
+              Devfolio
+            </Link>
+          </p> */}
+        {/* </Flex> */}
+
+        <Flex
+          minH={'100vh'}
+          flexDir={'column'}
+          gap={[4]}
+          justifyContent={'flex-start'}
+          py={[0, 12]}
+          px={[4, 8]}
+        >
+          <Code
+            bgClip={'text'}
+            fontSize={['xl', 'lg']}
+            fontWeight={'extrabold'}
+            bgGradient="linear(to-r, green.400, green.600)"
+          >
+            Hi, my name is
+          </Code>
+          <Heading
+            bgClip={'text'}
+            bgGradient="linear(to-r, gray.300, gray.500)"
+            fontSize={['4xl', '6xl']}
+          >
+            {localUserState?.fullName}.
+          </Heading>
+          <Heading
+            fontSize={['4xl', '6xl']}
+            bgClip={'text'}
+            bgGradient="linear(to-r, #ffff0097, #ffff00cf)"
+          >
+            I build things for the web.
+          </Heading>
+          <Text
+            bgClip={'text'}
+            maxW={['full', '80%']}
+            fontWeight={'medium'}
+            bgGradient="linear(to-r, #ffff0084, #c19f9f)"
+            fontSize={['md', 'xl']}
+          >
+            {localUserState?.oneLiner}
+          </Text>
+        </Flex>
+
+        <Flex
+          minH={'100vh'}
+          flexDir={'column'}
+          gap={[8]}
+          py={[0, 8]}
+          px={[4, 8]}
+        >
+          <Heading color={'gray.400'}>About me</Heading>
+          <Text
+            color={'#ffffff86'}
+            fontSize={['md', 'lg']}
+            lineHeight={'tall'}
+            fontWeight={'normal'}
+          >
+            {localUserState?.about}
+          </Text>
+
+          {/* <Tilt>
+            <Flex
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              gap={[4]}
+            >
+              <Image
+                width={250}
+                height={250}
+                src={profileImgUrl}
+                alt={`${localUserState?.fullName}'s Picture`}
+              />
+            </Flex>
+          </Tilt> */}
+
+          {/* todo: fix */}
+          {localTechStack ? (
+            <Flex flexDir={['column']} color={'gray.400'} gap={4}>
+              <Text fontStyle={'italic'} fontWeight={'bold'}>
+                Here&apos;s the Tech I&apos;ve been working with:
+              </Text>
+              <Flex flexDir={['row', 'column']}>
+                <Flex flexDir={'column'} gap={4} />
+                <List color={'#ffffff86'} spacing={3}>
+                  {localTechStack
+                    .filter((_, index) => index % 2 === 0) // Filter even-indexed elements for the left column
+                    .map((tech) => (
+                      <ListItem key={tech._id}>
+                        <ListIcon as={MdSettings} color="gray.500" />
+                        {tech.name}
+                      </ListItem>
+                    ))}
+                </List>
+              </Flex>
+              <Flex flexDir={'column'} gap={4}>
+                <List color={'#ffffff86'} spacing={3}>
+                  {localTechStack
+                    .filter((_, index) => index % 2 !== 0) // Filter odd-indexed elements for the right column
+                    .map((tech) => (
+                      <ListItem key={tech._id}>
+                        <ListIcon as={MdSettings} color="gray.500" />
+                        {tech.name}
+                      </ListItem>
+                    ))}
+                </List>
+              </Flex>
+            </Flex>
+          ) : (
+            <Spinner />
+          )}
         </Flex>
       </Flex>
     </>
   );
 };
-
 export default Portfolio;

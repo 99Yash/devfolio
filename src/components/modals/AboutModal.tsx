@@ -20,7 +20,12 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Modal size={'xl'} isCentered isOpen={props.isOpen} onClose={props.onClose}>
+    <Modal
+      size={['xl', '3xl']}
+      isCentered
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+    >
       <ModalOverlay />
       <ModalContent bg={'gray.800'}>
         <ModalHeader>Edit Bio</ModalHeader>
@@ -47,6 +52,7 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
             {({ isSubmitting }) => (
               <Form>
                 <InputField
+                  height={'sm'}
                   variant="unstyled"
                   istextarea={'true'}
                   autoComplete="off"

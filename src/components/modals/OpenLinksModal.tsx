@@ -108,11 +108,17 @@ const OpenLinksModal: FC<
           >
             {({ isSubmitting, values, handleChange }) => (
               <Form>
-                <Flex flexDir={'column'} display={'flex'} gap={2}>
-                  <Flex gap={2}>
+                <Flex flexDir={'column'} display={'flex'} gap={4}>
+                  <Flex
+                    gap={2}
+                    justifyContent={'space-around'}
+                    alignItems={'baseline'}
+                  >
                     <Select
                       maxW={'fit-content'}
                       value={values.name}
+                      bg={'gray.800'}
+                      color={'gray.500'}
                       onChange={handleChange}
                       name="name"
                       placeholder="Select Link"

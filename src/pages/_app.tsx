@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { store } from '../store';
 import { theme } from '@/lib/utils/theme';
 import Head from 'next/head';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -31,6 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Component {...pageProps} />
+          <Analytics/>
         </Provider>
       </ClerkProvider>
     </ChakraProvider>
