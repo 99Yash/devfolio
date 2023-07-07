@@ -7,6 +7,8 @@ import { TechDoc } from '@/models/tech.model';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
 import {
+  Avatar,
+  Box,
   Button,
   Code,
   Drawer,
@@ -15,11 +17,8 @@ import {
   DrawerContent,
   DrawerOverlay,
   Flex,
+  HStack,
   Heading,
-  List,
-  ListIcon,
-  ListItem,
-  Spinner,
   Text,
   VStack,
   useDisclosure,
@@ -27,6 +26,7 @@ import {
 import Head from 'next/head';
 import { useEffect } from 'react';
 
+import { getIconByLinkName } from '@/components/utils/getIconsByLink';
 import { setExperiences } from '@/store/experiences.slice';
 import { setProjects } from '@/store/projects.slice';
 import { setSocialLinks } from '@/store/socials.slice';
@@ -34,8 +34,9 @@ import { setTechStack } from '@/store/tech.slice';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { BsGlobeAmericas } from 'react-icons/bs';
 import { FaBars } from 'react-icons/fa';
-import { MdSettings } from 'react-icons/md';
+import { VscGithubAlt } from 'react-icons/vsc';
 
 const Portfolio = () => {
   const router = useRouter();
@@ -247,15 +248,15 @@ const Portfolio = () => {
         px={['4', '40']}
         py={16}
       >
-        {/* <Flex
+        <Flex
           flexDir={'column'}
           gap={12}
           minW={['100%', 'xl']}
           maxW={['100%', '2xl']}
           px={[4, 8]}
-        > */}
-        {/* top user section */}
-        {/* {localUserState?.fullName ? (
+        >
+          {/* top user section */}
+          {localUserState?.fullName ? (
             <Flex gap={4} position={'relative'} alignItems={'center'}>
               <Avatar
                 variant="square"
@@ -272,9 +273,9 @@ const Portfolio = () => {
                 {localUserState?.fullName}
               </Heading>
             </Flex>
-          ) : null} */}
+          ) : null}
 
-        {/* {localSocialsState?.length !== 0 ? (
+          {localSocialsState?.length !== 0 ? (
             <Flex gap={4} flexDir={'column'} alignItems={'flex-start'}>
               <Flex
                 display={{
@@ -306,10 +307,10 @@ const Portfolio = () => {
                 </Text>
               ) : null}
             </Flex>
-          ) : null} */}
+          ) : null}
 
-        {/* user's about */}
-        {/* {localUserState?.about && localUserState.about !== '' ? (
+          {/* user's about */}
+          {localUserState?.about && localUserState.about !== '' ? (
             <Flex id="about" gap={2} flexDir={'column'}>
               <Heading
                 bgClip={'text'}
@@ -326,10 +327,10 @@ const Portfolio = () => {
                 {localUserState?.about}.
               </Text>
             </Flex>
-          ) : null} */}
+          ) : null}
 
-        {/* users' tech */}
-        {/* {localTechStack && localTechStack?.length !== 0 ? (
+          {/* users' tech */}
+          {localTechStack && localTechStack?.length !== 0 ? (
             <Flex
               id="tech"
               whiteSpace={'pre-wrap'}
@@ -359,10 +360,10 @@ const Portfolio = () => {
                 ))}
               </Flex>
             </Flex>
-          ) : null} */}
+          ) : null}
 
-        {/* user's experiences */}
-        {/* 
+          {/* user's experiences */}
+
           {localExperiencesState && localExperiencesState?.length !== 0 ? (
             <Flex id="experiences" flexDir={'column'} gap={4}>
               <Heading
@@ -446,10 +447,10 @@ const Portfolio = () => {
                 ))}
               </>
             </Flex>
-          ) : null} */}
+          ) : null}
 
-        {/* user's projects */}
-        {/* {localProjectsState && localProjectsState?.length > 0 ? (
+          {/* user's projects */}
+          {localProjectsState && localProjectsState?.length > 0 ? (
             <Flex id="projects" flexDir={'column'} gap={4}>
               <Heading
                 bgClip={'text'}
@@ -530,10 +531,10 @@ const Portfolio = () => {
                 </Box>
               ))}
             </Flex>
-          ) : null} */}
+          ) : null}
 
-        {/* user's socials in case of mobile view */}
-        {/* {localSocialsState?.length !== 0 ? (
+          {/* user's socials in case of mobile view */}
+          {localSocialsState?.length !== 0 ? (
             <Flex
               gap={4}
               flexDir={'column'}
@@ -561,8 +562,8 @@ const Portfolio = () => {
                 ))}
               </Flex>
             </Flex>
-          ) : null} */}
-        {/* <p className="text-gray-400 ">
+          ) : null}
+          <p className="text-gray-400 ">
             Powered by{' '}
             <Link
               className="text-purple-400"
@@ -570,10 +571,10 @@ const Portfolio = () => {
             >
               Devfolio
             </Link>
-          </p> */}
-        {/* </Flex> */}
+          </p>
+        </Flex>
 
-        <Flex
+        {/* <Flex
           minH={'100vh'}
           flexDir={'column'}
           gap={[4]}
@@ -629,9 +630,9 @@ const Portfolio = () => {
             fontWeight={'normal'}
           >
             {localUserState?.about}
-          </Text>
+          </Text> */}
 
-          {/* <Tilt>
+        {/* <Tilt>
             <Flex
               justifyContent={'space-between'}
               alignItems={'center'}
@@ -646,8 +647,8 @@ const Portfolio = () => {
             </Flex>
           </Tilt> */}
 
-          {/* todo: fix */}
-          {localTechStack ? (
+        {/* todo: fix */}
+        {/* {localTechStack ? (
             <Flex flexDir={['column']} color={'gray.400'} gap={4}>
               <Text fontStyle={'italic'} fontWeight={'bold'}>
                 Here&apos;s the Tech I&apos;ve been working with:
@@ -680,9 +681,9 @@ const Portfolio = () => {
             </Flex>
           ) : (
             <Spinner />
-          )}
-        </Flex>
+          )} */}
       </Flex>
+      {/* </Flex> */}
     </>
   );
 };

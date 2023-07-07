@@ -25,6 +25,13 @@ import {
   useAuth,
 } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
+import { DM_Sans } from 'next/font/google';
+
+const dm_sans = DM_Sans({
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
 
 export default function Home() {
   const { isSignedIn } = useAuth();
@@ -95,6 +102,7 @@ export default function Home() {
           px={4}
           pt={4}
           gap={4}
+          className={`${dm_sans.className}`}
           alignItems={'center'}
           justifyContent={'space-between'}
         >

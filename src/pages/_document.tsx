@@ -5,8 +5,8 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta
-          name="description"
-          content="A social media platform for developers to share their projects and connect with other developers."
+          name="Devfolio"
+          content="A social media platform for (software) developers to share their projects and get recruited by showing their work."
         />
       </Head>
       <body className="antialiased">

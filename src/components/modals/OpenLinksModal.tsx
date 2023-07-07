@@ -124,7 +124,11 @@ const OpenLinksModal: FC<
                       placeholder="Select Link"
                     >
                       {linkOptions.map((option) => (
-                        <option key={option.id} value={option.type}>
+                        <option
+                          className="bg-slate-800"
+                          key={option.id}
+                          value={option.type}
+                        >
                           {option.type}
                         </option>
                       ))}
