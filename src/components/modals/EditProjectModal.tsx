@@ -65,7 +65,9 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
                       description: values.description,
                       githubLink: values.githubLink,
                       demoLink: values.demoLink,
-                      techStack: values.techStack,
+                      techStack: values.techStack
+                        .split(',')
+                        .map((t) => t.trim()),
                     },
                   }
                 );

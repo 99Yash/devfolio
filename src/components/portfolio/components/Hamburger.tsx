@@ -1,14 +1,5 @@
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { axiosClient } from '@/lib/utils/axiosInstance';
-import { ExperienceDoc } from '@/models/experience.model';
-import { ProjectDoc } from '@/models/project.model';
-import { SocialDoc } from '@/models/social.model';
-import { TechDoc } from '@/models/tech.model';
-import { UserDoc } from '@/models/user.model';
-import { setCurrentUser } from '@/store/user.slice';
+import { useAppSelector } from '@/hooks/redux';
 import {
-  Avatar,
-  Box,
   Button,
   Code,
   Drawer,
@@ -17,26 +8,12 @@ import {
   DrawerContent,
   DrawerOverlay,
   Flex,
-  HStack,
-  Heading,
-  Text,
   VStack,
   useDisclosure,
 } from '@chakra-ui/react';
-import Head from 'next/head';
-import { useEffect } from 'react';
 
-import { getIconByLinkName } from '@/components/utils/getIconsByLink';
-import { setExperiences } from '@/store/experiences.slice';
-import { setProjects } from '@/store/projects.slice';
-import { setSocialLinks } from '@/store/socials.slice';
-import { setTechStack } from '@/store/tech.slice';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { BsGlobeAmericas } from 'react-icons/bs';
 import { FaBars } from 'react-icons/fa';
-import { VscGithubAlt } from 'react-icons/vsc';
 
 const Hamburger = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,7 +22,6 @@ const Hamburger = () => {
   const localExperiencesState = useAppSelector(
     (state) => state.experiences.experiences
   );
-  const localSocialsState = useAppSelector((state) => state.socials.socials);
   const localTechStack = useAppSelector((state) => state.techStack.techStack);
   return (
     <Flex
@@ -92,7 +68,7 @@ const Hamburger = () => {
                   <Link onClick={onClose} href="#about">
                     <Code
                       bgClip={'text'}
-                      bgGradient="linear(to-r, white, orange.400)"
+                      bgGradient="linear(to-r, white, green.950)"
                     >
                       About
                     </Code>
@@ -102,7 +78,7 @@ const Hamburger = () => {
                   <Link onClick={onClose} href="#tech">
                     <Code
                       bgClip={'text'}
-                      bgGradient="linear(to-r, white, orange.400)"
+                      bgGradient="linear(to-r, white, green.950)"
                     >
                       Tech Stack
                     </Code>
@@ -112,7 +88,7 @@ const Hamburger = () => {
                   <Link onClick={onClose} href="#experience">
                     <Code
                       bgClip={'text'}
-                      bgGradient="linear(to-r, white, orange.400)"
+                      bgGradient="linear(to-r, white, green.950)"
                     >
                       Experiences
                     </Code>
@@ -122,7 +98,7 @@ const Hamburger = () => {
                   <Link onClick={onClose} href="#projects">
                     <Code
                       bgClip={'text'}
-                      bgGradient="linear(to-r, white, orange.400)"
+                      bgGradient="linear(to-r, white, green.950)"
                     >
                       Projects
                     </Code>

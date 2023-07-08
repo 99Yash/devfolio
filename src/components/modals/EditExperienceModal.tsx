@@ -80,7 +80,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                     _id: experience._id,
                     position: values.position,
                     companyName: values.companyName,
-                    description: values.description,
+                    description: values.description || '',
                     startDate: startingDate ? startingDate : startDate,
                     endDate: isPresent ? null : endingDate || endDate,
                     present: isPresent,

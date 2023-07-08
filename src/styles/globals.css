@@ -85,6 +85,6 @@ scrollbar-thumb:hover {
 
 /* Text selection style */
 ::selection {
-  background-color: rgb(25, 33, 34);
-  color: rgb(255, 205, 4);
+  background-color: rgb(12, 14, 15);
+  color: rgba(82, 148, 192, 0.986);
 }

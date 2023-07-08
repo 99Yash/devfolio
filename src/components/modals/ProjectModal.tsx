@@ -50,7 +50,9 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                       description: values.description,
                       githubLink: values.githubLink,
                       demoLink: values.demoLink,
-                      techStack: values.techStack,
+                      techStack: values.techStack
+                        .split(',')
+                        .map((t) => t.trim()),
                     },
                   }
                 );

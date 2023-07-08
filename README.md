@@ -17,19 +17,7 @@ Portfolio generator for developers. Fully responsive. Enter information: get a g
 - Every Project has a Github link property and a Website link property for the deployed webapp/website.
 - Special TechStack column to list your stack.
 - Profile creation for individual users & the ability to add or update the user profile picture
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
-
-### Installation
-
-Use the package manager [yarn](https://https://yarnpkg.com/) to install the necessary dependencies.
-
-```bash
-yarn
-```
+- Ability to add or update the user's profile picture
 
 ### Add .env file
 
