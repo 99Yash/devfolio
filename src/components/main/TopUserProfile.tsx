@@ -111,7 +111,7 @@ const TopUserProfile: FC = () => {
                     <Flex
                       justifyContent={'flex-start'}
                       alignItems={'center'}
-                      key={social.id}
+                      key={social._id}
                     >
                       <Link
                         color={'skyblue'}
