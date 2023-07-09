@@ -60,21 +60,6 @@ const Hero = () => {
       >
         <Text>{localUserState?.oneLiner} </Text>
       </Box>
-      <Flex gap={10} my={4}>
-        {socials.map((social) => {
-          return (
-            <Link
-              key={social._id}
-              href={social.url}
-              className="font-semibold text-2xl text-emerald-400"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {getIconByLinkName(social.name)}
-            </Link>
-          );
-        })}
-      </Flex>
     </Flex>
   );
 };

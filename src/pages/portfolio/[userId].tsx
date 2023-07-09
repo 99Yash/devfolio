@@ -20,12 +20,19 @@ import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import Socials from '@/components/portfolio/components/Socials';
 
 const Portfolio = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state);
   const localUserState = useAppSelector((state) => state.currentUser.user);
+  const experiencesState = useAppSelector(
+    (state) => state.experiences.experiences
+  );
+  const socialLinksState = useAppSelector((state) => state.socials.socials);
+  const projectsState = useAppSelector((state) => state.projects.projects);
   const [profileImgUrl, setProfileImageUrl] = useState('');
 
   useEffect(() => {
@@ -83,9 +90,21 @@ const Portfolio = () => {
         ) : (
           <AboutSection imageSrc={profileImgUrl} />
         )}
-
-        <ExperienceSection />
-        <ProjectsSection />
+        {!experiencesState ? (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
+        ) : (
+          <ExperienceSection />
+        )}
+        {!projectsState ? (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
+        ) : (
+          <ProjectsSection />
+        )}
+        {!socialLinksState ? (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
+        ) : (
+          <Socials />
+        )}
       </Box>
     </>
   );
