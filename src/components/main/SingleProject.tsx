@@ -87,7 +87,7 @@ const SingleProject: FC<{
                       size={'xs'}
                       mr={1}
                       color="teal.500"
-                      key={Math.random()}
+                      key={Math.random().toString()}
                     >
                       {tech}
                     </Code>

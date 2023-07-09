@@ -41,7 +41,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(
     to bottom,
-    rgb(96, 98, 99),
+    rgb(26, 163, 232),
     rgba(9, 10, 10, 0.663)
   ); /* Replace with your desired gradient colors */
   border-radius: 7px;
@@ -57,11 +57,6 @@ body {
   width: 20px;
 }
 
-::selection {
-  background-color: rgb(222, 211, 211);
-  color: rgb(12, 12, 12);
-}
-
 scrollbar-track {
   background-color: transparent;
 }
@@ -72,7 +67,7 @@ scrollbar-thumb {
   background: linear-gradient(
     to bottom,
     rgb(15, 136, 176),
-    rgba(9, 10, 10, 0.663)
+    rgba(34, 187, 187, 0.663)
   );
   border-radius: 5px;
 }

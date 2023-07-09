@@ -36,19 +36,9 @@ const NavButtons = () => {
           </Code>
         </Link>
       ) : null}
-      {localTechStack && localTechStack?.length !== 0 ? (
-        <Link href="#tech">
-          <Code
-            fontSize={'md'}
-            bgClip={'text'}
-            bgGradient={`linear(to-r, #ddd, ${ACCENT_COLOR})`}
-          >
-            Tech Stack
-          </Code>
-        </Link>
-      ) : null}
+
       {localExperiencesState?.length !== 0 ? (
-        <Link href="#experience">
+        <Link href="#experiences">
           <Code
             fontSize={'md'}
             bgClip={'text'}

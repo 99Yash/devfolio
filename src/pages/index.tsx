@@ -53,23 +53,26 @@ export default function Home() {
         const { data: fetchedUser } = await axiosClient.get<UserDoc>(
           `/user/user`
         );
+        dispatch(setCurrentUser(fetchedUser));
         const { data: fetchedExperiences } = await axiosClient.get<{
           experiences: ExperienceDoc[];
         }>(`/user/experience`);
+        dispatch(setExperiences(fetchedExperiences.experiences));
+
         const { data: fetchedTechStack } = await axiosClient.get<
           TechDoc[] | null
         >(`/user/tech`);
+        dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
+
         const { data: fetchedProjects } = await axiosClient.get<{
           projects: ProjectDoc[];
         }>(`/user/project`);
+        dispatch(setProjects(fetchedProjects.projects));
+
         const { data: fetchedSocials } = await axiosClient.get<
           SocialDoc[] | null
         >('/user/socials');
         dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
-        dispatch(setCurrentUser(fetchedUser));
-        dispatch(setExperiences(fetchedExperiences.experiences));
-        dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
-        dispatch(setProjects(fetchedProjects.projects));
       } catch (err: any) {
         console.log(err);
       } finally {

@@ -35,9 +35,9 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
 
   return (
     <>
-      <Box gap={4} p={8} cursor={'default'} my={2}>
+      <Box gap={4} py={4} cursor={'default'} my={2}>
         <Flex whiteSpace={'pre-wrap'} gap={2} flexDir={'column'}>
-          <Flex gap={12} alignItems={'flex-start'} justifyContent={'start'}>
+          <Flex gap={12} alignItems={'start'} justifyContent={'start'}>
             <Heading
               color={'gray.300'}
               bgClip={'text'}
@@ -49,7 +49,14 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
               {experience.companyName}
             </Heading>
 
-            <Flex wrap={'wrap'} gap={1} flexDir={'column'}>
+            <Flex
+              wrap={'wrap'}
+              gap={1}
+              flexDir={'column'}
+              w={'full'}
+              alignItems={'flex-start'}
+              justifyContent={'center'}
+            >
               <Heading color={'gray.400'} fontSize={'md'}>
                 {experience.position}
               </Heading>

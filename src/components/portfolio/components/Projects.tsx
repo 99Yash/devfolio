@@ -28,7 +28,7 @@ const Projects = () => {
       <Box mb={40}>
         {projectsState.map((project, index) => (
           <Flex
-            key={project.id}
+            key={project._id}
             flexDirection={[
               'column-reverse',
               'column-reverse',

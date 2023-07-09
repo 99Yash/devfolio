@@ -1,8 +1,4 @@
 import { Document, Schema, model, models } from 'mongoose';
-import { ExperienceDoc } from './experience.model';
-import { ProjectDoc } from './project.model';
-import { SocialDoc } from './social.model';
-import { TechDoc } from './tech.model';
 
 export interface UserDoc extends Document {
   fullName?: string;

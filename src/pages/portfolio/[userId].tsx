@@ -6,12 +6,13 @@ import { SocialDoc } from '@/models/social.model';
 import { TechDoc } from '@/models/tech.model';
 import { UserDoc } from '@/models/user.model';
 import { setCurrentUser } from '@/store/user.slice';
-import { Box, useDisclosure } from '@chakra-ui/react';
+import { Box, Skeleton } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect } from 'react';
 
 import AboutSection from '@/components/portfolio/AboutSection';
 import ExperienceSection from '@/components/portfolio/ExperienceSection';
+import ProjectsSection from '@/components/portfolio/ProjectsSection';
 import TopSection from '@/components/portfolio/TopSection';
 import { setExperiences } from '@/store/experiences.slice';
 import { setProjects } from '@/store/projects.slice';
@@ -19,19 +20,12 @@ import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import ProjectsSection from '@/components/portfolio/ProjectsSection';
 
 const Portfolio = () => {
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const dispatch = useAppDispatch();
   const localUserState = useAppSelector((state) => state.currentUser.user);
-  const localProjectsState = useAppSelector((state) => state.projects.projects);
-  const localExperiencesState = useAppSelector(
-    (state) => state.experiences.experiences
-  );
-  const localSocialsState = useAppSelector((state) => state.socials.socials);
-  const localTechStack = useAppSelector((state) => state.techStack.techStack);
   const [profileImgUrl, setProfileImageUrl] = useState('');
 
   useEffect(() => {
@@ -76,8 +70,17 @@ const Portfolio = () => {
         className="bg-gradient-to-r from-black via-black to-emerald-950"
         overflow="hidden"
       >
-        <TopSection />
-        <AboutSection imageSrc={profileImgUrl} />
+        {!localUserState ? (
+          <Skeleton className={`h-1/2 w-2/3`}></Skeleton>
+        ) : (
+          <TopSection />
+        )}
+        {!localUserState ? (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
+        ) : (
+          <AboutSection imageSrc={profileImgUrl} />
+        )}
+
         <ExperienceSection />
         <ProjectsSection />
       </Box>

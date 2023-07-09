@@ -24,19 +24,23 @@ const Experiences = () => {
       <Flex flexDir={['column', 'column', 'row', 'row']} mb={40}>
         <Box flex={1}>
           {experiencesList.map((exp) => (
-            <Box key={exp.id} w="full" fontFamily={'mono'}>
+            <Box key={exp._id} w="full" py={3}>
               <Flex flexDirection={'column'}>
-                <Box>
+                <Flex gap={2} alignItems={'baseline'}>
                   <Heading
                     fontSize={'2xl'}
-                    fontWeight="normal"
+                    fontWeight="semibold"
                     color={'gray.300'}
                     mb={2}
                   >
                     {exp.position}{' '}
-                    <Text color={ACCENT_COLOR}>@{exp.companyName}</Text>
                   </Heading>
-                  <Text color={'gray.400'} fontFamily="mono">
+                  <Text fontSize={'2xl'} color={ACCENT_COLOR}>
+                    @{exp.companyName}
+                  </Text>
+                </Flex>
+                <Flex flexDir={'column'}>
+                  <Text color={'gray.300'} fontFamily="mono">
                     {`${new Date(exp.startDate).toLocaleString('default', {
                       month: 'long',
                     })} ${new Date(exp.startDate).getFullYear()}`}{' '}
@@ -47,7 +51,8 @@ const Experiences = () => {
                         })} ${new Date(exp.endDate).getFullYear()}`
                       : 'Present'}
                   </Text>
-                </Box>
+                </Flex>
+
                 <Box mt={3}>
                   <Text
                     fontFamily={'sans-serif'}
@@ -55,7 +60,7 @@ const Experiences = () => {
                     mx={0}
                     lineHeight={'tall'}
                     fontWeight="light"
-                    color={'gray.300'}
+                    color={'gray.400'}
                     letterSpacing={'wide'}
                   >
                     {exp.description}

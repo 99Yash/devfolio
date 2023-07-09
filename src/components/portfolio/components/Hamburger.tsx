@@ -74,16 +74,7 @@ const Hamburger = () => {
                     </Code>
                   </Link>
                 ) : null}
-                {localTechStack && localTechStack?.length !== 0 ? (
-                  <Link onClick={onClose} href="#tech">
-                    <Code
-                      bgClip={'text'}
-                      bgGradient="linear(to-r, white, green.950)"
-                    >
-                      Tech Stack
-                    </Code>
-                  </Link>
-                ) : null}
+
                 {localExperiencesState?.length !== 0 ? (
                   <Link onClick={onClose} href="#experience">
                     <Code

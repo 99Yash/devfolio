@@ -4,6 +4,7 @@ import {
   Flex,
   HStack,
   Heading,
+  Skeleton,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -50,7 +51,11 @@ const About: FC = () => {
         </HStack>
 
         <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
-          <Text color={'gray.400'}>{userAbout}</Text>
+          {userAbout ? (
+            <Text color={'gray.400'}>{userAbout}</Text>
+          ) : (
+            <Skeleton height={'50px'}></Skeleton>
+          )}
         </Flex>
       </Flex>
       {isOpen && (
