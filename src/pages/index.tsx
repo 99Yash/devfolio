@@ -54,6 +54,10 @@ export default function Home() {
           `/user/user`
         );
         dispatch(setCurrentUser(fetchedUser));
+        const { data: fetchedSocials } = await axiosClient.get<
+          SocialDoc[] | null
+        >('/user/socials');
+        dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
         const { data: fetchedExperiences } = await axiosClient.get<{
           experiences: ExperienceDoc[];
         }>(`/user/experience`);
@@ -68,11 +72,6 @@ export default function Home() {
           projects: ProjectDoc[];
         }>(`/user/project`);
         dispatch(setProjects(fetchedProjects.projects));
-
-        const { data: fetchedSocials } = await axiosClient.get<
-          SocialDoc[] | null
-        >('/user/socials');
-        dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
       } catch (err: any) {
         console.log(err);
       } finally {
