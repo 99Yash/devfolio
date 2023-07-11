@@ -11,6 +11,13 @@ import {
 import { FC } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import AboutModal from '../modals/AboutModal';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
 
 const About: FC = () => {
   const userAbout = useAppSelector(
@@ -21,7 +28,7 @@ const About: FC = () => {
 
   return (
     <>
-      <Flex gap={2} flexDir={'column'}>
+      <Flex className={`${inter.className}`} gap={2} flexDir={'column'}>
         <HStack
           display={'flex'}
           gap={2}

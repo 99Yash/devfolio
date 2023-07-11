@@ -12,12 +12,20 @@ import { IoMdAdd } from 'react-icons/io';
 import ExpModal from '../modals/ExpModal';
 import SingleExperience from './SingleExperience';
 
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
+
 const Experiences: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const experiences = useAppSelector((state) => state.experiences.experiences);
 
   return (
-    <Flex gap={2} flexDir={'column'}>
+    <Flex className={`${inter.className}`} gap={2} flexDir={'column'}>
       <HStack
         display={'flex'}
         gap={2}

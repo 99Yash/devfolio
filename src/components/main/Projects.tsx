@@ -7,13 +7,21 @@ import { IoMdAdd } from 'react-icons/io';
 import ProjectModal from '../modals/ProjectModal';
 import SingleProject from './SingleProject';
 
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
+
 const Projects: FC = () => {
   const projects = useAppSelector((state) => state.projects.projects);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex gap={2} flexDir={'column'}>
+    <Flex className={`${inter.className}`} gap={2} flexDir={'column'}>
       <HStack
         display={'flex'}
         gap={2}

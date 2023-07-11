@@ -1,6 +1,5 @@
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-import { Fade } from 'react-awesome-reveal';
 import { BsArrowRight, BsGrid1X2 } from 'react-icons/bs';
 import { FiSettings } from 'react-icons/fi';
 import { GiSewingNeedle } from 'react-icons/gi';
@@ -40,11 +39,11 @@ const Marketing = () => {
 
   return (
     <>
-      <div className={`${inter.className} `} data-aos="fade-down">
-        <nav className={`text-right flex justify-end mx-4 mt-2 `}>
+      <div className={`${inter.className} `}>
+        <nav className={`text-right flex justify-between mt-2 `}>
           <Link
             href={'/sign-in'}
-            className=" flex text-gray-400 my-2 mx-4 rounded-md "
+            className=" flex text-gray-400 my-2 text-sm mx-4 rounded-md hover:text-gray-300 font-medium "
           >
             Sign in
           </Link>
@@ -54,11 +53,15 @@ const Marketing = () => {
         <section
           className={`${inter.className} h-screen flex flex-col justify-center items-center gap-4 `}
         >
-          <Particles className="absolute inset-0 -z-10 " />
+          <Particles
+            quantity={160}
+            color="#c6e41c"
+            className="absolute inset-0 -z-10 "
+          />
 
           <div className="flex flex-col flex-wrap lg:px-2 px-6 text-center justify-center items-center lg:gap-3 gap-6 ">
             <h1
-              className={`text-5xl text-transparent bg-clip-text bg-gradient-to-r from-slate-200/80 via-slate-400 to-slate-200/80 font-semibold `}
+              className={`text-5xl text-transparent bg-clip-text bg-gradient-to-r from-slate-200/70 via-slate-300 to-slate-200/70 font-semibold `}
             >
               Share your work,we&apos;ll do the rest.
             </h1>
@@ -70,7 +73,7 @@ const Marketing = () => {
           <div className="flex flex-col md:flex-row gap-2 ">
             <Link
               href={'/sign-in'}
-              className="bg-gray-300 font-medium flex justify-center text-gray-900 py-2 px-6 rounded-md "
+              className="bg-gray-300 font-medium flex justify-center text-gray-900 py-2 px-6 rounded-md hover:bg-slate-300/90 "
             >
               Get going &nbsp;
               <BsArrowRight className="self-center" />
@@ -86,7 +89,7 @@ const Marketing = () => {
           </div>
         </section>
 
-        {/* Middle section */}
+        {/* Middle section: catapult you presence */}
         <main
           className={`${inter.className} max-h-screen flex flex-col flex-wrap justify-center items-center lg:text-left text-center gap-3 px-4 `}
         >
@@ -98,23 +101,23 @@ const Marketing = () => {
           >
             Catapult your Online Presence
           </h1>
-          <hr className="w-40 mx-auto my-4 border-blue-600 " />
+          <hr className="w-40 mx-auto my-4 border-blue-500 " />
           <p
-            className={`text-lg  text-gray-400 max-w-xl lg:max-w-none hidden md:inline  lg:mr-16 `}
+            className={`text-lg text-gray-400 max-w-xl hidden md:mr-[4.5rem] md:block `}
           >
             Don&apos;t venture outside your expertise if it&apos;s not your
             passion.
           </p>
           <p className={`text-lg text-gray-400 max-w-xl `}>
             Show your skills as a backend or a junior developer in the best
-            possible light. Devfolio was purposefully designed to create a
-            stunning online presence with utmost ease. Include links to your
-            LinkedIn, Twitter, and GitHub profiles to connect seamlessly with
-            potential employers and collaborators. Do not settle for a
+            possible light. Devfolio was purposefully designed for you to create
+            a captivating online presence without friction. Include links to
+            your LinkedIn, Twitter, and GitHub profiles to connect seamlessly
+            with potential employers and collaborators. Do not settle for a
             lackluster online presence.
           </p>
           <p
-            className={`text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200/80 `}
+            className={`text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-slate-300 to-pink-200 `}
           >
             Elevate your game.
           </p>
@@ -153,16 +156,16 @@ const Marketing = () => {
             >
               Take Control.
             </h1>
-            <hr className="w-40 mx-auto my-2 border-pink-800 " />
+            <hr className="w-40 mx-auto my-2 border-pink-500 " />
             <p
               className={`text-lg text-gray-400 max-w-xl pb-2 lg:max-w-none hidden md:inline `}
             >
-              Keep your sites seen without costing a cent.
+              Keep your sites seen without spending a cent.
             </p>
           </div>
           <Link
             href={'/sign-in'}
-            className="bg-gray-300/90 font-medium hover:bg-gray-400 flex justify-center text-gray-950 py-2 px-6 rounded-md "
+            className="bg-gray-300/90 font-medium hover:bg-slate-300/90 flex justify-center text-gray-950 py-2 px-6 rounded-md "
           >
             Click this button
             <BsArrowRight className="self-center" />
@@ -211,7 +214,8 @@ const Marketing = () => {
                 </Link>
               </div>
               <p className="mt-8 text-xs text-gray-400 leading-5 md:order-1 md:mt-0">
-                &copy; {new Date().getUTCFullYear()} All rights reserved.
+                &copy; {new Date().getUTCFullYear()} All rights reserved. Built
+                by Yash
               </p>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { SignIn } from '@clerk/nextjs';
 import React from 'react';
 import { Inter } from 'next/font/google';
+import { Particles } from '@/components/utils/particles';
 
 const inter = Inter({
   weight: ['400', '500', '700'],
@@ -11,6 +12,11 @@ const inter = Inter({
 const page = () => {
   return (
     <div className={`h-screen flex justify-center items-center `}>
+      <Particles
+        quantity={105}
+        color="#76e041"
+        className="absolute inset-0 -z-10 "
+      />
       <SignIn
         appearance={{
           variables: {

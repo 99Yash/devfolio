@@ -15,6 +15,13 @@ import AboutModal from '../modals/AboutModal';
 import ExpModal from '../modals/ExpModal';
 import ProjectModal from '../modals/ProjectModal';
 import TechStackModal from '../modals/TechStackModal';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
 
 interface DefaultMainSectionProps {
   sectionTitle: string;
@@ -72,7 +79,7 @@ const DefaultMainSection: FC<DefaultMainSectionProps> = ({ sectionTitle }) => {
     );
   };
   return (
-    <Flex flexDir={'column'}>
+    <Flex className={`${inter.className}`} flexDir={'column'}>
       <HStack
         display={'flex'}
         gap={2}
