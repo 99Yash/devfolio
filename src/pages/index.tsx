@@ -90,6 +90,7 @@ export default function Home() {
           px={4}
           pt={4}
           gap={4}
+          display={'flex'}
           className={`${dm_sans.className}`}
           alignItems={'center'}
           justifyContent={'space-between'}

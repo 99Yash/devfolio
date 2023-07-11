@@ -33,7 +33,6 @@ const Portfolio = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-  const state = useAppSelector((state) => state);
   const localUserState = useAppSelector((state) => state.currentUser.user);
   const experiencesState = useAppSelector(
     (state) => state.experiences.experiences

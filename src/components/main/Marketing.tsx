@@ -1,12 +1,11 @@
-import { SignIn } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-import { useState } from 'react';
 import { Fade } from 'react-awesome-reveal';
-import { BsArrowLeft, BsArrowRight, BsGrid1X2 } from 'react-icons/bs';
+import { BsArrowRight, BsGrid1X2 } from 'react-icons/bs';
 import { FiSettings } from 'react-icons/fi';
 import { GiSewingNeedle } from 'react-icons/gi';
 import { SiMoleculer } from 'react-icons/si';
+import { Particles } from '../utils/particles';
 
 const inter = Inter({
   weight: ['400', '500', '700'],
@@ -40,8 +39,8 @@ const Marketing = () => {
   ];
 
   return (
-    <Fade direction="up" duration={300}>
-      <div className={`${inter.className} `}>
+    <>
+      <div className={`${inter.className} `} data-aos="fade-down">
         <nav className={`text-right flex justify-end mx-4 mt-2 `}>
           <Link
             href={'/sign-in'}
@@ -50,9 +49,13 @@ const Marketing = () => {
             Sign in
           </Link>
         </nav>
+
+        {/* Top section */}
         <section
           className={`${inter.className} h-screen flex flex-col justify-center items-center gap-4 `}
         >
+          <Particles className="absolute inset-0 -z-10 " />
+
           <div className="flex flex-col flex-wrap lg:px-2 px-6 text-center justify-center items-center lg:gap-3 gap-6 ">
             <h1
               className={`text-5xl text-transparent bg-clip-text bg-gradient-to-r from-slate-200/80 via-slate-400 to-slate-200/80 font-semibold `}
@@ -83,6 +86,7 @@ const Marketing = () => {
           </div>
         </section>
 
+        {/* Middle section */}
         <main
           className={`${inter.className} max-h-screen flex flex-col flex-wrap justify-center items-center lg:text-left text-center gap-3 px-4 `}
         >
@@ -103,10 +107,11 @@ const Marketing = () => {
           </p>
           <p className={`text-lg text-gray-400 max-w-xl `}>
             Show your skills as a backend or a junior developer in the best
-            possible light. Devfolio is designed to create a stunning online
-            presence with ease. Include links to your LinkedIn, Twitter, and
-            GitHub profiles to connect seamlessly with potential employers and
-            collaborators. Don&apos;t settle for a lackluster online presence.
+            possible light. Devfolio was purposefully designed to create a
+            stunning online presence with utmost ease. Include links to your
+            LinkedIn, Twitter, and GitHub profiles to connect seamlessly with
+            potential employers and collaborators. Do not settle for a
+            lackluster online presence.
           </p>
           <p
             className={`text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200/80 `}
@@ -133,6 +138,7 @@ const Marketing = () => {
           </dl>
         </main>
 
+        {/* End section */}
         <section
           className={`
           ${inter.className} h-screen flex flex-col justify-center items-center gap-4
@@ -211,7 +217,7 @@ const Marketing = () => {
           </div>
         </footer>
       </div>
-    </Fade>
+    </>
   );
 };
 
