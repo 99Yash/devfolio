@@ -15,6 +15,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <ClerkProvider
         appearance={{
           baseTheme: dark,
+          layout: {
+            shimmer: true,
+          },
         }}
         {...pageProps}
       >
@@ -31,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
             />
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <Analytics />
+          <Analytics mode="production" debug={false} />
           <Component {...pageProps} />
         </Provider>
       </ClerkProvider>

@@ -26,6 +26,7 @@ import {
 } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { DM_Sans } from 'next/font/google';
+import Marketing from '@/components/main/Marketing';
 
 const dm_sans = DM_Sans({
   weight: ['400', '500', '700'],
@@ -87,16 +88,7 @@ export default function Home() {
   return (
     <>
       <SignedOut>
-        <Flex
-          minH={'full'}
-          flexDir={'column'}
-          gap={8}
-          justifyContent={'flex-start'}
-          alignItems={'center'}
-          py={16}
-        >
-          <SignIn />
-        </Flex>
+        <Marketing />
       </SignedOut>
 
       <SignedIn>
