@@ -21,6 +21,13 @@ import { setTechStack } from '@/store/tech.slice';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Socials from '@/components/portfolio/components/Socials';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
 
 const Portfolio = () => {
   const router = useRouter();
@@ -77,7 +84,7 @@ const Portfolio = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box
-        className="bg-gradient-to-r from-black via-black to-emerald-950"
+        className={`bg-gradient-to-r from-black via-black to-emerald-950 ${inter.className} `}
         overflow="hidden"
       >
         {!localUserState ? (

@@ -51,11 +51,11 @@ const Hero = () => {
 
       <Box
         my={6}
-        maxW={['90%', '80%', '60%', '50%']}
+        maxW={['90%', '90%', '60%', '50%']}
         lineHeight={1.6}
         fontSize={['md', 'lg']}
         color={'gray.400'}
-        letterSpacing={1.1}
+        letterSpacing={0.9}
         fontWeight={'thin'}
       >
         <Text>{localUserState?.oneLiner} </Text>

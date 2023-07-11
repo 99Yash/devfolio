@@ -17,13 +17,7 @@ import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
 import { setCurrentUser } from '@/store/user.slice';
 import { Box, Flex, Heading, Spinner } from '@chakra-ui/react';
-import {
-  SignIn,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useAuth,
-} from '@clerk/nextjs';
+import { SignedIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { DM_Sans } from 'next/font/google';
 import Marketing from '@/components/main/Marketing';
