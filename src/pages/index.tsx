@@ -19,14 +19,7 @@ import { setCurrentUser } from '@/store/user.slice';
 import { Box, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { SignedIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
-import { DM_Sans } from 'next/font/google';
 import Marketing from '@/components/main/Marketing';
-
-const dm_sans = DM_Sans({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
 
 export default function Home({
   data,
@@ -53,17 +46,23 @@ export default function Home({
   const { isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [loadingAbout, setLoadingAbout] = useState(true);
+  const [loadingExperiences, setLoadingExperiences] = useState(true);
+  const [loadingProjects, setLoadingProjects] = useState(true);
+  const [loadingTech, setLoadingTech] = useState(true);
+  const [loadingSocials, setLoadingSocials] = useState(true);
+
   const localUserState = useAppSelector((state) => state.currentUser.user);
   const localExperienceState = useAppSelector(
     (state) => state.experiences.experiences
   );
   const localTechStack = useAppSelector((state) => state.techStack.techStack);
   const localProjectsState = useAppSelector((state) => state.projects.projects);
+  const [profilePic, setProfilePic] = useState('');
 
   useEffect(() => {
     if (!isSignedIn) return;
-    setIsLoading(true);
     const fetchUser = async () => {
       try {
         const { data: fetchedUser } = await axiosClient.get<{
@@ -71,34 +70,45 @@ export default function Home({
           clerkUserImage: string;
         }>(`/user/user`);
         dispatch(setCurrentUser(fetchedUser.user));
+        setLoadingProfile(false);
+        setProfilePic(fetchedUser.clerkUserImage);
         const { data: fetchedSocials } = await axiosClient.get<
           SocialDoc[] | null
         >('/user/socials');
+
         dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
         const { data: fetchedExperiences } = await axiosClient.get<{
           experiences: ExperienceDoc[];
         }>(`/user/experience`);
         dispatch(setExperiences(fetchedExperiences.experiences));
+        setLoadingSocials(false);
 
         const { data: fetchedTechStack } = await axiosClient.get<
           TechDoc[] | null
         >(`/user/tech`);
         dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
+        setLoadingTech(false);
 
         const { data: fetchedProjects } = await axiosClient.get<{
           projects: ProjectDoc[];
         }>(`/user/project`);
         dispatch(setProjects(fetchedProjects.projects));
+        setLoadingProjects(false);
       } catch (err: any) {
         console.log(err);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchUser();
   }, [dispatch, isSignedIn]);
 
-  if (isLoading) {
+  if (
+    loadingAbout ||
+    loadingExperiences ||
+    loadingProfile ||
+    loadingProjects ||
+    loadingSocials ||
+    loadingTech
+  ) {
     <Spinner color="green.400" />;
   }
   return (
@@ -113,7 +123,6 @@ export default function Home({
           pt={4}
           gap={4}
           display={'flex'}
-          className={`${dm_sans.className}`}
           alignItems={'center'}
           justifyContent={'space-between'}
         >
@@ -149,7 +158,7 @@ export default function Home({
               px={[4, 8]}
             >
               {localUserState ? (
-                <TopUserProfile />
+                <TopUserProfile profilePic={profilePic} />
               ) : (
                 <Spinner color="green.400" />
               )}
@@ -165,13 +174,13 @@ export default function Home({
                 <DefaultMainSection sectionTitle={'Experiences'} />
               )}
 
-              {localTechStack?.length > 0 ? (
+              {localTechStack && localTechStack?.length > 0 ? (
                 <TechStack />
               ) : (
                 <DefaultMainSection sectionTitle={'Tech Stack'} />
               )}
 
-              {localProjectsState?.length > 0 ? (
+              {localProjectsState && localProjectsState.length > 0 ? (
                 <Projects />
               ) : (
                 <DefaultMainSection sectionTitle={'Projects'} />

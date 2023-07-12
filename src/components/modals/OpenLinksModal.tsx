@@ -144,7 +144,9 @@ const OpenLinksModal: FC<
                   <Button
                     w={'full'}
                     type="submit"
-                    colorScheme="teal"
+                    borderColor={'gray.400'}
+                    borderWidth={'1px'}
+                    variant={'outline'}
                     disabled={isSubmitting}
                   >
                     Add Link

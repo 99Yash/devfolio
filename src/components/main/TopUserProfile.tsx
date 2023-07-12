@@ -1,6 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { axiosClient } from '@/lib/utils/axiosInstance';
-import { SocialDoc } from '@/models/social.model';
+import { useAppSelector } from '@/hooks/redux';
 import {
   Avatar,
   Box,
@@ -14,15 +12,14 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useUser } from '@clerk/nextjs';
-import { FC } from 'react';
+import { BsBoxArrowUpRight } from 'react-icons/bs';
 import { MdEdit } from 'react-icons/md';
 import EditProfileModal from '../modals/EditProfileModal';
 import OpenLinksModal from '../modals/OpenLinksModal';
 import { getIconByLinkName } from '../utils/getIconsByLink';
-import { BsBoxArrowUpRight } from 'react-icons/bs';
+import { useUser } from '@clerk/nextjs';
 
-const TopUserProfile: FC = () => {
+const TopUserProfile = ({ profilePic }: { profilePic: string }) => {
   const userState = useAppSelector((state) => state.currentUser.user);
   const socialState = useAppSelector((state) => state.socials.socials);
 
@@ -37,12 +34,12 @@ const TopUserProfile: FC = () => {
     onClose: onCloseEditProfileModal,
   } = useDisclosure();
 
-  const user = useUser();
+  const { user } = useUser();
 
   const displayName =
     userState?.fullName && userState?.fullName !== ''
       ? userState?.fullName
-      : user.user?.fullName || '';
+      : user?.fullName || '';
 
   return (
     <Flex flexDir={'column'}>
@@ -64,7 +61,7 @@ const TopUserProfile: FC = () => {
           <Avatar
             loading="lazy"
             variant="circular"
-            src={user.user?.profileImageUrl}
+            src={profilePic}
             size="2xl"
             name={userState!.fullName}
           />
@@ -183,7 +180,7 @@ const TopUserProfile: FC = () => {
               _hover={{
                 textDecoration: 'none',
               }}
-              href={`/portfolio/${user?.user?.id}`}
+              href={`/portfolio/${user?.id}`}
             >
               <BsBoxArrowUpRight />
             </Link>

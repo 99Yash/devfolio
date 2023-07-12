@@ -79,7 +79,7 @@ const SingleProject: FC<{
             flexDir={'row-reverse'}
             justifyContent={'space-between'}
           >
-            <Flex mt={1}>
+            <Flex wrap={'wrap'} mt={1}>
               {project?.techStack
                 ? project.techStack.map((tech) => (
                     <Code
