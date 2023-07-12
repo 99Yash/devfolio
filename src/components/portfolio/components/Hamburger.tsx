@@ -22,7 +22,6 @@ const Hamburger = () => {
   const localExperiencesState = useAppSelector(
     (state) => state.experiences.experiences
   );
-  const localTechStack = useAppSelector((state) => state.techStack.techStack);
   return (
     <Flex
       display={{
@@ -37,11 +36,10 @@ const Hamburger = () => {
       <Button
         _hover={{
           background: 'transparent',
-          color: 'pink.200',
         }}
         px={4}
         pt={6}
-        color="yellow.600"
+        color="green.400"
         bg={'transparent'}
         onClick={onOpen}
       >
@@ -76,7 +74,7 @@ const Hamburger = () => {
                 ) : null}
 
                 {localExperiencesState?.length !== 0 ? (
-                  <Link onClick={onClose} href="#experience">
+                  <Link onClick={onClose} href="#experiences">
                     <Code
                       bgClip={'text'}
                       bgGradient="linear(to-r, white, green.950)"

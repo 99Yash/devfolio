@@ -23,7 +23,7 @@ const AboutSection = ({ imageSrc }: { imageSrc: string }) => {
 
   return (
     <Wrapper>
-      <Box my={10}>
+      <Box id="about" my={10}>
         <Heading sectionHeadingText={'About Me'} />
       </Box>
       <Flex flexDir={['column', 'column', 'column', 'row']}>

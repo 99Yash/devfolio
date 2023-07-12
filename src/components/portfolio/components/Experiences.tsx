@@ -2,14 +2,7 @@ import SectionHeading from '@/components/utils/Heading';
 import Wrapper from '@/components/utils/Wrapper';
 import { useAppSelector } from '@/hooks/redux';
 import { ACCENT_COLOR } from '@/styles/styles';
-import {
-  Box,
-  Flex,
-  Heading,
-  ListItem,
-  Text,
-  UnorderedList,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 const Experiences = () => {
   const experiencesList = useAppSelector(
@@ -18,7 +11,7 @@ const Experiences = () => {
 
   return (
     <Wrapper>
-      <Box mb={[16]}>
+      <Box id="experiences" mb={[16]}>
         <SectionHeading sectionHeadingText={'Work Experiences'} />
       </Box>
       <Flex flexDir={['column', 'column', 'row', 'row']} mb={40}>

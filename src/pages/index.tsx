@@ -153,7 +153,7 @@ export default function Home({
               ) : (
                 <Spinner color="green.400" />
               )}
-              {localUserState?.about !== '' ? (
+              {localUserState && localUserState?.about !== '' ? (
                 <About />
               ) : (
                 <DefaultMainSection sectionTitle={'About'} />

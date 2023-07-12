@@ -22,7 +22,7 @@ const Projects = () => {
   const projectsState = useAppSelector((state) => state.projects.projects);
   return (
     <Wrapper>
-      <Box mb={16}>
+      <Box id="projects" mb={16}>
         <SectionHeading sectionHeadingText={'Featured Projects'} />
       </Box>
       <Box mb={40}>

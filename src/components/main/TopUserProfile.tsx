@@ -171,6 +171,7 @@ const TopUserProfile: FC = () => {
             color={'purple.200'}
             border={'gray.200'}
             display={'flex'}
+            placement="top"
             justifyContent={'center'}
             alignItems={'center'}
           >

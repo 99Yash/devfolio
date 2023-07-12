@@ -10,7 +10,6 @@ const NavButtons = () => {
   const localExperiencesState = useAppSelector(
     (state) => state.experiences.experiences
   );
-  const localTechStack = useAppSelector((state) => state.techStack.techStack);
   return (
     <Flex
       display={{

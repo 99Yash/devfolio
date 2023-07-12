@@ -1,12 +1,16 @@
-import { getIconByLinkName } from '@/components/utils/getIconsByLink';
 import { useAppSelector } from '@/hooks/redux';
 import { ACCENT_COLOR } from '@/styles/styles';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
-import Link from 'next/link';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
 
 const Hero = () => {
   const localUserState = useAppSelector((state) => state.currentUser.user);
-  const socials = useAppSelector((state) => state.socials.socials);
 
   return (
     <Flex
@@ -36,6 +40,7 @@ const Hero = () => {
         letterSpacing={'tighter'}
         fontWeight={'semibold'}
         lineHeight={1.2}
+        className={`${inter.className}`}
       >
         {localUserState?.fullName}.
       </Heading>

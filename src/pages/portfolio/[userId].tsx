@@ -14,14 +14,14 @@ import AboutSection from '@/components/portfolio/AboutSection';
 import ExperienceSection from '@/components/portfolio/ExperienceSection';
 import ProjectsSection from '@/components/portfolio/ProjectsSection';
 import TopSection from '@/components/portfolio/TopSection';
+import Socials from '@/components/portfolio/components/Socials';
 import { setExperiences } from '@/store/experiences.slice';
 import { setProjects } from '@/store/projects.slice';
 import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
+import { Inter } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Socials from '@/components/portfolio/components/Socials';
-import { Inter } from 'next/font/google';
 
 const inter = Inter({
   weight: ['400', '500', '700'],
@@ -95,30 +95,30 @@ const Portfolio = () => {
         className={`bg-gradient-to-r from-black via-black to-emerald-950 ${inter.className} `}
         overflow="hidden"
       >
-        {!localUserState ? (
-          <Skeleton className={`h-1/2 w-2/3`}></Skeleton>
-        ) : (
+        {localUserState?.fullName || localUserState?.oneLiner ? (
           <TopSection />
-        )}
-        {!localUserState ? (
-          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
         ) : (
+          <Skeleton className={`h-1/2 w-2/3`}></Skeleton>
+        )}
+        {localUserState?.about ? (
           <AboutSection imageSrc={profileImgUrl} />
-        )}
-        {!experiencesState ? (
-          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
         ) : (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
+        )}
+        {experiencesState.length > 0 ? (
           <ExperienceSection />
-        )}
-        {!projectsState ? (
-          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
         ) : (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
+        )}
+        {projectsState.length > 0 ? (
           <ProjectsSection />
-        )}
-        {!socialLinksState ? (
-          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
         ) : (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
+        )}
+        {socialLinksState.length > 0 ? (
           <Socials />
+        ) : (
+          <Skeleton className={`h-2/3 w-3/4`}></Skeleton>
         )}
       </Box>
     </>
