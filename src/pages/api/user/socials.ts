@@ -25,8 +25,21 @@ export default async function handler(
       res.status(404).send({ message: 'user not found' });
     }
   } else if (req.method === 'GET') {
-    const { userId } = getAuth(req);
-    if (!userId) return res.status(401).send('Unauthorized');
+    const route = new URL(req.headers.referer!).pathname;
+    //? check for auth if req is coming from home page, not the /portfolio/<userId> (public) page
+    let userId = '';
+    if (route === '/') {
+      const auth = getAuth(req);
+      if (!auth.userId) return res.status(401).send('No you are unauthorized');
+      userId = auth.userId;
+    } else {
+      const regex = /\/portfolio\/(.*)/;
+      const match = route.match(regex);
+      const clerkUserId = match ? match[1] : null;
+      if (!clerkUserId) return res.status(404).send('Not found user');
+      const clerkIdStr = clerkUserId as string;
+      userId = clerkIdStr;
+    }
     const user: UserDoc | null = await UserModel.findOne({
       clerkUserId: userId,
     });

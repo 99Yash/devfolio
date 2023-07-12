@@ -60,7 +60,7 @@ const Marketing = ({
   return (
     <>
       <div className={`${inter.className} `}>
-        <nav className={`text-right flex justify-between mt-2 `}>
+        <nav className={`text-right flex justify-end mt-2 `}>
           <Link
             href={'/sign-in'}
             className=" flex text-gray-400 my-2 text-sm mx-4 rounded-md hover:text-gray-300 font-medium "
@@ -74,7 +74,7 @@ const Marketing = ({
           className={`${inter.className} h-screen flex flex-col justify-center items-center gap-4 `}
         >
           <Particles
-            quantity={160}
+            quantity={80}
             color="#c6e41c"
             className="absolute inset-0 -z-10 "
           />
@@ -170,9 +170,7 @@ const Marketing = ({
               {data.end.heading}
             </h1>
             <hr className="w-40 mx-auto my-2 border-pink-500 " />
-            <p
-              className={`text-lg text-gray-400 max-w-xl pb-2 lg:max-w-none hidden md:inline `}
-            >
+            <p className={`text-lg text-gray-400 max-w-xl pb-2 lg:max-w-none `}>
               {data.end.subheading}
             </p>
           </div>

@@ -45,21 +45,30 @@ const Portfolio = () => {
     if (!router.query.userId) return;
     const fetchUserData = async () => {
       try {
-        const { data } = await axiosClient.get<{
-          mongoUser: UserDoc | null;
-          projects: ProjectDoc[];
-          experiences: ExperienceDoc[];
-          socials: SocialDoc[];
-          techStack: TechDoc[];
+        const { data: fetchedUser } = await axiosClient.get<{
+          user: UserDoc;
           clerkUserImage: string;
-        }>(`/user/${router.query.userId}`);
-        if (!data.mongoUser) return;
-        if (data.mongoUser) dispatch(setCurrentUser(data.mongoUser));
-        if (data.projects) dispatch(setProjects(data.projects));
-        if (data.experiences) dispatch(setExperiences(data.experiences));
-        if (data.socials) dispatch(setSocialLinks(data.socials));
-        if (data.techStack) dispatch(setTechStack(data.techStack));
-        if (data.clerkUserImage) setProfileImageUrl(data.clerkUserImage);
+        }>(`/user/user`);
+        dispatch(setCurrentUser(fetchedUser.user));
+        setProfileImageUrl(fetchedUser.clerkUserImage);
+        const { data: fetchedSocials } = await axiosClient.get<
+          SocialDoc[] | null
+        >('/user/socials');
+        dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
+        const { data: fetchedExperiences } = await axiosClient.get<{
+          experiences: ExperienceDoc[];
+        }>(`/user/experience`);
+        dispatch(setExperiences(fetchedExperiences.experiences));
+
+        const { data: fetchedTechStack } = await axiosClient.get<
+          TechDoc[] | null
+        >(`/user/tech`);
+        dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
+
+        const { data: fetchedProjects } = await axiosClient.get<{
+          projects: ProjectDoc[];
+        }>(`/user/project`);
+        dispatch(setProjects(fetchedProjects.projects));
       } catch (err: any) {
         console.log(err);
       }

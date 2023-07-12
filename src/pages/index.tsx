@@ -66,10 +66,11 @@ export default function Home({
     setIsLoading(true);
     const fetchUser = async () => {
       try {
-        const { data: fetchedUser } = await axiosClient.get<UserDoc>(
-          `/user/user`
-        );
-        dispatch(setCurrentUser(fetchedUser));
+        const { data: fetchedUser } = await axiosClient.get<{
+          user: UserDoc;
+          clerkUserImage: string;
+        }>(`/user/user`);
+        dispatch(setCurrentUser(fetchedUser.user));
         const { data: fetchedSocials } = await axiosClient.get<
           SocialDoc[] | null
         >('/user/socials');

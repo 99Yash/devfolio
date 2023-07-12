@@ -9,8 +9,21 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
-    const { userId } = getAuth(req);
-    if (!userId) return res.status(401).send('No you are unauthorized');
+    const route = new URL(req.headers.referer!).pathname;
+    //? check for auth if req is coming from home page, not the /portfolio/<userId> (public) page
+    let userId = '';
+    if (route === '/') {
+      const auth = getAuth(req);
+      if (!auth.userId) return res.status(401).send('No you are unauthorized');
+      userId = auth.userId;
+    } else {
+      const regex = /\/portfolio\/(.*)/;
+      const match = route.match(regex);
+      const clerkUserId = match ? match[1] : null;
+      if (!clerkUserId) return res.status(404).send('Not found user');
+      const clerkIdStr = clerkUserId as string;
+      userId = clerkIdStr;
+    }
 
     try {
       // Create or retrieve the user
@@ -20,15 +33,23 @@ export default async function handler(
         clerkUserId: userId,
       });
 
+      const clerkUserImage = (await clerkClient.users.getUser(userId))
+        .profileImageUrl;
       if (!existingUser) {
         const user = await clerkClient.users.getUser(userId);
         const createdUser: UserDoc | null = await UserModel.create({
           clerkUserId: userId,
           fullName: `${user?.firstName} ${user?.lastName}`,
         });
-        return res.status(201).send(createdUser);
+        return res.status(201).send({
+          user: createdUser,
+          clerkUserImage,
+        });
       } else {
-        return res.status(200).send(existingUser);
+        return res.status(200).send({
+          user: existingUser,
+          clerkUserImage,
+        });
       }
     } catch (err: any) {
       console.error(err);
