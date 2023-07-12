@@ -12,7 +12,28 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
-const Marketing = () => {
+const Marketing = ({
+  data,
+}: {
+  data: {
+    opening: {
+      heading: string;
+      subheading: string;
+    };
+    middle: {
+      highlight: string;
+      heading: string;
+      subTitle: string;
+      text: string;
+      endText: string;
+    };
+    end: {
+      highlight: string;
+      heading: string;
+      subheading: string;
+    };
+  };
+}) => {
   const features = [
     {
       icon: SiMoleculer,
@@ -36,7 +57,6 @@ const Marketing = () => {
       description: 'The ultimate solution. Completely free.',
     },
   ];
-
   return (
     <>
       <div className={`${inter.className} `}>
@@ -63,11 +83,10 @@ const Marketing = () => {
             <h1
               className={`text-5xl text-transparent bg-clip-text bg-gradient-to-r from-slate-200/70 via-slate-300 to-slate-200/70 font-semibold `}
             >
-              Share your work,we&apos;ll do the rest.
+              {data.opening.heading}
             </h1>
             <p className={`text-md text-gray-400 `}>
-              Showcase your skills and achievements &nbsp;Create a stunning
-              online presence.
+              {data.opening.subheading}
             </p>
           </div>
           <div className="flex flex-col md:flex-row gap-2 ">
@@ -94,32 +113,26 @@ const Marketing = () => {
           className={`${inter.className} max-h-screen flex flex-col flex-wrap justify-center items-center lg:text-left text-center gap-3 px-4 `}
         >
           <p className={`text-blue-400 text-lg font-medium lg:self-center `}>
-            Focus on what you love.
+            {data.middle.highlight}
           </p>
           <h1
             className={`text-4xl tracking-wide font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-200/70 via-slate-300 to-slate-200/70 `}
           >
-            Catapult your Online Presence
+            {data.middle.heading}
           </h1>
           <hr className="w-40 mx-auto my-4 border-blue-500 " />
           <p
             className={`text-lg text-gray-400 max-w-xl hidden md:mr-[4.5rem] md:block `}
           >
-            Don&apos;t venture outside your expertise if it&apos;s not your
-            passion.
+            {data.middle.subTitle}
           </p>
           <p className={`text-lg text-gray-400 max-w-xl `}>
-            Show your skills as a backend or a junior developer in the best
-            possible light. Devfolio was purposefully designed for you to create
-            a captivating online presence without friction. Include links to
-            your LinkedIn, Twitter, and GitHub profiles to connect seamlessly
-            with potential employers and collaborators. Do not settle for a
-            lackluster online presence.
+            {data.middle.text}
           </p>
           <p
             className={`text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-slate-300 to-pink-200 `}
           >
-            Elevate your game.
+            {data.middle.endText}
           </p>
           <dl className="grid grid-cols-1 mt-2 gap-4">
             {features.map((feature) => (
@@ -149,18 +162,18 @@ const Marketing = () => {
         >
           <div className="flex flex-col flex-wrap lg:px-2 px-6 text-center justify-center items-center gap-3">
             <p className={`text-pink-400 text-lg font-medium lg:self-center `}>
-              Cut the Clutter.
+              {data.end.highlight}
             </p>
             <h1
               className={`text-4xl tracking-wide font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-200/60 via-slate-300 to-slate-200/60 `}
             >
-              Take Control.
+              {data.end.heading}
             </h1>
             <hr className="w-40 mx-auto my-2 border-pink-500 " />
             <p
               className={`text-lg text-gray-400 max-w-xl pb-2 lg:max-w-none hidden md:inline `}
             >
-              Keep your sites seen without spending a cent.
+              {data.end.subheading}
             </p>
           </div>
           <Link

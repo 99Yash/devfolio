@@ -28,7 +28,28 @@ const dm_sans = DM_Sans({
   subsets: ['latin'],
 });
 
-export default function Home() {
+export default function Home({
+  data,
+}: {
+  data: {
+    opening: {
+      heading: string;
+      subheading: string;
+    };
+    middle: {
+      highlight: string;
+      heading: string;
+      subTitle: string;
+      text: string;
+      endText: string;
+    };
+    end: {
+      highlight: string;
+      heading: string;
+      subheading: string;
+    };
+  };
+}) {
   const { isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
 
@@ -82,7 +103,7 @@ export default function Home() {
   return (
     <>
       <SignedOut>
-        <Marketing />
+        <Marketing data={data} />
       </SignedOut>
 
       <SignedIn>
@@ -160,4 +181,33 @@ export default function Home() {
       </SignedIn>
     </>
   );
+}
+
+export async function getServerSideProps(ctx: any) {
+  const data = {
+    opening: {
+      heading: "Share your work,we'll do the rest.",
+      subheading:
+        'Showcase your skills and achievements  Create a stunning online presence.',
+    },
+    middle: {
+      highlight: 'Focus on what you love.',
+      heading: 'Catapult your Online Presence',
+      subTitle:
+        " Don't venture outside your expertise if it's not your passion.",
+      text: 'Show your skills as a backend or a junior developer in the best possible light. Devfolio was purposefully designed for you to create a captivating online presence without friction. Include links to your LinkedIn, Twitter, and GitHub profiles to connect seamlessly with potential employers and collaborators. Do not settle for a lackluster online presence.',
+      endText: 'Elevate your game.',
+    },
+    end: {
+      highlight: 'Cut the Clutter.',
+      heading: 'Take Control.',
+      subheading: 'Keep your sites seen without spending a cent.',
+    },
+  };
+
+  return {
+    props: {
+      data,
+    },
+  };
 }
