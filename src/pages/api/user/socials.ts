@@ -26,7 +26,7 @@ export default async function handler(
     }
   } else if (req.method === 'GET') {
     const route = new URL(req.headers.referer!).pathname;
-    //? check for auth if req is coming from home page, not the /portfolio/<userId> (public) page
+    //? check for auth only if req is coming from home page, not the /portfolio/<userId> (public) page
     let userId = '';
     if (route === '/') {
       const auth = getAuth(req);
