@@ -27,7 +27,7 @@ export default async function handler(
         demoLink: project.demoLink,
         techStack: project.techStack.includes(',')
           ? project.techStack.split(',').map((t: string) => t.trim())
-          : [project.techStack],
+          : project.techStack,
         clerkUserId: userId,
       });
 
