@@ -19,15 +19,15 @@ export default async function handler(
       });
       if (!userToUpdate) return res.status(404).send("User doesn't exist");
       const { project } = req.body;
-      const techStackArr = project.techStack
-        .split(',')
-        .map((t: string) => t.trim());
+
       const createdProject = await ProjectModel.create({
         title: project.title,
         description: project.description,
         githubLink: project.githubLink,
         demoLink: project.demoLink,
-        techStack: techStackArr,
+        techStack: project.techStack.includes(',')
+          ? project.techStack.split(',').map((t: string) => t.trim())
+          : [project.techStack],
         clerkUserId: userId,
       });
 
