@@ -46,13 +46,6 @@ export default function Home({
   const { isSignedIn } = useAuth();
   const dispatch = useAppDispatch();
 
-  const [loadingProfile, setLoadingProfile] = useState(true);
-  const [loadingAbout, setLoadingAbout] = useState(true);
-  const [loadingExperiences, setLoadingExperiences] = useState(true);
-  const [loadingProjects, setLoadingProjects] = useState(true);
-  const [loadingTech, setLoadingTech] = useState(true);
-  const [loadingSocials, setLoadingSocials] = useState(true);
-
   const localUserState = useAppSelector((state) => state.currentUser.user);
   const localExperienceState = useAppSelector(
     (state) => state.experiences.experiences
@@ -70,7 +63,6 @@ export default function Home({
           clerkUserImage: string;
         }>(`/user/user`);
         dispatch(setCurrentUser(fetchedUser.user));
-        setLoadingProfile(false);
         setProfilePic(fetchedUser.clerkUserImage);
         const { data: fetchedSocials } = await axiosClient.get<
           SocialDoc[] | null
@@ -81,36 +73,22 @@ export default function Home({
           experiences: ExperienceDoc[];
         }>(`/user/experience`);
         dispatch(setExperiences(fetchedExperiences.experiences));
-        setLoadingSocials(false);
 
         const { data: fetchedTechStack } = await axiosClient.get<
           TechDoc[] | null
         >(`/user/tech`);
         dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
-        setLoadingTech(false);
 
         const { data: fetchedProjects } = await axiosClient.get<{
           projects: ProjectDoc[];
         }>(`/user/project`);
         dispatch(setProjects(fetchedProjects.projects));
-        setLoadingProjects(false);
       } catch (err: any) {
         console.log(err);
       }
     };
     fetchUser();
   }, [dispatch, isSignedIn]);
-
-  if (
-    loadingAbout ||
-    loadingExperiences ||
-    loadingProfile ||
-    loadingProjects ||
-    loadingSocials ||
-    loadingTech
-  ) {
-    <Spinner color="green.400" />;
-  }
   return (
     <>
       <SignedOut>

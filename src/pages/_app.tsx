@@ -14,6 +14,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <ClerkProvider
         appearance={{
+          variables: {
+            colorPrimary: '#1e1d1d',
+            colorText: 'rgb(239, 226, 226)',
+          },
           baseTheme: dark,
           layout: {
             shimmer: true,
