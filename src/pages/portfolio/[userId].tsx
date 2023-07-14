@@ -22,6 +22,7 @@ import { setTechStack } from '@/store/tech.slice';
 import { Inter } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { AxiosError } from 'axios';
 
 const inter = Inter({
   weight: ['400', '500', '700'],
@@ -70,11 +71,14 @@ const Portfolio = () => {
         }>(`/user/project`);
         dispatch(setProjects(fetchedProjects.projects));
       } catch (err: any) {
-        console.log(err);
+        const error: AxiosError = err;
+        if (error.response?.status === 404) {
+          router.push('/404');
+        }
       }
     };
     fetchUserData();
-  }, [dispatch, router.query.userId]);
+  }, [dispatch, router, router.query.userId]);
 
   return (
     <>

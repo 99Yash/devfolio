@@ -1,7 +1,7 @@
 import { connectDB } from '@/lib/utils/connect';
 import UserModel, { UserDoc } from '@/models/user.model';
 import { clerkClient } from '@clerk/nextjs';
-import { getAuth } from '@clerk/nextjs/server';
+import { User, getAuth } from '@clerk/nextjs/server';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -10,8 +10,8 @@ export default async function handler(
 ) {
   if (req.method === 'GET') {
     const route = new URL(req.headers.referer!).pathname;
-    //? check for auth if req is coming from home page, not the /portfolio/<userId> (public) page
     let userId = '';
+    //? check for auth if req is coming from home page, not the /portfolio/<userId> (public) page
     if (route === '/') {
       const auth = getAuth(req);
       if (!auth.userId) return res.status(401).send('No you are unauthorized');
@@ -25,16 +25,23 @@ export default async function handler(
       userId = clerkIdStr;
     }
 
+    let user: User;
+    try {
+      user = await clerkClient.users.getUser(userId);
+    } catch (err: any) {
+      console.error(err);
+      return res.status(404).send('User doesnt exist');
+    }
+
     try {
       // Create or retrieve the user
+      const clerkUserImage = user.profileImageUrl;
       await connectDB();
 
       const existingUser: UserDoc | null = await UserModel.findOne({
         clerkUserId: userId,
       });
 
-      const clerkUserImage = (await clerkClient.users.getUser(userId))
-        .profileImageUrl;
       if (!existingUser) {
         const user = await clerkClient.users.getUser(userId);
         const createdUser: UserDoc | null = await UserModel.create({
