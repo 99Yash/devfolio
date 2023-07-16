@@ -30,7 +30,16 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
-const Portfolio = () => {
+type InitialData = {
+  user: UserDoc;
+  clerkUserImage: string;
+  socials: SocialDoc[];
+  experiences: ExperienceDoc[];
+  techStack: TechDoc[];
+  projects: ProjectDoc[];
+};
+
+const Portfolio = ({ initialData }: { initialData: InitialData }) => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
@@ -43,42 +52,15 @@ const Portfolio = () => {
   const [profileImgUrl, setProfileImageUrl] = useState('');
 
   useEffect(() => {
-    if (!router.query.userId) return;
-    const fetchUserData = async () => {
-      try {
-        const { data: fetchedUser } = await axiosClient.get<{
-          user: UserDoc;
-          clerkUserImage: string;
-        }>(`/user/user`);
-        dispatch(setCurrentUser(fetchedUser.user));
-        setProfileImageUrl(fetchedUser.clerkUserImage);
-        const { data: fetchedSocials } = await axiosClient.get<
-          SocialDoc[] | null
-        >('/user/socials');
-        dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
-        const { data: fetchedExperiences } = await axiosClient.get<{
-          experiences: ExperienceDoc[];
-        }>(`/user/experience`);
-        dispatch(setExperiences(fetchedExperiences.experiences));
-
-        const { data: fetchedTechStack } = await axiosClient.get<
-          TechDoc[] | null
-        >(`/user/tech`);
-        dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
-
-        const { data: fetchedProjects } = await axiosClient.get<{
-          projects: ProjectDoc[];
-        }>(`/user/project`);
-        dispatch(setProjects(fetchedProjects.projects));
-      } catch (err: any) {
-        const error: AxiosError = err;
-        if (error.response?.status === 404) {
-          router.push('/404');
-        }
-      }
-    };
-    fetchUserData();
-  }, [dispatch, router, router.query.userId]);
+    dispatch(setCurrentUser(initialData.user));
+    setProfileImageUrl(initialData.clerkUserImage);
+    dispatch(setSocialLinks(initialData.socials ? initialData.socials : []));
+    dispatch(
+      setExperiences(initialData.experiences ? initialData.experiences : [])
+    );
+    dispatch(setTechStack(initialData.techStack ? initialData.techStack : []));
+    dispatch(setProjects(initialData.projects ? initialData.projects : []));
+  }, [dispatch, initialData]);
 
   return (
     <>
@@ -128,4 +110,58 @@ const Portfolio = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  try {
+    const { data: fetchedUser } = await axiosClient.get<{
+      user: UserDoc;
+      clerkUserImage: string;
+    }>(`/user/user`);
+
+    const { data: fetchedSocials } = await axiosClient.get<SocialDoc[] | null>(
+      '/user/socials'
+    );
+    const { data: fetchedExperiences } = await axiosClient.get<{
+      experiences: ExperienceDoc[];
+    }>(`/user/experience`);
+
+    const { data: fetchedTechStack } = await axiosClient.get<TechDoc[] | null>(
+      `/user/tech`
+    );
+
+    const { data: fetchedProjects } = await axiosClient.get<{
+      projects: ProjectDoc[];
+    }>(`/user/project`);
+
+    return {
+      props: {
+        initialData: {
+          user: fetchedUser.user,
+          clerkUserImage: fetchedUser.clerkUserImage,
+          socials: fetchedSocials ? fetchedSocials : [],
+          experiences: fetchedExperiences.experiences,
+          techStack: fetchedTechStack ? fetchedTechStack : [],
+          projects: fetchedProjects.projects,
+        },
+      },
+    };
+  } catch (err: any) {
+    const error: AxiosError = err;
+    if (error.response?.status === 404) {
+      return {
+        redirect: {
+          destination: '/404',
+          permanent: false,
+        },
+      };
+    }
+
+    return {
+      props: {
+        initialData: {} as InitialData,
+      },
+    };
+  }
+}
+
 export default Portfolio;

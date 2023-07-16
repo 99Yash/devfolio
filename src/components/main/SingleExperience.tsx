@@ -4,7 +4,6 @@ import {
   Button,
   Code,
   Flex,
-  HStack,
   Heading,
   Text,
   useDisclosure,
@@ -36,53 +35,70 @@ const SingleExperience: FC<SingleExpProps> = ({ experience }) => {
   return (
     <>
       <Box gap={4} py={4} cursor={'default'} my={2}>
-        <Flex whiteSpace={'pre-wrap'} gap={2} flexDir={'column'}>
-          <Flex gap={12} alignItems={'start'} justifyContent={'start'}>
+        <Flex flexDirection={['column', 'row']} alignItems={['flex-start']}>
+          <Flex
+            h={'full'}
+            w={'full'}
+            alignItems={'flex-start'}
+            justifyContent={'flex-start'}
+          >
             <Heading
               color={'gray.300'}
               bgClip={'text'}
               bgGradient="linear(to-r, gray.500, gray.200)"
               fontWeight={'bold'}
-              alignSelf={'flex-start'}
-              fontSize={'lg'}
+              alignSelf={['flex-start']}
+              fontSize={['lg', 'xl']}
+              width={['100%', 'auto']}
+              mr={[0, 8]}
             >
               {experience.companyName}
             </Heading>
-
-            <Flex
-              wrap={'wrap'}
-              gap={1}
-              flexDir={'column'}
-              w={'full'}
-              alignItems={'flex-start'}
-              justifyContent={'center'}
+            <Button
+              _hover={{
+                bg: 'transparent',
+              }}
+              _focus={{
+                boxShadow: 'none',
+              }}
+              bg={'transparent'}
+              size={['sm']}
+              onClick={onOpen}
+              color={'beige'}
             >
-              <Heading color={'gray.400'} fontSize={'md'}>
-                {experience.position}
-              </Heading>
-              <Code color={'teal.300'} bg={'transparent'} fontSize={'md'}>
-                {startDate}-{endDate}
-              </Code>
-              <Text fontSize={'md'} color={'gray.500'} fontStyle={'italic'}>
-                {experience.description}
-              </Text>
-            </Flex>
-            <HStack>
-              <Button
-                _hover={{
-                  bg: 'transparent',
-                }}
-                _focus={{
-                  boxShadow: 'none',
-                }}
-                bg={'transparent'}
-                size={'xs'}
-                onClick={onOpen}
-                color={'beige'}
-              >
-                <BsFillPencilFill />
-              </Button>
-            </HStack>
+              <BsFillPencilFill />
+            </Button>
+          </Flex>
+          <Flex
+            flexDir={'column'}
+            alignItems={['flex-start']}
+            justifyContent={['flex-start']}
+            width={['100%', 'auto']}
+            textAlign={['left']}
+          >
+            <Heading
+              color={'gray.400'}
+              fontSize={['md', 'lg']}
+              textAlign={['left']}
+            >
+              {experience.position}
+            </Heading>
+            <Code
+              color={'teal.300'}
+              bg={'transparent'}
+              fontSize={['md', 'lg']}
+              textAlign={['left']}
+            >
+              {startDate}-{endDate}
+            </Code>
+            <Text
+              fontSize={['md', 'lg']}
+              color={'gray.500'}
+              fontStyle={'italic'}
+              textAlign={['left']}
+            >
+              {experience.description}
+            </Text>
           </Flex>
         </Flex>
         {isOpen && (

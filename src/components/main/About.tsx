@@ -38,7 +38,7 @@ const About: FC = () => {
           <Heading
             bgClip={'text'}
             bgGradient="linear(to-r, gray.200, blue.300)"
-            fontSize={'3xl'}
+            fontSize={['2xl', '3xl']}
           >
             About
           </Heading>
@@ -59,7 +59,9 @@ const About: FC = () => {
 
         <Flex mt={1} maxW={'inherit'} whiteSpace={'pre-wrap'} wrap={'wrap'}>
           {userAbout ? (
-            <Text color={'gray.400'}>{userAbout}</Text>
+            <Text fontSize={['md', 'lg']} color={'gray.400'}>
+              {userAbout}
+            </Text>
           ) : (
             <Skeleton height={'50px'}></Skeleton>
           )}

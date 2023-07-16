@@ -58,26 +58,26 @@ export default function Home({
     if (!isSignedIn) return;
     const fetchUser = async () => {
       try {
+        const { data: fetchedExperiences } = await axiosClient.get<{
+          experiences: ExperienceDoc[];
+        }>(`/user/experience`);
+        dispatch(setExperiences(fetchedExperiences.experiences));
+        const { data: fetchedSocials } = await axiosClient.get<
+          SocialDoc[] | null
+        >('/user/socials');
+
+        dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
+
+        const { data: fetchedTechStack } = await axiosClient.get<
+          TechDoc[] | null
+        >(`/user/tech`);
+        dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
         const { data: fetchedUser } = await axiosClient.get<{
           user: UserDoc;
           clerkUserImage: string;
         }>(`/user/user`);
         dispatch(setCurrentUser(fetchedUser.user));
         setProfilePic(fetchedUser.clerkUserImage);
-        const { data: fetchedSocials } = await axiosClient.get<
-          SocialDoc[] | null
-        >('/user/socials');
-
-        dispatch(setSocialLinks(fetchedSocials ? fetchedSocials : []));
-        const { data: fetchedExperiences } = await axiosClient.get<{
-          experiences: ExperienceDoc[];
-        }>(`/user/experience`);
-        dispatch(setExperiences(fetchedExperiences.experiences));
-
-        const { data: fetchedTechStack } = await axiosClient.get<
-          TechDoc[] | null
-        >(`/user/tech`);
-        dispatch(setTechStack(fetchedTechStack ? fetchedTechStack : []));
 
         const { data: fetchedProjects } = await axiosClient.get<{
           projects: ProjectDoc[];
@@ -89,6 +89,7 @@ export default function Home({
     };
     fetchUser();
   }, [dispatch, isSignedIn]);
+
   return (
     <>
       <SignedOut>
@@ -171,7 +172,7 @@ export default function Home({
   );
 }
 
-export async function getServerSideProps(ctx: any) {
+export async function getServerSideProps() {
   const data = {
     opening: {
       heading: "Share your work,we'll do the rest.",

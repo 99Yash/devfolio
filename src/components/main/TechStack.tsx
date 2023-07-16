@@ -34,7 +34,7 @@ const TechStack: FC = () => {
           color={'gray.300'}
           bgClip={'text'}
           bgGradient="linear(to-r, gray.100, blue.400)"
-          fontSize={'3xl'}
+          fontSize={['2xl', '3xl']}
         >
           Tech Stack
         </Heading>

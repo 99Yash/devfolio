@@ -31,7 +31,7 @@ const Projects: FC = () => {
         <Heading
           bgClip={'text'}
           bgGradient="linear(to-r, gray.200, blue.400)"
-          fontSize={'3xl'}
+          fontSize={['2xl', '3xl']}
         >
           Projects
         </Heading>
