@@ -15,13 +15,7 @@ import AboutModal from '../modals/AboutModal';
 import ExpModal from '../modals/ExpModal';
 import ProjectModal from '../modals/ProjectModal';
 import TechStackModal from '../modals/TechStackModal';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
+import { inter } from '@/styles/styles';
 
 interface DefaultMainSectionProps {
   sectionTitle: string;

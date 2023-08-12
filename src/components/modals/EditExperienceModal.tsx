@@ -160,7 +160,7 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                       name="description"
                     />
                   </Flex>
-                  <ModalFooter gap={2}>
+                  <ModalFooter className="flex justify-end" gap={2}>
                     <Button
                       _focus={{
                         boxShadow: 'none',

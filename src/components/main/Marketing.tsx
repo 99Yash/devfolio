@@ -1,16 +1,10 @@
-import { Inter } from 'next/font/google';
+import { inter } from '@/styles/styles';
 import Link from 'next/link';
 import { BsArrowRight, BsGrid1X2 } from 'react-icons/bs';
 import { FiSettings } from 'react-icons/fi';
 import { GiSewingNeedle } from 'react-icons/gi';
 import { SiMoleculer } from 'react-icons/si';
 import { Particles } from '../utils/particles';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
 
 const Marketing = ({
   data,

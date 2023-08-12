@@ -1,14 +1,7 @@
 import { SignUp } from '@clerk/nextjs';
 import React from 'react';
-import { Inter } from 'next/font/google';
 import { Particles } from '@/components/utils/particles';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
-
+import { inter } from '@/styles/styles';
 const index = () => {
   return (
     <div className={`h-screen flex justify-center items-center `}>

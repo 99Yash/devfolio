@@ -1,33 +1,27 @@
+import AboutSection from '@/components/portfolio/AboutSection';
+import ExperienceSection from '@/components/portfolio/ExperienceSection';
+import ProjectsSection from '@/components/portfolio/ProjectsSection';
+import TopSection from '@/components/portfolio/TopSection';
+import Socials from '@/components/portfolio/components/Socials';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { axiosClient } from '@/lib/utils/axiosInstance';
 import { ExperienceDoc } from '@/models/experience.model';
 import { ProjectDoc } from '@/models/project.model';
 import { SocialDoc } from '@/models/social.model';
 import { TechDoc } from '@/models/tech.model';
 import { UserDoc } from '@/models/user.model';
-import { setCurrentUser } from '@/store/user.slice';
-import { Box, Skeleton } from '@chakra-ui/react';
-import Head from 'next/head';
-import { useEffect } from 'react';
-import AboutSection from '@/components/portfolio/AboutSection';
-import ExperienceSection from '@/components/portfolio/ExperienceSection';
-import ProjectsSection from '@/components/portfolio/ProjectsSection';
-import TopSection from '@/components/portfolio/TopSection';
-import Socials from '@/components/portfolio/components/Socials';
 import { setExperiences } from '@/store/experiences.slice';
 import { setProjects } from '@/store/projects.slice';
 import { setSocialLinks } from '@/store/socials.slice';
 import { setTechStack } from '@/store/tech.slice';
-import { Inter } from 'next/font/google';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { setCurrentUser } from '@/store/user.slice';
+import { inter } from '@/styles/styles';
+import { Box, Skeleton } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
 const Portfolio = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();

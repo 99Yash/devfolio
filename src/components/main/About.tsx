@@ -11,13 +11,7 @@ import {
 import { FC } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import AboutModal from '../modals/AboutModal';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
+import { inter } from '@/styles/styles';
 
 const About: FC = () => {
   const userAbout = useAppSelector(

@@ -1,13 +1,6 @@
 import { useAppSelector } from '@/hooks/redux';
 import { ACCENT_COLOR } from '@/styles/styles';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
 
 const Hero = () => {
   const localUserState = useAppSelector((state) => state.currentUser.user);
@@ -35,12 +28,11 @@ const Hero = () => {
 
       <Heading
         fontSize={['5xl', '6xl', '7xl', '8xl']}
-        bgGradient={`linear(to-l, ${ACCENT_COLOR}, #ffffff)`}
+        bgGradient={`linear(to-r, #fff,${ACCENT_COLOR})`}
         bgClip="text"
         letterSpacing={'tighter'}
         fontWeight={'semibold'}
         lineHeight={1.2}
-        className={`${inter.className}`}
       >
         {localUserState?.fullName}.
       </Heading>
@@ -49,9 +41,10 @@ const Hero = () => {
         fontSize={['3xl', '5xl', '6xl', '7xl']}
         fontWeight={'semibold'}
         lineHeight={1.2}
-        color="gray.400"
+        bgGradient={`linear(to-r, #f4ebeb,#a19c9c,#e5e0e0)`}
+        bgClip="text"
       >
-        I love building things for the web.
+        I love building for the web.
       </Heading>
 
       <Box

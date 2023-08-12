@@ -6,14 +6,7 @@ import { ProjectDoc } from '@/models/project.model';
 import { IoMdAdd } from 'react-icons/io';
 import ProjectModal from '../modals/ProjectModal';
 import SingleProject from './SingleProject';
-
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
+import { inter } from '@/styles/styles';
 
 const Projects: FC = () => {
   const projects = useAppSelector((state) => state.projects.projects);

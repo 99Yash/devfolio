@@ -11,14 +11,7 @@ import { FC } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import ExpModal from '../modals/ExpModal';
 import SingleExperience from './SingleExperience';
-
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  subsets: ['latin'],
-});
+import { inter } from '@/styles/styles';
 
 const Experiences: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
