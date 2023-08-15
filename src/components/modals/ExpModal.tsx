@@ -3,6 +3,7 @@ import { axiosClient } from '@/lib/utils/axiosInstance';
 import { addExperience } from '@/store/experiences.slice';
 import {
   Button,
+  ButtonGroup,
   Checkbox,
   Flex,
   FormLabel,
@@ -15,6 +16,7 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { FC, useState } from 'react';
@@ -92,7 +94,12 @@ const ExpModal: FC<ModalsProps> = (props) => {
                     name="companyName"
                     type="text"
                   />
-                  <Flex justifyContent={'space-between'}>
+                  <Flex
+                    flexDir={['column', 'row']}
+                    gap={2}
+                    alignItems={['center']}
+                    justifyContent={'space-between'}
+                  >
                     <FormLabel>Start</FormLabel>
                     <Input
                       type="date"
@@ -131,7 +138,7 @@ const ExpModal: FC<ModalsProps> = (props) => {
                       name="description"
                     />
                   </Flex>
-                  <ModalFooter>
+                  <ButtonGroup className="flex justify-end  gap-3">
                     <Button
                       _focus={{
                         boxShadow: 'none',
@@ -149,12 +156,13 @@ const ExpModal: FC<ModalsProps> = (props) => {
                     >
                       Save
                     </Button>
-                  </ModalFooter>
+                  </ButtonGroup>
                 </VStack>
               </Form>
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

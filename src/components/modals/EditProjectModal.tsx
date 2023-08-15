@@ -3,6 +3,7 @@ import { ProjectDoc } from '@/models/project.model';
 import { editProject } from '@/store/projects.slice';
 import {
   Button,
+  ButtonGroup,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -123,7 +124,7 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
                         : 'Tech Stack'
                     }
                   />
-                  <ModalFooter>
+                  <ButtonGroup className="flex gap-2 justify-end">
                     <Button
                       _focus={{
                         boxShadow: 'none',
@@ -142,12 +143,14 @@ const EditProjectModal: FC<ModalsProps & { project: ProjectDoc }> = ({
                     >
                       Save
                     </Button>
-                  </ModalFooter>
+                  </ButtonGroup>
                 </VStack>
               </Form>
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
+
         {isDeleteModalOpen && (
           <DeleteProjectModal
             isOpen={isDeleteModalOpen}

@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
@@ -122,6 +123,7 @@ const TechStackModal: FC<ModalsProps & { techStack?: TechDoc[] }> = ({
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

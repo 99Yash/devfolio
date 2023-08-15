@@ -4,9 +4,11 @@ import { ExperienceDoc } from '@/models/experience.model';
 import { editExperience } from '@/store/experiences.slice';
 import {
   Button,
+  ButtonGroup,
   Checkbox,
   Flex,
   FormLabel,
+  HStack,
   Input,
   Modal,
   ModalBody,
@@ -16,6 +18,7 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
+  useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
@@ -48,11 +51,14 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
   } = useDisclosure();
   return (
     <Modal
-      size={'3xl'}
+      size={['3xl']}
       isOpen={isOpen}
       onClose={onClose}
       motionPreset="scale"
-      isCentered
+      isCentered={useBreakpointValue({
+        base: false,
+        lg: true,
+      })}
     >
       <ModalOverlay />
       <ModalContent bg={'gray.800'}>
@@ -149,18 +155,16 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                       Present
                     </Checkbox>
                   </Flex>
-                  <Flex flexDir={'column'} w={'full'}>
-                    <InputField
-                      height={'3xs'}
-                      label="Description"
-                      showLabel={'true'}
-                      type="text"
-                      istextarea={'true'}
-                      placeholder={experience.description}
-                      name="description"
-                    />
-                  </Flex>
-                  <ModalFooter className="flex justify-end" gap={2}>
+                  <InputField
+                    height={'3xs'}
+                    label="Description"
+                    showLabel={'true'}
+                    type="text"
+                    istextarea={'true'}
+                    placeholder={experience.description}
+                    name="description"
+                  />
+                  <Flex justify={'end'} gap={3}>
                     <Button
                       _focus={{
                         boxShadow: 'none',
@@ -181,12 +185,13 @@ const EditExperienceModal: FC<ModalsProps & { experience: ExperienceDoc }> = ({
                     >
                       Save
                     </Button>
-                  </ModalFooter>
+                  </Flex>
                 </VStack>
               </Form>
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
 
         {isDeleteModalOpen && (
           <DeleteExperienceModal

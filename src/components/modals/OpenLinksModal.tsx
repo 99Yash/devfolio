@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Select,
@@ -156,6 +157,7 @@ const OpenLinksModal: FC<
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

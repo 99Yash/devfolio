@@ -8,6 +8,7 @@ import { store } from '../store';
 import { theme } from '@/lib/utils/theme';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
+import { inter } from '@/styles/styles';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -39,7 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Analytics mode="production" debug={false} />
-          <Component {...pageProps} />
+          <main className={inter.className}>
+            <Component {...pageProps} />
+          </main>
         </Provider>
       </ClerkProvider>
     </ChakraProvider>

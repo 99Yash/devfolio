@@ -5,6 +5,7 @@ import {
   Modal,
   ModalBody,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   ModalProps,
@@ -60,6 +61,7 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
                   name={'about'}
                   showLabel={'false'}
                 />
+
                 <Button
                   _hover={{
                     bg: 'black',
@@ -80,6 +82,7 @@ const AboutModal: FC<ModalsProps & { userAbout?: string }> = (props) => {
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
@@ -55,6 +56,7 @@ const DeleteProjectModal: FC<ModalsProps & { projectId: string }> = ({
             </HStack>
           </Flex>
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

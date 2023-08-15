@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
@@ -100,6 +101,7 @@ const EditProfileModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

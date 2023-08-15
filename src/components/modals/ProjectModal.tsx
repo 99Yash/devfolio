@@ -3,6 +3,7 @@ import { ProjectDoc } from '@/models/project.model';
 import { addProject } from '@/store/projects.slice';
 import {
   Button,
+  ButtonGroup,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -97,7 +98,7 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                     showLabel={'true'}
                     placeholder="Share tech used,separated with a comma"
                   />
-                  <ModalFooter>
+                  <ButtonGroup className="flex justify-end gap-2">
                     <Button
                       _focus={{
                         boxShadow: 'none',
@@ -116,12 +117,13 @@ const ProjectModal: FC<ModalsProps> = ({ isOpen, onClose }) => {
                     >
                       Save
                     </Button>
-                  </ModalFooter>
+                  </ButtonGroup>
                 </VStack>
               </Form>
             )}
           </Formik>
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );
